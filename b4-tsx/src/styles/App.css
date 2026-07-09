@@ -1,0 +1,22 @@
+@import url("https://fonts.googleapis.com/css?family=Google+Sans:400,500,600");
+@import url("./Dropdown.css");
+@import url("./Header.css");
+@import url("./FlightAlerts.css");
+@import url("./FlightCard.css");
+@import url("./FlightDashboard.css");
+
+body {
+  margin: 0;
+  background-color: #ffffff;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  font-family: "Google Sans";
+  font-size: 16px;
+  height: 100vh;
+  overflow-y: auto;
+  margin: 0 auto;
+  width: 100%;
+}

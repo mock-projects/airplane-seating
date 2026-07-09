@@ -1,0 +1,19 @@
+{
+  "name": "bus_routes",
+  "main": "src/main.ts",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "ts-node src/main.ts",
+    "test": "ts-node src/test/main.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^24.2.1"
+  },
+  "dependencies": {
+    "tinyqueue": "^3.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  }
+}

@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+      "noImplicitAny": true,
+      "target": "es2015",
+      "allowJs": true,
+      "moduleResolution": "node"
+    },
+    "ts-node": {
+      "compilerOptions": {
+        "module": "CommonJS"
+      }
+    }
+  }

@@ -4,6 +4,17 @@ import * as readline from "readline";
 import { Ping } from "./ping.ts";
 import { Vehicle } from "./vehicle.ts";
 
+type WarehousePingCsvRow = [
+	name: string,
+	x: string,
+	y: string,
+	timestamp: string,
+];
+
+const isWarehousePingCsvRow = (fields: string[]): fields is WarehousePingCsvRow => (
+	fields.length === 4
+);
+
 export class WarehouseServer {
 
   // Array of vehicle instances
@@ -57,7 +68,15 @@ export class WarehouseServer {
         input: fs.createReadStream(fileName),
       });
       reader.on('line', (line: string) => {
-        const [name, x, y, timestamp] = line.split(',');
+        // CSV type guard
+        const parsedLine = line.split(",")
+        if (parsedLine.length <=1) {
+          return
+        } else if (!isWarehousePingCsvRow(parsedLine)) {
+          throw new Error("Expected exactly 4 warehouse-ping data fields.")
+        }
+
+        const [name, x, y, timestamp] = parsedLine;
         this.processPing(name, parseInt(x), parseInt(y), parseInt(timestamp));
       });
       reader.on('close', resolve);
@@ -66,9 +85,11 @@ export class WarehouseServer {
 
   processPing(vehicleName: string, x: number, y: number, timestamp: number) {
     const ping = new Ping(x, y, timestamp);
-    if (!this.vehicles.some(vehicle => vehicle.getName() === vehicleName)) {
-      this.vehicles.push(new Vehicle(vehicleName));
+    let vehicle = this.vehicles.find((vehicle) => vehicle.getName() === vehicleName);
+    if (vehicle == null) {
+      vehicle = new Vehicle(vehicleName);
+      this.vehicles.push(vehicle);
     }
-    this.vehicles[this.vehicles.length - 1].getPings().push(ping);
+    vehicle.getPings().push(ping);
   }
 }

@@ -32,11 +32,10 @@ export class Ping {
    *
    * @param ping1 - First ping
    * @param ping2 - Second ping
-   * 
+   *
    * @returns Seconds between pings
    */
   static secondsBetween(ping1: Ping, ping2: Ping): number {
     return ping2.getTimestamp() - ping1.getTimestamp();
   }
 }
-

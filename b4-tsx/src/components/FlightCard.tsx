@@ -1,4 +1,4 @@
-import { Flight } from "../types";
+import type { Flight } from "../types";
 import {
   getTimeString,
   getFlightDurationString,

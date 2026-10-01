@@ -1,7 +1,9 @@
+"use client";
+
 import { useState } from "react";
 import FlightCard from "./components/FlightCard";
 import FlightDashboard from "./components/FlightDashboard";
-import { Flight } from "./types";
+import type { Flight } from "./types";
 
 const App = () => {
   const [selectedFlight, setSelectedFlight] = useState<Flight | null>(null);

@@ -1,4 +1,4 @@
-import { Flight } from "../types.ts";
+import type { Flight } from "../types.ts";
 
 const TEST_DATA: Flight[] = [
   {

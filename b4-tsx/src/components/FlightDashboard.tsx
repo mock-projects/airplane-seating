@@ -1,7 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/Header";
-import { Flight } from "../types";
-import { AIRPORT_CODE } from "../data/constants";
+import type { Flight } from "../types";
 import { getTimeString } from "../helpers/flightUtils";
 import fetchFlightResults from "../helpers/fetchResults";
 
@@ -16,7 +15,7 @@ const FlightDashboard = ({ setSelectedFlight }: FlightDashboardProps) => {
   useEffect(() => {
     const loadFlights = async () => {
       const flights = await fetchFlightResults();
-	  setFlights(flights);
+    setFlights(flights);
     };
     loadFlights();
   }, []);

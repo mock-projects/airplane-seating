@@ -19,8 +19,10 @@ class ETACalculator {
 
   // Computes distance between two latitude/logitude coordinates in kilometers.
   static haversine(location1: [number, number], location2: [number, number]): number {
-    const [lat1, lon1, lat2, lon2] = [location1[0], location1[1], location2[0], location2[1]].map((degree) => {
-      //convert to radian
+    const [lat1, lon1] = location1;
+    const [lat2, lon2] = location2;
+    ;[lat1, lon1, lat2, lon2].map((degree) => {
+      // Convert to radians
       return degree * (Math.PI / 180);
     });
     const dlon = lon2 - lon1;

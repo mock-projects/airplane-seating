@@ -40,13 +40,15 @@ class MetroGraph {
 
   // Add connection time between two station names.
   addConnection(startStation: string, endStation: string, time: number): void {
-    if (startStation in this.graph && endStation in this.graph) {
-      // Assume bidirectional connections
-      this.graph[startStation][endStation] = time;
-      this.graph[endStation][startStation] = time;
-    } else {
+    const startConnection = this.graph[startStation];
+    const endConnection = this.graph[endStation];
+    if (startConnection == null || endConnection == null) {
       throw new Error('Invalid connection: One or more stations not in graph.');
     }
+
+    // Assume bidirectional connections
+    startConnection[endStation] = time;
+    endConnection[startStation] = time;
   }
 
   // Returns the distance and shortest path between stations.
@@ -75,19 +77,21 @@ class MetroGraph {
         let step: string | null = currentStation;
         while (step !== null) {
           path.push(step);
-          step = previous[step];
+          step = previous[step] ?? null;
         }
         path.reverse();
-        return [distances[endStation], path];
+        const distanceToStation = distances[endStation] ?? Infinity;
+        return [distanceToStation, path];
       }
 
       // Iterate through neighboring stations
-      for (const neighbor in this.graph[currentStation]) {
-        const travelTime = this.graph[currentStation][neighbor];
+      const neighborEtas = Object.entries(this.graph[currentStation] ?? {});
+      for (const [neighbor, travelTime] of neighborEtas) {
         const distance = currentDistance + travelTime;
 
         // If found shorter path to neighbor, update distances, previous station, and queue
-        if (distance < distances[neighbor]) {
+        const distanceToNeighor = distances[neighbor] ?? Infinity;
+        if (distance < distanceToNeighor) {
           distances[neighbor] = distance;
           previous[neighbor] = currentStation;
 

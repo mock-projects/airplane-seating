@@ -30,11 +30,17 @@ class AssignmentServer {
   assignTasks() {
     for (const task of Object.values(this.tasks)) {
       const interestedVolunteers = this.getInterestedVolunteers(task)
+      const allVolunteers = Object.values(this.volunteers)
+      let volunteer
       if (interestedVolunteers.length > 0) {
-        this.assignments.set(task, interestedVolunteers[0]);
+        volunteer = interestedVolunteers[0]
       } else {
-        this.assignments.set(task, Object.values(this.volunteers)[0]);
+        volunteer = allVolunteers[0]
       }
+      if (volunteer == null) {
+        throw new Error('A task remained unassigned.')
+      }
+      this.assignments.set(task,volunteer)
     }
   }
 

@@ -3,6 +3,27 @@ import * as readline from "readline";
 import { Task } from "./task.ts";
 import { Volunteer } from "./volunteer.ts";
 
+type TaskCsvRow = [
+  id: string,
+  name: string,
+  volunteersNeeded: string,
+  description: string,
+];
+
+type VolunteerCsvRow = [
+  id: string,
+  name: string,
+  interestedTasks: string,
+];
+
+const isTaskCsvRow = (fields: string[]): fields is TaskCsvRow => (
+  fields.length >= 4
+);
+
+const isVolunteerCsvRow = (fields: string[]): fields is VolunteerCsvRow => (
+  fields.length === 3
+);
+
 const loadTasks = async (filename: string) => {
   const tasks: Record<number, Task> = {};
 
@@ -11,11 +32,17 @@ const loadTasks = async (filename: string) => {
   });
 
   for await (const line of reader) {
-    const parsedLine = line.split(",");
+    // CSV type guard
+    const parsedLine = line.split(",")
+    if (parsedLine.length <= 1) {
+      continue // This was an empty row, we can throw it out.
+    } else if (!isTaskCsvRow(parsedLine)) {
+      throw new Error("Expected at least 4 task data fields.");
+    }
 
     const taskId = parseInt(parsedLine[0]);
     const name = parsedLine[1];
-    const description = parsedLine[3];
+    const description = parsedLine.slice(3).join(',');
 
     // Skip invalid task IDs.
     // This is usually just the first row in the CSV, since it's a header.
@@ -39,7 +66,13 @@ const loadVolunteers = async (
   });
 
   for await (const line of reader) {
-    const parsedLine = line.split(",");
+    // CSV type guard
+    const parsedLine = line.split(",")
+    if (parsedLine.length <= 1) {
+      return // This was an empty row, we can throw it out.
+    } else if (!isVolunteerCsvRow(parsedLine)) {
+      throw new Error("Expected exactly 3 volunteer data fields.")
+    }
 
     const volunteerId = parseInt(parsedLine[0]);
     const name = parsedLine[1];
@@ -57,7 +90,7 @@ const loadVolunteers = async (
     const volunteer = new Volunteer(volunteerId, name);
     taskIds
       .map((taskId: number) => tasks[taskId])
-      .filter((task: Task) => task !== undefined)
+      .filter((task): task is Task => task !== undefined)
       .forEach((task: Task) => volunteer.addInterestedTask(task));
 
     volunteers[volunteerId] = volunteer;

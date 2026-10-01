@@ -1,0 +1,9 @@
+dist
+node_modules
+.next
+__pycache__
+
+/.prettierrc.toml
+/ruff.toml
+/package-lock.json
+/package.json

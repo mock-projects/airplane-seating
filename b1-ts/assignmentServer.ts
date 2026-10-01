@@ -1,6 +1,6 @@
-import { evaluateFlightSeatAssignments } from "./evaluateAssignment";
-import { Flight } from "./flight";
-import { Seat } from "./seat";
+import { evaluateFlightSeatAssignments } from "./evaluateAssignment.ts";
+import { Flight } from "./flight.ts";
+import { Seat } from "./seat.ts";
 
 export class AssignmentServer {
   flight: Flight;

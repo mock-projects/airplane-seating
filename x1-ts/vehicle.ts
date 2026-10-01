@@ -1,4 +1,4 @@
-import { Ping } from "./ping";
+import { Ping } from "./ping.ts";
 
 /**
  * A named vehicle with a sequence of pings.

@@ -1,4 +1,4 @@
-import { Position } from "./position";
+import { Position } from "./position.ts";
 
 /**
  * A Ping represents a vehicle's position at a given timestamp

@@ -1,5 +1,5 @@
-import { AssignmentServer } from "./assignmentServer";
-import { loadTasks, loadVolunteers } from "./util";
+import { AssignmentServer } from "./assignmentServer.ts";
+import { loadTasks, loadVolunteers } from "./util.ts";
 
 const main = async () => {
   const tasks = await loadTasks("tasks.csv");

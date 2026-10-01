@@ -1,5 +1,5 @@
-import { AssignmentServer } from "./assignmentServer";
-import { loadFlight } from "./flightUtils";
+import { AssignmentServer } from "./assignmentServer.ts";
+import { loadFlight } from "./flightUtils.ts";
 
 async function run() {
   const assignmentServer = new AssignmentServer(await loadFlight());

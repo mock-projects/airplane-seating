@@ -1,4 +1,4 @@
-import { Task } from "./task";
+import { Task } from "./task.ts";
 
 class Volunteer {
   id: number;

@@ -1,4 +1,4 @@
-import { MetroGraph } from './metroGraph';
+import { MetroGraph } from './metroGraph.ts';
 
 /*
   Simple estimator for ETA between two locations based on travel by metro.

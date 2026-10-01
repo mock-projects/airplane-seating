@@ -1,8 +1,8 @@
 import * as fs from "fs";
 import * as readline from "readline";
-import { Flight } from "./flight";
-import { Passenger } from "./passenger";
-import { SeatSection, SeatType } from "./seat";
+import { Flight } from "./flight.ts";
+import { Passenger } from "./passenger.ts";
+import { SeatSection, SeatType } from "./seat.ts";
 
 const ROW_FOUR_SEATS: [string, SeatType][] = [
   ["A", SeatType.WINDOW],

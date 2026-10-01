@@ -1,5 +1,5 @@
-import { Passenger } from "./passenger";
-import { Seat, SeatSection, SeatType } from "./seat";
+import { Passenger } from "./passenger.ts";
+import { Seat, SeatSection, SeatType } from "./seat.ts";
 
 export class Flight {
   id: number;

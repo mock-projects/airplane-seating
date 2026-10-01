@@ -1,8 +1,8 @@
 import * as fs from "fs";
 import * as readline from "readline";
 
-import { Ping } from "./ping";
-import { Vehicle } from "./vehicle";
+import { Ping } from "./ping.ts";
+import { Vehicle } from "./vehicle.ts";
 
 export class WarehouseServer {
 

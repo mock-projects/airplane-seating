@@ -1,6 +1,6 @@
-import { loadActivities, loadMetroGraph, loadUserRequests } from './midpointUtils';
-import { ETACalculator } from './etaCalculator';
-import { suggestMidpointActivity } from './suggestion';
+import { loadActivities, loadMetroGraph, loadUserRequests } from './midpointUtils.ts';
+import { ETACalculator } from './etaCalculator.ts';
+import { suggestMidpointActivity } from './suggestion.ts';
 
 const main = async () => {
   const etaCalculator = new ETACalculator(await loadMetroGraph());

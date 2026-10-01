@@ -1,5 +1,5 @@
-import { Activity } from './activity';
-import { ETACalculator } from './etaCalculator';
+import { Activity } from './activity.ts';
+import { ETACalculator } from './etaCalculator.ts';
 
 // A suggestion is an activity recommended based on a given user request.
 class Suggestion {

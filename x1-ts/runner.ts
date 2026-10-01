@@ -1,4 +1,4 @@
-import { WarehouseServer } from "./warehouse_server";
+import { WarehouseServer } from "./warehouse_server.ts";
 
 async function main() {
   // Initialize WarehouseServer instance.

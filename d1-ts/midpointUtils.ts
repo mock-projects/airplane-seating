@@ -1,9 +1,9 @@
 import * as fs from 'fs';
 import * as readline from 'readline';
 import * as path from 'path';
-import { MetroGraph, Station } from './metroGraph';
-import { Activity } from './activity';
-import { UserRequest } from './userRequest';
+import { MetroGraph, Station } from './metroGraph.ts';
+import { Activity } from './activity.ts';
+import { UserRequest } from './userRequest.ts';
 
 // Loads metro stations and connections from disk to create metro map.
 export async function loadMetroGraph(): Promise<MetroGraph> {

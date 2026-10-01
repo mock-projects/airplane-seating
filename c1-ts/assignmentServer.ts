@@ -1,5 +1,5 @@
-import { Task } from "./task";
-import { Volunteer } from "./volunteer";
+import { Task } from "./task.ts";
+import { Volunteer } from "./volunteer.ts";
 
 class AssignmentServer {
   tasks: Record<number, Task>;

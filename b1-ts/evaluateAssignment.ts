@@ -1,4 +1,4 @@
-import { Flight } from "./flight";
+import { Flight } from "./flight.ts";
 
 const PROGRESS_LENGTH = 20;
 

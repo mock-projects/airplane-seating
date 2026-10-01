@@ -1,6 +1,5 @@
 import { evaluateFlightSeatAssignments } from "./evaluateAssignment.ts";
 import { Flight } from "./flight.ts";
-import { Seat } from "./seat.ts";
 
 export class AssignmentServer {
   flight: Flight;
@@ -30,11 +29,14 @@ export class AssignmentServer {
           (seat) => seat.section == passenger.section
         );
 
-        let seat: Seat;
+        let seat
         if (sectionSeats.length > 0) {
           seat = sectionSeats[0];
-        } else {
+        } else if (availableSeats.length > 0) {
           seat = availableSeats[0];
+        }
+        if (seat == null) {
+          throw new Error('Passenger cannot be assigned a seat.')
         }
         availableSeats.splice(availableSeats.indexOf(seat), 1);
         this.flight.assignSeat(passenger, seat);

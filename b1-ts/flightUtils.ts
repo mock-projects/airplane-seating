@@ -2,23 +2,38 @@ import * as fs from "fs";
 import * as readline from "readline";
 import { Flight } from "./flight.ts";
 import { Passenger } from "./passenger.ts";
-import { SeatSection, SeatType } from "./seat.ts";
+import type { SeatType } from "./seat.ts";
+
+type PassengerCsvRow = [
+  id: string,
+  name: string,
+  loyaltyStatus: string,
+  partyId: string,
+  seatSection: string,
+  seatTypePreference: string,
+  assignedSeat: string,
+  bookingDatetime: string
+];
 
 const ROW_FOUR_SEATS: [string, SeatType][] = [
-  ["A", SeatType.WINDOW],
-  ["B", SeatType.AISLE],
-  ["C", SeatType.AISLE],
-  ["D", SeatType.WINDOW],
-];
+  ["A", "window"],
+  ["B", "aisle"],
+  ["C", "aisle"],
+  ["D", "window"]
+] as const;
 
 const ROW_SIX_SEATS: [string, SeatType][] = [
-  ["A", SeatType.WINDOW],
-  ["B", SeatType.MIDDLE],
-  ["C", SeatType.AISLE],
-  ["D", SeatType.AISLE],
-  ["E", SeatType.MIDDLE],
-  ["F", SeatType.WINDOW],
-];
+  ["A", "window"],
+  ["B", "middle"],
+  ["C", "aisle"],
+  ["D", "aisle"],
+  ["E", "middle"],
+  ["F", "window"]
+] as const;
+
+const isPassengerCsvRow = (fields: string[]): fields is PassengerCsvRow => (
+  fields.length === 8
+);
 
 export async function loadFlight(): Promise<Flight> {
   let passengerAssignments = await loadPassengers("passengers.csv");
@@ -29,19 +44,25 @@ export async function loadFlight(): Promise<Flight> {
 
   // Add seats to the flight
   for (let _ = 0; _ < 3; _++) {
-    flight.addRow(SeatSection.PREMIUM_ECONOMY_CLASS, ROW_FOUR_SEATS);
+    flight.addRow("premium_economy_class", ROW_FOUR_SEATS);
   }
   for (let _ = 0; _ < 4; _++) {
-    flight.addRow(SeatSection.ECONOMY_CLASS, ROW_SIX_SEATS);
+    flight.addRow("economy_class", ROW_SIX_SEATS);
   }
   for (let _ = 0; _ < 5; _++) {
-    flight.addRow(SeatSection.BASIC_ECONOMY_CLASS, ROW_SIX_SEATS);
+    flight.addRow("basic_economy_class", ROW_SIX_SEATS);
   }
 
   // Allocate pre-assigned seats to passengers
   for (let [assignedSeat, passenger] of passengerAssignments) {
     if (assignedSeat) {
       let [rowNumber, position] = assignedSeat.split("-");
+
+      // Ensure the assigned seat was valid
+      if (rowNumber == null || position == null) {
+        throw new Error('Passenger has an invalid seat.')
+      }
+
       let seat = flight.getSeatByRowAndPosition(parseInt(rowNumber), position);
       if (seat) {
         flight.assignSeat(passenger, seat);
@@ -77,16 +98,24 @@ export async function loadPassengers(
         isHeader = false;
         return;
       }
-      const parsedLine = line.split(",");
+
+      // CSV type guard
+      const parsedLine = line.split(",")
+      if (parsedLine.length <= 1) {
+        return // This was an empty row, we can throw it out.
+      } else if (!isPassengerCsvRow(parsedLine)) {
+        throw new Error("Expected exactly 8 passenger data fields.")
+      }
+
       let id = parseInt(parsedLine[0]);
       let name = parsedLine[1];
-      let section = parsedLine[4].toUpperCase();
+      let section = parsedLine[4].toLowerCase();
       let partyId = parseInt(parsedLine[3]);
       let assignedSeat = parsedLine[6];
       const passenger = new Passenger(
         id,
         name,
-        SeatSection[section as keyof typeof SeatSection],
+        section,
         partyId
       );
       passengerAssignments.push([assignedSeat, passenger]);

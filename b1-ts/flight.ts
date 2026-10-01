@@ -1,5 +1,5 @@
 import { Passenger } from "./passenger.ts";
-import { Seat, SeatSection, SeatType } from "./seat.ts";
+import { Seat, type SeatSection, type SeatType } from "./seat.ts";
 
 export class Flight {
   id: number;
@@ -52,7 +52,7 @@ export class Flight {
    * }
    */
   getSeatByRowAndPosition(rowNumber: number, position: string): Seat | null {
-    let row = this.rows[rowNumber - 1];
+    let row = this.rows[rowNumber - 1] ?? [];
     for (let seat of row) {
       if (seat.rowNumber == rowNumber && seat.position == position) {
         return seat;

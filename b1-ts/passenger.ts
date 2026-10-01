@@ -1,4 +1,5 @@
-import { Seat, SeatSection } from "./seat.ts";
+import { Seat, type SeatSection } from "./seat.ts";
+import { confirmSeatSection } from './seat.ts';
 
 export class Passenger {
   id: number;
@@ -10,13 +11,13 @@ export class Passenger {
   constructor(
     id: number,
     name: string,
-    section: SeatSection,
+    section: string,
     partyId: number,
     seat?: Seat
   ) {
     this.id = id;
     this.name = name;
-    this.section = section;
+    this.section = confirmSeatSection(section)
     this.partyId = partyId;
     this.seat = seat || null;
   }

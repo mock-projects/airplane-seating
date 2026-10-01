@@ -1,14 +1,55 @@
-export enum SeatType {
-  AISLE = "aisle",
-  MIDDLE = "middle",
-  WINDOW = "window",
-}
+export type SeatType = (typeof SEAT_TYPES)[number]
+export type SeatSection = (typeof SEAT_SECTIONS)[number]
 
-export enum SeatSection {
-  PREMIUM_ECONOMY_CLASS = "premium_economy_class",
-  ECONOMY_CLASS = "economy_class",
-  BASIC_ECONOMY_CLASS = "basic_economy_class",
-}
+export const SEAT_TYPES = [
+  "aisle",
+  "middle",
+  "window",
+] as const;
+
+export const SEAT_SECTIONS = [
+  "premium_economy_class",
+  "economy_class",
+  "basic_economy_class",
+] as const;
+
+/**
+ * Checks whether a value is a valid seat type.
+ */
+export const isSeatType = (value: string): value is SeatType => {
+  return (
+    value === "aisle"
+    || value === "middle"
+    || value === "window"
+  )
+};
+
+/**
+ * Checks whether a value is a valid seat section.
+ */
+export const isSeatSection = (value: string): value is SeatSection => {
+  return (
+    value === "premium_economy_class"
+    || value === "economy_class"
+    || value === "basic_economy_class"
+  );
+};
+
+/**
+ * Returns the seat type or throws if it is invalid.
+ */
+export const confirmSeatType = (seatType: string): SeatType => {
+  if (isSeatType(seatType)) return seatType
+  else throw new Error("Invalid seat type.")
+};
+
+/**
+ * Returns the seat section or throws if it is invalid.
+ */
+export const confirmSeatSection = (seatSection: string): SeatSection => {
+  if (isSeatSection(seatSection)) return seatSection;
+  else throw new Error("Invalid seat section.");
+};
 
 export class Seat {
   rowNumber: number;

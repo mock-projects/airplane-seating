@@ -9,7 +9,7 @@ Reminder that you are NOT expected to complete all tasks. You are expected to wr
 
 Drone Trip Simulations
 
-To determine if a trip is possible for a drone, we must check that the drone will not run out of battery during the trip. This requires tracking the distance the drone travels and how much weight it is carrying at each point in the trip. In drone.py, implement the method with the prototype:
+To determine if a trip is possible for a drone, we must check that the drone will not run out of battery during the trip. This requires tracking the distance the drone travels and how much weight it is carrying at each point in the trip. In `src/classes/drone.py`, implement the method with the prototype:
 **simulate_trip_with_added_order(self, new_order, position)**
 This method should use run_trip() to simulate a trip with the given order added at the given position in the drone's order list, and return the resulting battery charge level. Then, using that method as a helper, implement the method with the prototype:
 **find_best_order_position(self, new_order)**
@@ -20,7 +20,7 @@ This method should return the best position to add the `new_order` to the drone'
 
 Single-Zone Trips
 
-In dispatch_server.py, implement the method with the prototype:
+In `src/classes/dispatch_server.py`, implement the method with the prototype:
 **build_trip(self, zone)**
 This method returns a list of `orders` to be delivered on the next drone trip. The returned list of `orders` should contain as many of the oldest unpackaged `orders` in the zone as possible without exceeding the drone's range. Once an order exceeds the drone's range, any remaining capacity should be filled with other orders destined for this same zone, from heaviest to lightest (regardless of when the order was placed).
 
@@ -31,7 +31,7 @@ Make use of the `payload_test_drone` to simulate trips to determine whether the 
 
 Customer Complaints
 
-Over the months that we've been in business, we've accumulated a few complaints from our customers. Since our goal is to maximize efficiency and customer satisfaction, we've decided to address these complaints now. Respond to customer feedback by implementing the method with the following prototype in dispatch_server.py.
+Over the months that we've been in business, we've accumulated a few complaints from our customers. Since our goal is to maximize efficiency and customer satisfaction, we've decided to address these complaints now. Respond to customer feedback by implementing the method with the following prototype in `src/classes/dispatch_server.py`.
 **build_better_trip(self)**
 Below is a list of customer complaints. All of them are important to us, but some of them seem to compete with one another. Implement this method in a way that resolves as many of these problems as you are able.
     (1) Our most common complaint is that customers' orders are sometimes split

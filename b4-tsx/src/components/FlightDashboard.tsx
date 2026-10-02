@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import Header from "../components/Header";
-import type { Flight } from "../types.d.mts";
-import { getTimeString } from "../helpers/flightUtils.mts";
-import fetchFlightResults from "../helpers/fetchResults.mts";
+import Header from "./Header";
+import type { Flight } from "../types/flight.d.mts";
+import { getTimeString } from "../utilities/flightUtils.mts";
+import fetchFlightResults from "../utilities/fetchResults.mts";
 
 interface FlightDashboardProps {
   setSelectedFlight: (flight: Flight) => void;

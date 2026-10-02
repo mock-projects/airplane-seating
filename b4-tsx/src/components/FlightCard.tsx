@@ -1,8 +1,8 @@
-import type { Flight } from "../types.d.mts";
+import type { Flight } from "../types/flight.d.mts";
 import {
   getTimeString,
   getFlightDurationString,
-} from "../helpers/flightUtils.mts";
+} from "../utilities/flightUtils.mts";
 
 interface FlightCardProps {
   flight: Flight;

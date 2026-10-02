@@ -15,7 +15,7 @@
 	"main": "src/main.mts",
 	"scripts": {
 		"start": "tsx src/main.mts",
-		"test": "tsx src/test/main.mts"
+		"test": "tsx src/tests/main.mts"
 	},
 	"dependencies": {
 		"tinyqueue": "^3.0.0"

@@ -13,5 +13,5 @@ This is a command-line library catalog application built for the Byte County Pub
 Run the application as:
 
 ```
-$ python main.py
+$ python src/main.py
 ```

@@ -1,4 +1,4 @@
-import type { Flight } from "../types.d.mts";
+import type { Flight } from "../types/flight.d.mts";
 
 const TEST_DATA: Flight[] = [
   {

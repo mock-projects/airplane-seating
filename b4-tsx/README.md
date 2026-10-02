@@ -22,7 +22,7 @@ b. Visual Cues: Add visual cues for urgent flight updates. You should add CSS st
   - "Cancelled" should appear as red text with a heavier font weight.
 
 
-c. Flight Data: In order to display the full list of flights in our dashboard, we first need to get the flight data for all arriving and departing flights from a REST API endpoint. In `src/helpers/fetchResults.mts`, implement:
+c. Flight Data: In order to display the full list of flights in our dashboard, we first need to get the flight data for all arriving and departing flights from a REST API endpoint. In `src/utilities/fetchResults.mts`, implement:
 
 **`fetchFlightResults`**
 

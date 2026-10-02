@@ -1,5 +1,5 @@
 import Dropdown from "./Dropdown";
-import { viewOptions } from "../data/constants.mts";
+import { viewOptions } from "../types/constants.mts";
 
 /**
  * Renders a header element.

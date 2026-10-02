@@ -1,7 +1,7 @@
 import {LocationIndexNode} from './geoNode.mts'
 import {Location, LocationType} from '../models/location.mts'
-import {PriorityQueue} from '../util/prioQueue.mts'
-import { pickRandom } from '../util/pickRandom.mts'
+import {PriorityQueue} from '../utilities/prioQueue.mts'
+import { pickRandom } from '../utilities/pickRandom.mts'
 
 /**
  * An in-memory store for efficiently querying locations by geographic region.

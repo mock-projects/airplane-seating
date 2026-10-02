@@ -1,13 +1,13 @@
 import type {Flight} from '../types/flight.d.mts'
 
-const TEST_DATA: Flight[] = [
+const TEST_DATA: Flight[ ] = [
 	{
 		flight_id: '5e67f890-g123-456h-78i9-0j12k34l567m',
 		airline: 'JetStream Airlines',
 		flight_number: 'JS567',
 		flight_status: 'On-time',
 		origin_code: 'ORD',
-		origin_name: "Chicago O'Hare International Airport",
+		origin_name: 'Chicago O\'Hare International Airport',
 		origin_terminal: '5',
 		origin_gate: 'E2',
 		destination_code: 'XYZ',
@@ -123,4 +123,4 @@ const TEST_DATA: Flight[] = [
 	},
 ]
 
-export default TEST_DATA
+export {TEST_DATA}

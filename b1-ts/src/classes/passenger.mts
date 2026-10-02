@@ -1,7 +1,7 @@
-import {Seat, type SeatSection} from './seat.mts'
-import {confirmSeatSection} from './seat.mts'
+import {Seat, confirmSeatSection} from './seat.mts'
+import type {SeatSection} from './seat.mts'
 
-export class Passenger {
+class Passenger {
 	id: number
 	name: string
 	section: SeatSection
@@ -22,3 +22,5 @@ export class Passenger {
 		this.seat = seat || null
 	}
 }
+
+export {Passenger}

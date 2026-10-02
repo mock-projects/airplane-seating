@@ -1,4 +1,4 @@
-export interface Flight {
+interface Flight {
 	flight_id: string
 	airline: string
 	flight_number: string
@@ -18,3 +18,5 @@ export interface Flight {
 	current_arrival_time: string
 	flight_duration: number
 }
+
+export type {Flight}

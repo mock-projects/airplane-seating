@@ -1,16 +1,17 @@
-/**
- * Renders a dropdown component.
- */
+import type {ChangeEvent} from 'react'
 
 interface DropdownProps {
-	options: string[]
+	options: string[ ]
 	label: string
 	value: number
 	setSelected: (selectedValue: number) => void
 }
 
+/**
+ * Renders a dropdown component.
+ */
 const Dropdown = ({options, label, value, setSelected}: DropdownProps) => {
-	const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+	const onChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		setSelected(parseInt(e.target.value))
 	}
 	return (
@@ -34,4 +35,4 @@ const Dropdown = ({options, label, value, setSelected}: DropdownProps) => {
 	)
 }
 
-export default Dropdown
+export {Dropdown}

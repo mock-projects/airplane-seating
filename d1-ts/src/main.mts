@@ -1,15 +1,15 @@
+import {ETACalculator} from './classes/etaCalculator.mts'
+import {suggestMidpointActivity} from './classes/suggestion.mts'
 import {
 	loadActivities,
 	loadMetroGraph,
 	loadUserRequests,
 } from './utilities/midpointUtils.mts'
-import {ETACalculator} from './classes/etaCalculator.mts'
-import {suggestMidpointActivity} from './classes/suggestion.mts'
 
-const main = async () => {
-	const etaCalculator = new ETACalculator(await loadMetroGraph())
-	const userRequests = await loadUserRequests()
-	const activities = await loadActivities()
+const main = async ( ) => {
+	const etaCalculator = new ETACalculator(await loadMetroGraph( ))
+	const userRequests = await loadUserRequests( )
+	const activities = await loadActivities( )
 
 	console.log('Finding suggested activities...\n')
 
@@ -22,14 +22,14 @@ const main = async () => {
 		)
 		if (suggestion === null) {
 			console.log(
-				`No suggestion generated for request: ${userRequest.toString()}`,
+				`No suggestion generated for request: ${userRequest.toString( )}`,
 			)
 		} else {
-			console.log(`Suggested activity for request: ${userRequest.toString()}`)
-			suggestion.printDetails()
+			console.log(`Suggested activity for request: ${userRequest.toString( )}`)
+			suggestion.printDetails( )
 		}
-		console.log()
+		console.log( )
 	}
 }
 
-main()
+void main( )

@@ -1,11 +1,11 @@
-import {Flight} from '../classes/flight.mts'
+import type {Flight} from '../classes/flight.mts'
 
 const PROGRESS_LENGTH = 20
 
 /**
  * Evaluates a flight's seat assignments along a variety of criteria.
  */
-export function evaluateFlightSeatAssignments(flight: Flight) {
+const evaluateFlightSeatAssignments = (flight: Flight) => {
 	console.log('=== Evaluate Flight Seat Assignments ===')
 	printProgress(
 		evaluatePassengersWithSeats(flight),
@@ -16,7 +16,7 @@ export function evaluateFlightSeatAssignments(flight: Flight) {
 		'Passengers seated in correct sections',
 	)
 	console.log('=== End of Flight Seat Assignment Evaluation ===')
-	console.log()
+	console.log( )
 }
 
 /**
@@ -28,8 +28,8 @@ export function evaluateFlightSeatAssignments(flight: Flight) {
  * @returns The proportion of passengers assigned to a seat, or 1 if there are no
  * passengers.
  */
-function evaluatePassengersWithSeats(flight: Flight): number {
-	let count = flight.getPassengersSatisfying((p) => p.seat != null).length
+const evaluatePassengersWithSeats = (flight: Flight): number => {
+	let count = flight.getPassengersSatisfying((passenger) => (passenger.seat != null)).length
 	let total = flight.passengers.length
 
 	return total == 0 ? 1 : count / total
@@ -45,11 +45,11 @@ function evaluatePassengersWithSeats(flight: Flight): number {
  * @returns The proportion of passengers assigned to a seat in the correct section, or 1
  * if there are no passengers assigned to a seat.
  */
-function evaluatePassengersInCorrectSections(flight: Flight): number {
+const evaluatePassengersInCorrectSections = (flight: Flight): number => {
 	let count = flight.getPassengersSatisfying(
-		(p) => p.seat != null && p.seat.section == p.section,
+		(passenger) => (passenger.seat != null && passenger.seat.section == passenger.section),
 	).length
-	let total = flight.getPassengersSatisfying((p) => p.seat != null).length
+	let total = flight.getPassengersSatisfying((passenger) => (passenger.seat != null)).length
 
 	return total == 0 ? 1 : count / total
 }
@@ -60,13 +60,15 @@ function evaluatePassengersInCorrectSections(flight: Flight): number {
  * @param percent
  * @param description
  */
-function printProgress(percent: number, description: string) {
+const printProgress = (percent: number, description: string) => {
 	let complete = Math.floor(Math.min(Math.max(percent, 0), 1) * PROGRESS_LENGTH)
 	let incomplete = PROGRESS_LENGTH - complete
 	let progress = '■'.repeat(complete) + '□'.repeat(incomplete)
 	console.log(
 		`${progress} ${Math.floor(percent * 100)
-			.toString()
+			.toString( )
 			.padStart(3)}% ${description}`,
 	)
 }
+
+export {evaluateFlightSeatAssignments}

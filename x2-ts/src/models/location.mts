@@ -1,5 +1,5 @@
-import type {Person} from './person.mts'
 import type {Bus} from './bus.mts'
+import type {Person} from './person.mts'
 
 enum LocationType {
 	RESIDENCE = 'RESIDENCE',
@@ -30,13 +30,13 @@ class Location {
 		public popularity: number,
 
 		// People currently at the location
-		public people: Person[] = [],
+		public people: Person[ ] = [ ],
 
 		// Buses currently at the location
-		public buses: Bus[] = [],
-	) {}
+		public buses: Bus[ ] = [ ],
+	) { }
 
-	toString() {
+	toString( ) {
 		return this.name
 	}
 

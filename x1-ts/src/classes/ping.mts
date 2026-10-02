@@ -3,7 +3,7 @@ import {Position} from './position.mts'
 /**
  * A Ping represents a vehicle's position at a given timestamp
  */
-export class Ping {
+class Ping {
 	position: Position
 	timestamp: number
 
@@ -17,11 +17,11 @@ export class Ping {
 		this.timestamp = timestamp
 	}
 
-	getPosition(): Position {
+	getPosition( ): Position {
 		return this.position
 	}
 
-	getTimestamp(): number {
+	getTimestamp( ): number {
 		return this.timestamp
 	}
 
@@ -35,6 +35,8 @@ export class Ping {
 	 * @returns Seconds between pings
 	 */
 	static secondsBetween(ping1: Ping, ping2: Ping): number {
-		return ping2.getTimestamp() - ping1.getTimestamp()
+		return ping2.getTimestamp( ) - ping1.getTimestamp( )
 	}
 }
+
+export {Ping}

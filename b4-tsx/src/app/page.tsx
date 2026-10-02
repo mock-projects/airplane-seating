@@ -1,5 +1,7 @@
-import App from '../components/App.tsx'
+import {App} from '../components/App.tsx'
 
-export default function Page() {
+const Page = ( ) => {
 	return <App />
 }
+
+export default Page

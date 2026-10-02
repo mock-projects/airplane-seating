@@ -1,10 +1,11 @@
 import {pickRandomDestinationType} from '../locations/util.mts'
 import {Bus} from '../models/bus.mts'
-import {Location, LocationType} from '../models/location.mts'
-import {Person} from '../models/person.mts'
+import type {Location} from '../models/location.mts'
+import {LocationType} from '../models/location.mts'
+import type {Person} from '../models/person.mts'
 import {BUS_PACE, WALKING_PACE} from './constants.mts'
 import {planJourney} from './journey.mts'
-import {SimulationState} from './state.mts'
+import type {SimulationState} from './state.mts'
 
 type Schedule = (time: number, action: Action) => void
 
@@ -33,7 +34,7 @@ abstract class Action {
  */
 class StartBusRouteAction extends Action {
 	constructor(public bus: Bus) {
-		super()
+		super( )
 	}
 
 	/**
@@ -41,7 +42,7 @@ class StartBusRouteAction extends Action {
 	 */
 	perform(time: number, state: SimulationState, schedule: Schedule) {
 		// Update state to put bus at the start stop
-		const startStop = this.bus.currentStop()
+		const startStop = this.bus.currentStop( )
 		state.setBusLocation(this.bus, startStop)
 
 		// Schedule a pickup event
@@ -55,7 +56,7 @@ class StartBusRouteAction extends Action {
  */
 class BusPickupDropoffAction extends Action {
 	constructor(public bus: Bus) {
-		super()
+		super( )
 	}
 
 	/**
@@ -63,8 +64,8 @@ class BusPickupDropoffAction extends Action {
 	 */
 	perform(time: number, state: SimulationState, schedule: Schedule) {
 		const bus = this.bus
-		const stop = bus.currentStop()
-		const nextStop = bus.nextStop()
+		const stop = bus.currentStop( )
+		const nextStop = bus.nextStop( )
 
 		const peopleAtStop = [...stop.people]
 		const peopleOnBus = [...bus.people]
@@ -72,7 +73,7 @@ class BusPickupDropoffAction extends Action {
 		// Check if any passengers need to get on the bus
 		for (const person of peopleAtStop) {
 			// If the person's next stop is the bus's next stop, get person on bus
-			if (person.nextDestination() === nextStop) {
+			if (person.nextDestination( ) === nextStop) {
 				state.movePerson(person, stop, bus)
 			}
 		}
@@ -80,26 +81,26 @@ class BusPickupDropoffAction extends Action {
 		// Check if any passengers need to get off the bus
 		for (const person of peopleOnBus) {
 			// Validate that the person is meant to go through this stop
-			if (person.nextDestination() !== stop) {
+			if (person.nextDestination( ) !== stop) {
 				throw new Error(`${person} arrived at ${stop} unexpectedly`)
 			}
-			person.arriveAtNextDestination()
+			person.arriveAtNextDestination( )
 
 			// If the person's next stop isn't the bus's next stop, get person off bus
-			if (person.nextDestination() !== nextStop) {
+			if (person.nextDestination( ) !== nextStop) {
 				state.movePerson(person, bus, stop)
 
 				// If passenger is done riding the bus, have them
 				// walk to final destination
-				if (person.nextDestination().locationType !== LocationType.BUS_STOP) {
+				if (person.nextDestination( ).locationType !== LocationType.BUS_STOP) {
 					const walkingTime = Math.ceil(
-						stop.distanceToLocation(person.nextDestination()) * BUS_PACE,
+						stop.distanceToLocation(person.nextDestination( )) * BUS_PACE,
 					)
 
 					state.removePersonLocation(person, stop)
 					const nextAction = new PersonMovementAction(
 						person,
-						person.nextDestination(),
+						person.nextDestination( ),
 					)
 					schedule(time + 1 + walkingTime, nextAction)
 				}
@@ -121,7 +122,7 @@ class BusPickupDropoffAction extends Action {
  */
 class BusMovementAction extends Action {
 	constructor(public bus: Bus) {
-		super()
+		super( )
 	}
 
 	/**
@@ -129,10 +130,10 @@ class BusMovementAction extends Action {
 	 */
 	perform(time: number, state: SimulationState, schedule: Schedule) {
 		const bus = this.bus
-		bus.arriveAtNextStop()
+		bus.arriveAtNextStop( )
 
 		// Update state to put bus at this new stop
-		state.setBusLocation(bus, bus.currentStop())
+		state.setBusLocation(bus, bus.currentStop( ))
 
 		// Schedule a pickup event
 		const nextAction = new BusPickupDropoffAction(bus)
@@ -148,7 +149,7 @@ class PersonStartJourneyAction extends Action {
 		public person: Person,
 		public startLocation: Location,
 	) {
-		super()
+		super( )
 	}
 
 	/**
@@ -159,7 +160,7 @@ class PersonStartJourneyAction extends Action {
 		const person = this.person
 
 		// Pick a new destination for the person
-		const locationType = pickRandomDestinationType()
+		const locationType = pickRandomDestinationType( )
 		const destination = state.locationIndex.findRandom(locationType)
 
 		// Plan the person's journey to the destination
@@ -174,11 +175,11 @@ class PersonStartJourneyAction extends Action {
 		state.removePersonLocation(person, this.startLocation)
 
 		// Schedule the person walking to their next location
-		const next_location = person.nextDestination()
+		const nextLocation = person.nextDestination( )
 		const walkingTime = Math.ceil(
 			this.startLocation.distanceToLocation(destination) * WALKING_PACE,
 		)
-		const nextAction = new PersonMovementAction(person, next_location)
+		const nextAction = new PersonMovementAction(person, nextLocation)
 		schedule(time + 1 + walkingTime, nextAction)
 	}
 }
@@ -191,23 +192,23 @@ class PersonMovementAction extends Action {
 		public person: Person,
 		public location: Location | Bus,
 	) {
-		super()
+		super( )
 	}
 
 	perform(time: number, state: SimulationState, schedule: Schedule) {
 		const person = this.person
 
 		// Validate that person is at the correct location
-		if (person.nextDestination() !== this.location) {
+		if (person.nextDestination( ) !== this.location) {
 			throw new Error(`${person} is not at the correct location`)
 		}
-		person.arriveAtNextDestination()
+		person.arriveAtNextDestination( )
 
 		// Update state to reflect that person is at new location
 		state.setPersonLocation(person, this.location)
 
 		// If person is at their final destination, schedule a new journey
-		if (person.journeyComplete()) {
+		if (person.journeyComplete( )) {
 			// Validate that person is not on a bus, which would be an invalid final destination
 			if (this.location instanceof Bus) {
 				throw new Error(`${person} ended a journey on a bus`)
@@ -215,7 +216,7 @@ class PersonMovementAction extends Action {
 
 			const action = new PersonStartJourneyAction(person, this.location)
 			// Generate a random number between 60 and 120, inclusive
-			const delay = Math.floor(Math.random() * 61) + 60
+			const delay = Math.floor(Math.random( ) * 61) + 60
 			schedule(time + delay, action)
 		}
 	}
@@ -223,9 +224,9 @@ class PersonMovementAction extends Action {
 
 export {
 	Action,
-	StartBusRouteAction,
-	BusPickupDropoffAction,
 	BusMovementAction,
-	PersonStartJourneyAction,
+	BusPickupDropoffAction,
 	PersonMovementAction,
+	PersonStartJourneyAction,
+	StartBusRouteAction,
 }

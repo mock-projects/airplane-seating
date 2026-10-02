@@ -1,23 +1,27 @@
-import {SimulationState} from '../simulation/state.mts'
+import type {SimulationState} from '../simulation/state.mts'
 
 class SimulationMetric {
-	constructor(public name: string) {}
+	constructor(public name: string) { }
 
-	recordMetric(time: number, state: SimulationState) {}
+	recordMetric(time: number, state: SimulationState) {
+		void time
+		void state
+	}
 
-	printMetric() {}
+	printMetric( ) { }
 }
 
 class BusOccupancyMetric extends SimulationMetric {
 	// Map from bus names to max occupancy
 	maxOccupancyByBus: Record<string, number>
 
-	constructor() {
+	constructor( ) {
 		super('Bus Occupancy Metric')
-		this.maxOccupancyByBus = {}
+		this.maxOccupancyByBus = { }
 	}
 
 	override recordMetric(time: number, state: SimulationState) {
+		void time
 		for (const bus of Object.values(state.buses)) {
 			const occupancy = bus.people.length
 
@@ -33,10 +37,10 @@ class BusOccupancyMetric extends SimulationMetric {
 		}
 	}
 
-	override printMetric() {
+	override printMetric( ) {
 		// Get most popular bus lines
 		const mostPopularBuses = Object.entries(this.maxOccupancyByBus)
-			.sort(([bus1, occupancy1], [bus2, occupancy2]) => occupancy2 - occupancy1)
+			.sort((busA, busB) => (busB[1] - busA[1]))
 			.slice(0, 5)
 
 		console.log('Most popular buses:')
@@ -53,27 +57,27 @@ class RouteUtilizationMetric extends SimulationMetric {
 	// Map from route name to set of passenger names
 	routeUsage: Record<string, Set<string>>
 
-	constructor() {
+	constructor( ) {
 		super('Route Utilization Metric')
-		this.routeUsage = {}
+		this.routeUsage = { }
 	}
 
 	override recordMetric(time: number, state: SimulationState) {
+		void time
 		for (const bus of Object.values(state.buses)) {
-			const passengers = new Set(bus.people.map((p) => p.name))
+			const passengers = new Set(bus.people.map((p) => (p.name)))
 
-			this.routeUsage[bus.route.name] ??= new Set()
+			this.routeUsage[bus.route.name] ??= new Set( )
 			for (const passenger of passengers) {
 				this.routeUsage[bus.route.name]!.add(passenger)
 			}
 		}
 	}
 
-	override printMetric() {
+	override printMetric( ) {
 		const topRoutes = Object.entries(this.routeUsage)
 			.sort(
-				([route1, passengers1], [route2, passengers2]) =>
-					passengers2.size - passengers1.size,
+				(routeA, routeB) => (routeB[1].size - routeA[1].size),
 			)
 			.slice(0, 10)
 
@@ -84,4 +88,4 @@ class RouteUtilizationMetric extends SimulationMetric {
 	}
 }
 
-export {SimulationMetric, BusOccupancyMetric, RouteUtilizationMetric}
+export {BusOccupancyMetric, RouteUtilizationMetric, SimulationMetric}

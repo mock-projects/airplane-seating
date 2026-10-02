@@ -1,27 +1,27 @@
-import {BoundingBox} from './box.mts'
 import {Location} from '../models/location.mts'
+import {BoundingBox} from './box.mts'
 
 /**
  * A node in a spatial index for locations.
  **/
 class LocationIndexNode {
-	MAX_CHILDREN = 10
+	maxChildren = 10
 
 	constructor(
 		// Locations are only stored at the leaves of the tree
 		public isLeaf: boolean,
 
 		public parent: LocationIndexNode | null,
-		public locations: Location[],
+		public locations: Location[ ],
 
 		// Bounding box containing all locations in node and its children
 		public boundingBox: BoundingBox,
 
 		// Internal nodes store references to their children
-		public children: LocationIndexNode[],
-	) {}
+		public children: LocationIndexNode[ ],
+	) { }
 
-	toString() {
+	toString( ) {
 		if (this.isLeaf) {
 			return `Node[${this.locations.length} locations, ${this.boundingBox}]`
 		} else {
@@ -32,27 +32,27 @@ class LocationIndexNode {
 	/**
 	 * Create a new leaf node that holds a list of locations.
 	 */
-	createChild(): LocationIndexNode {
+	createChild( ): LocationIndexNode {
 		const boundingBox = new BoundingBox(
 			Infinity,
 			Infinity,
 			-Infinity,
 			-Infinity,
 		)
-		return new LocationIndexNode(true, this, [], boundingBox, [])
+		return new LocationIndexNode(true, this, [ ], boundingBox, [ ])
 	}
 
 	/**
 	 * Create a new root node.
 	 */
-	static createRoot(): LocationIndexNode {
+	static createRoot( ): LocationIndexNode {
 		const boundingBox = new BoundingBox(
 			Infinity,
 			Infinity,
 			-Infinity,
 			-Infinity,
 		)
-		return new LocationIndexNode(true, null, [], boundingBox, [])
+		return new LocationIndexNode(true, null, [ ], boundingBox, [ ])
 	}
 
 	/**
@@ -111,14 +111,14 @@ class LocationIndexNode {
 	 *
 	 * We might return multiple nodes if the initial node is split.
 	 */
-	insertLocation(location: Location): LocationIndexNode[] {
+	insertLocation(location: Location): LocationIndexNode[ ] {
 		// If this is a leaf node, add the location to the leaf's list of locations.
 		if (this.isLeaf) {
 			this.addChild(location)
 
 			// Split the node if it has too many children
-			if (this.locations.length > this.MAX_CHILDREN) {
-				return this.split()
+			if (this.locations.length > this.maxChildren) {
+				return this.split( )
 			}
 			return [this]
 		}
@@ -141,8 +141,8 @@ class LocationIndexNode {
 			for (const [strIndex, child] of Object.entries(this.children)) {
 				const currentIndex = parseInt(strIndex)
 				const enlargement =
-					child.boundingBox.extendedWithPoint(location.x, location.y).area() -
-					child.boundingBox.area()
+					child.boundingBox.extendedWithPoint(location.x, location.y).area( ) -
+					child.boundingBox.area( )
 				if (enlargement < bestEnlargement) {
 					chosenChildIndex = currentIndex
 					bestEnlargement = enlargement
@@ -168,8 +168,8 @@ class LocationIndexNode {
 			this.children.push(children[1]!)
 
 			// Split the node if it has too many children
-			if (this.children.length > this.MAX_CHILDREN) {
-				return this.split()
+			if (this.children.length > this.maxChildren) {
+				return this.split( )
 			}
 		}
 
@@ -179,7 +179,7 @@ class LocationIndexNode {
 	/**
 	 * Split a node into two nodes.
 	 */
-	split(): LocationIndexNode[] {
+	split( ): LocationIndexNode[ ] {
 		// Find two children to start the split.
 		// We choose the two children that would require the most enlargement
 		// to keep together.
@@ -194,7 +194,7 @@ class LocationIndexNode {
 				const iBox = this.boundingBoxOfChild(i)
 				const jBox = this.boundingBoxOfChild(j)
 				const combinedBox = iBox.extendedWithBox(jBox)
-				const enlargement = combinedBox.area() - iBox.area() - jBox.area()
+				const enlargement = combinedBox.area( ) - iBox.area( ) - jBox.area( )
 				if (enlargement > worstEnlargement) {
 					splitIndices = [i, j]
 					worstEnlargement = enlargement
@@ -207,21 +207,21 @@ class LocationIndexNode {
 		}
 
 		// We need to assign the remaining children to one of the two new nodes.
-		const remainingIndices = []
+		const remainingIndices = [ ]
 		for (let i = 0; i < numChildren; i++) {
 			if (i === splitIndices[0] || i === splitIndices[1]) continue
 			remainingIndices.push(i)
 		}
 
 		const split1 = this.parent
-			? this.parent.createChild()
-			: LocationIndexNode.createRoot()
+			? this.parent.createChild( )
+			: LocationIndexNode.createRoot( )
 		split1.isLeaf = this.isLeaf
 		split1.addChild(this.getChild(splitIndices[0]))
 
 		const split2 = this.parent
-			? this.parent.createChild()
-			: LocationIndexNode.createRoot()
+			? this.parent.createChild( )
+			: LocationIndexNode.createRoot( )
 		split2.isLeaf = this.isLeaf
 		split2.addChild(this.getChild(splitIndices[1]))
 
@@ -235,11 +235,11 @@ class LocationIndexNode {
 			for (const i of remainingIndices) {
 				const iBox = this.boundingBoxOfChild(i)
 				const enlargement1 =
-					split1.boundingBox.extendedWithBox(iBox).area() -
-					split1.boundingBox.area()
+					split1.boundingBox.extendedWithBox(iBox).area( ) -
+					split1.boundingBox.area( )
 				const enlargement2 =
-					split2.boundingBox.extendedWithBox(iBox).area() -
-					split2.boundingBox.area()
+					split2.boundingBox.extendedWithBox(iBox).area( ) -
+					split2.boundingBox.area( )
 
 				const enlargement = Math.abs(enlargement1 - enlargement2)
 				if (enlargement > greatestEnlargement) {

@@ -1,9 +1,9 @@
-import {LocationType, Location} from '../models/location.mts'
+import {Location, LocationType} from '../models/location.mts'
 
 class TestLocation {
 	location: Location
 
-	constructor() {
+	constructor( ) {
 		const name = 'Test Location'
 		const locationType = LocationType.BUS_STOP
 		const x = 0.0
@@ -24,7 +24,7 @@ class TestLocation {
 	/**
 	 * Test distance calculation to a point
 	 */
-	testDistanceToPoint() {
+	testDistanceToPoint( ) {
 		const distance = this.location.distanceToPoint(3.0, 4.0)
 		this.assertAlmostEqual(distance, 5.0)
 	}
@@ -32,7 +32,7 @@ class TestLocation {
 	/**
 	 * Test distance calculation to another location
 	 */
-	testDistanceToLocation() {
+	testDistanceToLocation( ) {
 		const name = 'Other Location'
 		const locationType = LocationType.BUS_STOP
 		const x = 3.0

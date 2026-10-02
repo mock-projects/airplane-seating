@@ -1,11 +1,11 @@
 'use client'
 
 import {useState} from 'react'
-import FlightCard from './FlightCard'
-import FlightDashboard from './FlightDashboard'
 import type {Flight} from '../types/flight.d.mts'
+import {FlightCard} from './FlightCard.tsx'
+import {FlightDashboard} from './FlightDashboard.tsx'
 
-const App = () => {
+const App = ( ) => {
 	const [selectedFlight, setSelectedFlight] = useState<Flight | null>(null)
 
 	return (
@@ -15,11 +15,11 @@ const App = () => {
 			) : (
 				<FlightCard
 					flight={selectedFlight}
-					onBackClick={() => setSelectedFlight(null)}
+					onBackClick={( ) => (setSelectedFlight(null))}
 				/>
 			)}
 		</main>
 	)
 }
 
-export default App
+export {App}

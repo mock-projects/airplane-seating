@@ -1,3 +1,5 @@
-export const AIRPORT_CODE = 'XYZ'
+const AIRPORT_CODE = 'XYZ'
 
-export const viewOptions: string[] = ['Arriving Flights', 'Departing Flights']
+const viewOptions: string[ ] = ['Arriving Flights', 'Departing Flights']
+
+export {AIRPORT_CODE, viewOptions}

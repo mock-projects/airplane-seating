@@ -1,15 +1,15 @@
 import {WarehouseServer} from './classes/warehouseServer.mts'
 
-async function main() {
+const main = async ( ) => {
 	// Initialize WarehouseServer instance.
-	const warehouseServer = new WarehouseServer()
+	const warehouseServer = new WarehouseServer( )
 	await warehouseServer.initializeServer('src/data/warehouse-pings.csv')
 
 	console.log('\n')
 	console.log('~~~WarehouseServer is initialized.')
 	console.log('\n')
 
-	console.log('Average Speeds: ', warehouseServer.getAverageSpeeds())
+	console.log('Average Speeds: ', warehouseServer.getAverageSpeeds( ))
 	console.log('\n')
 
 	console.log(
@@ -18,10 +18,10 @@ async function main() {
 	)
 	console.log('\n')
 
-	console.log('Vehicles possibly damaged: ', warehouseServer.checkForDamage())
+	console.log('Vehicles possibly damaged: ', warehouseServer.checkForDamage( ))
 	console.log('\n')
 
 	// Feel free to put any println statements below for testing and debugging
 }
 
-main()
+void main( )

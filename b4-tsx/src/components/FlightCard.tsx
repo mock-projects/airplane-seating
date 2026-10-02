@@ -1,12 +1,12 @@
 import type {Flight} from '../types/flight.d.mts'
 import {
-	getTimeString,
 	getFlightDurationString,
+	getTimeString,
 } from '../utilities/flightUtils.mts'
 
 interface FlightCardProps {
 	flight: Flight
-	onBackClick: () => void
+	onBackClick: ( ) => void
 }
 
 const FlightCard = ({flight, onBackClick}: FlightCardProps) => {
@@ -63,4 +63,4 @@ const FlightCard = ({flight, onBackClick}: FlightCardProps) => {
 	)
 }
 
-export default FlightCard
+export {FlightCard}

@@ -1,6 +1,6 @@
 import type {Metadata, Viewport} from 'next'
-import type {ReactNode} from 'react'
 import {Roboto} from 'next/font/google'
+import type {ReactNode} from 'react'
 import '../styles/app.css'
 
 const roboto = Roboto({
@@ -9,7 +9,7 @@ const roboto = Roboto({
 	display: 'swap',
 })
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
 	title: 'Flights Dash',
 	description: 'Flights Dash Assessment',
 	icons: {
@@ -17,16 +17,19 @@ export const metadata: Metadata = {
 	},
 }
 
-export const viewport: Viewport = {
+const viewport: Viewport = {
 	themeColor: '#000000',
 }
 
-export default function RootLayout({
+const RootLayout = ({
 	children,
-}: Readonly<{children: ReactNode}>) {
+}: Readonly<{children: ReactNode}>) => {
 	return (
 		<html lang='en'>
 			<body className={roboto.className}>{children}</body>
 		</html>
 	)
 }
+
+export {metadata, viewport}
+export default RootLayout

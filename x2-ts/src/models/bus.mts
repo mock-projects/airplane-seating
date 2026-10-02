@@ -1,7 +1,7 @@
+import {BUS_PACE} from '../simulation/constants.mts'
 import type {Location} from './location.mts'
 import type {Person} from './person.mts'
 import type {BusRoute} from './route.mts'
-import {BUS_PACE} from '../simulation/constants.mts'
 
 class Bus {
 	constructor(
@@ -21,14 +21,14 @@ class Bus {
 		public direction: number = 1,
 
 		// People currently on the bus
-		public people: Person[] = [],
-	) {}
+		public people: Person[ ] = [ ],
+	) { }
 
-	toString() {
+	toString( ) {
 		return this.name
 	}
 
-	arriveAtNextStop() {
+	arriveAtNextStop( ) {
 		this.stopIndex += this.direction
 
 		// Change direction if we've reached the end of the line.
@@ -40,7 +40,7 @@ class Bus {
 		}
 	}
 
-	currentStop(): Location {
+	currentStop( ): Location {
 		const location = this.route.stops[this.stopIndex]
 		if (location == null) {
 			throw new Error(
@@ -50,7 +50,7 @@ class Bus {
 		return location
 	}
 
-	nextStop(): Location {
+	nextStop( ): Location {
 		const location = this.route.stops[this.stopIndex + this.direction]
 		if (location == null) {
 			throw new Error(
@@ -60,8 +60,8 @@ class Bus {
 		return location
 	}
 
-	timeToNextStop(): number {
-		return this.currentStop().distanceToLocation(this.nextStop()) * BUS_PACE
+	timeToNextStop( ): number {
+		return this.currentStop( ).distanceToLocation(this.nextStop( )) * BUS_PACE
 	}
 }
 

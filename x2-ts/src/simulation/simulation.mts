@@ -1,24 +1,26 @@
-import {LocationIndex} from '../locations/geoIndex.mts'
+import type {LocationIndex} from '../locations/geoIndex.mts'
 import {
 	BusOccupancyMetric,
 	RouteUtilizationMetric,
-	SimulationMetric,
 } from '../metrics/metrics.mts'
+import type {SimulationMetric} from '../metrics/metrics.mts'
 import {Person} from '../models/person.mts'
-import {BusNetwork} from '../network/network.mts'
-import {Action, PersonStartJourneyAction, StartBusRouteAction} from './actions.mts'
+import type {BusNetwork} from '../network/network.mts'
+import type {Action} from './actions.mts'
+import {PersonStartJourneyAction, StartBusRouteAction} from './actions.mts'
 import {SimulationState} from './state.mts'
-import {stringToTime, type Time} from './time.mts'
+import {stringToTime} from './time.mts'
+import type {Time} from './time.mts'
 
 class Simulation {
 	// Mapping from times to actions that need to happen at a particular time
-	schedule: Record<number, Action[]>
+	schedule: Record<number, Action[ ]>
 
 	// Current state of simulated city
 	state: SimulationState
 
 	// Metrics we want to track about the simulation
-	metrics: SimulationMetric[]
+	metrics: SimulationMetric[ ]
 
 	/**
 	 * Initialize a new simulation with a given number of people.
@@ -29,7 +31,7 @@ class Simulation {
 		personCount: number = 2000,
 	) {
 		// Initialize simulation state
-		this.schedule = {}
+		this.schedule = { }
 		this.state = new SimulationState(locationIndex, busNetwork)
 
 		// Add people to simulation
@@ -39,14 +41,14 @@ class Simulation {
 		}
 
 		// Add metrics to keep track of
-		this.metrics = [new BusOccupancyMetric(), new RouteUtilizationMetric()]
+		this.metrics = [new BusOccupancyMetric( ), new RouteUtilizationMetric( )]
 	}
 
 	/**
 	 * Schedule an action to occur at a particular time.
 	 */
 	scheduleAction(time: number, action: Action) {
-		this.schedule[time] ??= []
+		this.schedule[time] ??= [ ]
 		this.schedule[time].push(action)
 	}
 
@@ -68,7 +70,7 @@ class Simulation {
 	}
 
 	setupSimulation(startMinutes: number) {
-		this.state.setupSimulationState()
+		this.state.setupSimulationState( )
 
 		// Add initial actions for all buses to start their routes
 		for (const bus of Object.values(this.state.buses)) {
@@ -85,7 +87,7 @@ class Simulation {
 			}
 
 			// Pick a random time for the person to start their day, between 10 and 200 (inclusive)
-			const time = startMinutes + Math.floor(Math.random() * 191) + 10
+			const time = startMinutes + Math.floor(Math.random( ) * 191) + 10
 			const action = new PersonStartJourneyAction(person, residence)
 			this.scheduleAction(time, action)
 		}
@@ -95,7 +97,7 @@ class Simulation {
 
 	simulateTime(time: number) {
 		this.state.printTimeReport(time)
-		const actions = this.schedule[time] ?? []
+		const actions = this.schedule[time] ?? [ ]
 
 		// Perform all actions associated with the time
 		for (const action of actions) {
@@ -103,15 +105,15 @@ class Simulation {
 		}
 	}
 
-	printResults() {
+	printResults( ) {
 		for (const metric of this.metrics) {
-			console.log()
+			console.log( )
 			console.log('====================')
 			console.log(metric.name)
 			console.log('--------------------')
-			metric.printMetric()
+			metric.printMetric( )
 			console.log('====================')
-			console.log()
+			console.log( )
 		}
 	}
 }

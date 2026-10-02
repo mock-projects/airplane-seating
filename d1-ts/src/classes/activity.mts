@@ -23,7 +23,7 @@ class Activity {
 		this.timeNeeded = timeNeeded
 	}
 
-	toString() {
+	toString( ) {
 		return `Activity(${this.name})`
 	}
 }

@@ -1,4 +1,4 @@
-import {MetroGraph} from './metroGraph.mts'
+import type {MetroGraph} from './metroGraph.mts'
 
 /*
   Simple estimator for ETA between two locations based on travel by metro.

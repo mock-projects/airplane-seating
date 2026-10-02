@@ -26,7 +26,7 @@ class UserRequest {
 		this.timeNeeded = timeNeeded
 	}
 
-	toString() {
+	toString( ) {
 		return `UserRequest: userId: ${this.userId}, activity type: ${this.activityType}, rating: ${this.rating}`
 	}
 }

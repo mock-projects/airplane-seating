@@ -1,8 +1,9 @@
-import {LocationIndex} from '../locations/geoIndex.mts'
+import type {LocationIndex} from '../locations/geoIndex.mts'
 import {Bus} from '../models/bus.mts'
-import {Location, LocationType} from '../models/location.mts'
-import {Person} from '../models/person.mts'
-import {BusNetwork} from '../network/network.mts'
+import type {Location} from '../models/location.mts'
+import {LocationType} from '../models/location.mts'
+import type {Person} from '../models/person.mts'
+import type {BusNetwork} from '../network/network.mts'
 import {timeToString} from './time.mts'
 
 /**
@@ -17,21 +18,21 @@ class SimulationState {
 		public busNetwork: BusNetwork,
 
 		// Mapping from bus names to buses
-		public buses: Record<string, Bus> = {},
+		public buses: Record<string, Bus> = { },
 
 		// Mapping from person name to person
-		public people: Record<string, Person> = {},
-	) {}
+		public people: Record<string, Person> = { },
+	) { }
 
 	/**
 	 * Set up the simulation state.
 	 */
-	setupSimulationState() {
+	setupSimulationState( ) {
 		// Instantiate all buses
 		for (const route of Object.values(this.busNetwork.routes)) {
 			// Determine how frequently buses on this route should depart
-			const roundTripTime = route.roundTripTime()
-			const busCount = route.getSimulatedBusCount()
+			const roundTripTime = route.roundTripTime( )
+			const busCount = route.getSimulatedBusCount( )
 			const busInterval = roundTripTime / busCount
 
 			// Schedule the buses to start their routes
@@ -130,19 +131,19 @@ class SimulationState {
 	 */
 	printTimeReport(time: number) {
 		const peopleAtBusStops = Object.values(this.busNetwork.stops).reduce(
-			(sum, stop) => sum + stop.people.length,
+			(sum, stop) => (sum + stop.people.length),
 			0,
 		)
 
 		const peopleOnBuses = Object.values(this.buses).reduce(
-			(sum, bus) => sum + bus.people.length,
+			(sum, bus) => (sum + bus.people.length),
 			0,
 		)
 
 		console.log(
 			`Time: ${timeToString(time)} | `,
-			`${peopleOnBuses.toString().padStart(4)} people on buses | `,
-			`${peopleAtBusStops.toString().padStart(4)} people at bus stops`,
+			`${peopleOnBuses.toString( ).padStart(4)} people on buses | `,
+			`${peopleAtBusStops.toString( ).padStart(4)} people at bus stops`,
 		)
 	}
 }

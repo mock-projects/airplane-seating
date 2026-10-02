@@ -1,5 +1,5 @@
-import * as readline from 'readline'
 import * as fs from 'fs'
+import * as readline from 'readline'
 
 import {Location, LocationType} from '../models/location.mts'
 import {pickRandom} from '../utilities/pickRandom.mts'
@@ -7,11 +7,11 @@ import {pickRandom} from '../utilities/pickRandom.mts'
 /**
  * Parse a CSV file of locations and return a list of `Location` objects.
  */
-const readLocationsFromFile = async (filename: string): Promise<Location[]> => {
+const readLocationsFromFile = async (filename: string): Promise<Location[ ]> => {
 	const reader = readline.createInterface({
 		input: fs.createReadStream(filename),
 	})
-	const locations: Location[] = []
+	const locations: Location[ ] = [ ]
 
 	// Maps a string to a location type
 	const stringToLocationType = (str: string): LocationType => {
@@ -57,7 +57,7 @@ const readLocationsFromFile = async (filename: string): Promise<Location[]> => {
 /**
  * Picks a random non-residence location type.
  */
-const pickRandomDestinationType = (): LocationType => {
+const pickRandomDestinationType = ( ): LocationType => {
 	const distribution: Record<LocationType, number> = {
 		[LocationType.COMMERCIAL]: 0.3,
 		[LocationType.EDUCATION]: 0.3,
@@ -71,8 +71,8 @@ const pickRandomDestinationType = (): LocationType => {
 	const entries = Object.entries(distribution) as [
 		item: LocationType,
 		weight: number,
-	][]
+	][ ]
 	return pickRandom(entries)
 }
 
-export {readLocationsFromFile, pickRandomDestinationType}
+export {pickRandomDestinationType, readLocationsFromFile}

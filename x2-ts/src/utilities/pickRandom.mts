@@ -1,7 +1,7 @@
-const pickRandom = <T = unknown,>(entries: [T, number][]) => {
+const pickRandom = <T = unknown,>(entries: [T, number][ ]) => {
 	// Create a weight distribution table
 	let totalWeight = 0
-	const weightTable: [T, number][] = []
+	const weightTable: [T, number][ ] = [ ]
 	for (const entry of entries) {
 		const weight = entry[1]
 		totalWeight += weight
@@ -9,7 +9,7 @@ const pickRandom = <T = unknown,>(entries: [T, number][]) => {
 	}
 
 	// Pick a an item based on given weights
-	const result = Math.random() * totalWeight
+	const result = Math.random( ) * totalWeight
 	for (const [item, maxWeight] of weightTable) {
 		if (result < maxWeight) return item
 	}

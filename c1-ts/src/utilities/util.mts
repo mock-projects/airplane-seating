@@ -12,14 +12,16 @@ type TaskCsvRow = [
 
 type VolunteerCsvRow = [id: string, name: string, interestedTasks: string]
 
-const isTaskCsvRow = (fields: string[]): fields is TaskCsvRow =>
+const isTaskCsvRow = (fields: string[ ]): fields is TaskCsvRow => (
 	fields.length >= 4
+)
 
-const isVolunteerCsvRow = (fields: string[]): fields is VolunteerCsvRow =>
+const isVolunteerCsvRow = (fields: string[ ]): fields is VolunteerCsvRow => (
 	fields.length === 3
+)
 
 const loadTasks = async (filename: string) => {
-	const tasks: Record<number, Task> = {}
+	const tasks: Record<number, Task> = { }
 
 	const reader = readline.createInterface({
 		input: fs.createReadStream(filename),
@@ -53,7 +55,7 @@ const loadVolunteers = async (
 	filename: string,
 	tasks: Record<number, Task>,
 ) => {
-	const volunteers: Record<number, Volunteer> = {}
+	const volunteers: Record<number, Volunteer> = { }
 
 	const reader = readline.createInterface({
 		input: fs.createReadStream(filename),
@@ -73,8 +75,8 @@ const loadVolunteers = async (
 		// Entries after the second position in the CSV are task IDs.
 		const taskIds = parsedLine[2]
 			.split(' ')
-			.map((id: string) => parseInt(id))
-			.filter((id: number) => !isNaN(id))
+			.map((id: string) => (parseInt(id)))
+			.filter((id: number) => (!isNaN(id)))
 
 		// Skip invalid volunteer IDs.
 		// This is usually just the first row in the CSV, since it's a header.
@@ -83,9 +85,9 @@ const loadVolunteers = async (
 		// Create a new volunteer and add interested tasks.
 		const volunteer = new Volunteer(volunteerId, name)
 		taskIds
-			.map((taskId: number) => tasks[taskId])
-			.filter((task): task is Task => task !== undefined)
-			.forEach((task: Task) => volunteer.addInterestedTask(task))
+			.map((taskId: number) => (tasks[taskId]))
+			.filter((task): task is Task => (task !== undefined))
+			.forEach((task: Task) => (volunteer.addInterestedTask(task)))
 
 		volunteers[volunteerId] = volunteer
 	}

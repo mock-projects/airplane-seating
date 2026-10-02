@@ -14,7 +14,7 @@ class Station {
 		return this.name === other.name
 	}
 
-	toString(): string {
+	toString( ): string {
 		return `Station(${this.name})`
 	}
 }
@@ -25,16 +25,16 @@ class MetroGraph {
 	// Mapping from station name to stations
 	stations: {[key: string]: Station}
 
-	constructor() {
-		this.graph = {}
-		this.stations = {}
+	constructor( ) {
+		this.graph = { }
+		this.stations = { }
 	}
 
 	// Add station to the graph
 	addStation(station: Station): void {
 		if (!(station.name in this.stations)) {
 			this.stations[station.name] = station
-			this.graph[station.name] = {}
+			this.graph[station.name] = { }
 		}
 	}
 
@@ -55,10 +55,10 @@ class MetroGraph {
 	shortestPath(
 		startStation: string,
 		endStation: string,
-	): [number, string[] | null] {
+	): [number, string[ ] | null] {
 		// Initialize distances dictionary with infinity for all stations except startStation
-		const distances: {[key: string]: number} = {}
-		const previous: {[key: string]: string | null} = {}
+		const distances: {[key: string]: number} = { }
+		const previous: {[key: string]: string | null} = { }
 
 		for (const station in this.graph) {
 			distances[station] = Infinity
@@ -66,29 +66,29 @@ class MetroGraph {
 		}
 		distances[startStation] = 0
 
-		const priorityQueue: Array<[number, string]> = []
+		const priorityQueue: Array<[number, string]> = [ ]
 		priorityQueue.push([0, startStation])
 
 		while (priorityQueue.length > 0) {
 			// Manually find the smallest item in priority queue and remove it from queue
-			priorityQueue.sort((a, b) => a[0] - b[0])
-			const [currentDistance, currentStation] = priorityQueue.shift()!
+			priorityQueue.sort((a, b) => (a[0] - b[0]))
+			const [currentDistance, currentStation] = priorityQueue.shift( )!
 
 			// If we reach the end station, reconstruct and return the shortest path
 			if (currentStation === endStation) {
-				const path: string[] = []
+				const path: string[ ] = [ ]
 				let step: string | null = currentStation
 				while (step !== null) {
 					path.push(step)
 					step = previous[step] ?? null
 				}
-				path.reverse()
+				path.reverse( )
 				const distanceToStation = distances[endStation] ?? Infinity
 				return [distanceToStation, path]
 			}
 
 			// Iterate through neighboring stations
-			const neighborEtas = Object.entries(this.graph[currentStation] ?? {})
+			const neighborEtas = Object.entries(this.graph[currentStation] ?? { })
 			for (const [neighbor, travelTime] of neighborEtas) {
 				const distance = currentDistance + travelTime
 
@@ -100,7 +100,7 @@ class MetroGraph {
 
 					// Update the queue: Remove old entry if it exists and add new
 					const index = priorityQueue.findIndex(
-						([_, station]) => station === neighbor,
+						([_, station]) => (station === neighbor),
 					)
 					if (index !== -1) {
 						priorityQueue.splice(index, 1)
@@ -115,4 +115,4 @@ class MetroGraph {
 	}
 }
 
-export {Station, MetroGraph}
+export {MetroGraph, Station}

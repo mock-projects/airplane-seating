@@ -9,7 +9,7 @@ class Task {
 		this.description = description
 	}
 
-	toString() {
+	toString( ) {
 		return `Task #${this.id}: ${this.name}`
 	}
 }

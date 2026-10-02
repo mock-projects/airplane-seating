@@ -11,29 +11,29 @@ type WarehousePingCsvRow = [
 	timestamp: string,
 ]
 
-const isWarehousePingCsvRow = (
-	fields: string[],
-): fields is WarehousePingCsvRow => fields.length === 4
+const isWarehousePingCsvRow = (fields: string[ ]): fields is WarehousePingCsvRow => (
+	fields.length === 4
+)
 
-export class WarehouseServer {
+class WarehouseServer {
 	// Array of vehicle instances
-	vehicles: Vehicle[]
+	vehicles: Vehicle[ ]
 
-	constructor() {
-		this.vehicles = []
+	constructor( ) {
+		this.vehicles = [ ]
 	}
 
 	/**
 	 * Returns an object mapping vehicle name to that vehicle's average speed for
 	 * all vehicles.
 	 */
-	getAverageSpeeds(): Partial<Record<string, number>> {
+	getAverageSpeeds( ): Partial<Record<string, number>> {
 		return this.vehicles.reduce(
 			(acc: Partial<Record<string, number>>, vehicle: Vehicle) => {
-				acc[vehicle.getName()] = vehicle.getAverageSpeed()
+				acc[vehicle.getName( )] = vehicle.getAverageSpeed( )
 				return acc
 			},
-			{},
+			{ },
 		)
 	}
 
@@ -47,9 +47,9 @@ export class WarehouseServer {
 	 *
 	 * @returns Array of vehicle names
 	 */
-	getMostTraveledSince(maxResults: number, timestamp: number): string[] {
+	getMostTraveledSince(maxResults: number, timestamp: number): string[ ] {
 		// TODO: Implement
-		return []
+		return [ ]
 	}
 
 	/**
@@ -59,9 +59,9 @@ export class WarehouseServer {
 	 *
 	 * @returns Array of vehicle names
 	 */
-	checkForDamage(): string[] {
+	checkForDamage( ): string[ ] {
 		// TODO: Implement
-		return []
+		return [ ]
 	}
 
 	initializeServer(fileName: string): Promise<void> {
@@ -88,12 +88,14 @@ export class WarehouseServer {
 	processPing(vehicleName: string, x: number, y: number, timestamp: number) {
 		const ping = new Ping(x, y, timestamp)
 		let vehicle = this.vehicles.find(
-			(vehicle) => vehicle.getName() === vehicleName,
+			(vehicle) => (vehicle.getName( ) === vehicleName),
 		)
 		if (vehicle == null) {
 			vehicle = new Vehicle(vehicleName)
 			this.vehicles.push(vehicle)
 		}
-		vehicle.getPings().push(ping)
+		vehicle.getPings( ).push(ping)
 	}
 }
+
+export {WarehouseServer}

@@ -1,17 +1,17 @@
-import {Task} from './task.mts'
+import type {Task} from './task.mts'
 
 class Volunteer {
 	id: number
 	name: string
-	interestedTasks: Task[]
+	interestedTasks: Task[ ]
 
 	constructor(id: number, name: string) {
 		this.id = id
 		this.name = name
-		this.interestedTasks = []
+		this.interestedTasks = [ ]
 	}
 
-	toString(): string {
+	toString( ): string {
 		return `Volunteer #${this.id}: ${this.name}`
 	}
 

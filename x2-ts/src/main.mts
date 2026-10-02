@@ -8,7 +8,7 @@ const LOCATIONS_FILENAME = 'src/data/locations.csv'
 const BUS_STOPS_FILENAME = 'src/data/bus-stops.csv'
 const BUS_ROUTES_FILENAME = 'src/data/bus-routes.csv'
 
-const main = async () => {
+const main = async ( ) => {
 	const locations = await readLocationsFromFile(LOCATIONS_FILENAME)
 	console.log(`Loaded ${locations.length} locations.`)
 
@@ -25,8 +25,8 @@ const main = async () => {
 	console.log('Created bus route network.')
 
 	const simulation = new Simulation(index, network)
-	simulation.simulateDay()
-	simulation.printResults()
+	simulation.simulateDay( )
+	simulation.printResults( )
 }
 
-main()
+main( )

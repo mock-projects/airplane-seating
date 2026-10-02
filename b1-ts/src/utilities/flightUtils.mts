@@ -15,14 +15,14 @@ type PassengerCsvRow = [
 	bookingDatetime: string,
 ]
 
-const ROW_FOUR_SEATS: [string, SeatType][] = [
+const ROW_FOUR_SEATS: [string, SeatType][ ] = [
 	['A', 'window'],
 	['B', 'aisle'],
 	['C', 'aisle'],
 	['D', 'window'],
 ] as const
 
-const ROW_SIX_SEATS: [string, SeatType][] = [
+const ROW_SIX_SEATS: [string, SeatType][ ] = [
 	['A', 'window'],
 	['B', 'middle'],
 	['C', 'aisle'],
@@ -31,24 +31,24 @@ const ROW_SIX_SEATS: [string, SeatType][] = [
 	['F', 'window'],
 ] as const
 
-const isPassengerCsvRow = (fields: string[]): fields is PassengerCsvRow =>
+const isPassengerCsvRow = (fields: string[ ]): fields is PassengerCsvRow =>
 	fields.length === 8
 
-export async function loadFlight(): Promise<Flight> {
+const loadFlight = async ( ): Promise<Flight> => {
 	let passengerAssignments = await loadPassengers('src/data/passengers.csv')
 	let flight = new Flight(
 		1,
-		passengerAssignments.map((p) => p[1]),
+		passengerAssignments.map(([_, passenger]) => (passenger)),
 	)
 
 	// Add seats to the flight
-	for (let _ = 0; _ < 3; _++) {
+	for (let rowIndex = 0; rowIndex < 3; rowIndex++) {
 		flight.addRow('premium_economy_class', ROW_FOUR_SEATS)
 	}
-	for (let _ = 0; _ < 4; _++) {
+	for (let rowIndex = 0; rowIndex < 4; rowIndex++) {
 		flight.addRow('economy_class', ROW_SIX_SEATS)
 	}
-	for (let _ = 0; _ < 5; _++) {
+	for (let rowIndex = 0; rowIndex < 5; rowIndex++) {
 		flight.addRow('basic_economy_class', ROW_SIX_SEATS)
 	}
 
@@ -75,15 +75,15 @@ export async function loadFlight(): Promise<Flight> {
 /**
  * Loads passengers from a CSV file and creates a list of tuples, where each tuple
  * contains the assigned seat and the Passenger instance.
-
+ *
  * @param filename
  * @returns A list of tuples, where each tuple contains the assigned seat and the
  * Passenger
  */
-export async function loadPassengers(
+const loadPassengers = async (
 	filename: string,
-): Promise<[string | null, Passenger][]> {
-	let passengerAssignments: [string | null, Passenger][] = []
+): Promise<[string | null, Passenger][ ]> => {
+	let passengerAssignments: [string | null, Passenger][ ] = [ ]
 
 	await new Promise((resolve) => {
 		const reader = readline.createInterface({
@@ -108,7 +108,7 @@ export async function loadPassengers(
 
 			let id = parseInt(parsedLine[0])
 			let name = parsedLine[1]
-			let section = parsedLine[4].toLowerCase()
+			let section = parsedLine[4].toLowerCase( )
 			let partyId = parseInt(parsedLine[3])
 			let assignedSeat = parsedLine[6]
 			const passenger = new Passenger(id, name, section, partyId)
@@ -118,3 +118,5 @@ export async function loadPassengers(
 	})
 	return passengerAssignments
 }
+
+export {loadFlight, loadPassengers}

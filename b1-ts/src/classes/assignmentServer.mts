@@ -1,7 +1,7 @@
 import {evaluateFlightSeatAssignments} from '../utilities/evaluateAssignment.mts'
-import {Flight} from './flight.mts'
+import type {Flight} from './flight.mts'
 
-export class AssignmentServer {
+class AssignmentServer {
 	flight: Flight
 
 	constructor(flight: Flight) {
@@ -13,20 +13,20 @@ export class AssignmentServer {
 	/**
 	 * Prints a visualization of seating chart for the flight.
 	 */
-	printFlightInfo() {
-		this.flight.printVisualization()
+	printFlightInfo( ) {
+		this.flight.printVisualization( )
 	}
 
 	/**
 	 * Assigns a seat to all passengers on the flight who do not yet have a seat
 	 * assignment.
 	 */
-	assignSeats() {
-		let availableSeats = this.flight.getAvailableSeats()
-		for (let passenger of this.flight.passengers) {
+	assignSeats( ) {
+		let availableSeats = this.flight.getAvailableSeats( )
+		for (const passenger of this.flight.passengers) {
 			if (passenger.seat == null) {
 				let sectionSeats = availableSeats.filter(
-					(seat) => seat.section == passenger.section,
+					(seat) => (seat.section == passenger.section),
 				)
 
 				let seat
@@ -44,7 +44,9 @@ export class AssignmentServer {
 		}
 	}
 
-	evaluateFlightSeatAssignments() {
+	evaluateFlightSeatAssignments( ) {
 		evaluateFlightSeatAssignments(this.flight)
 	}
 }
+
+export {AssignmentServer}

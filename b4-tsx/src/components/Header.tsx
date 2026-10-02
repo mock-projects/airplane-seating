@@ -1,17 +1,16 @@
-import Dropdown from './Dropdown'
 import {viewOptions} from '../types/constants.mts'
-
-/**
- * Renders a header element.
- */
+import {Dropdown} from './Dropdown.tsx'
 
 interface HeaderProps {
 	viewId: number
 	setViewId: (viewId: number) => void
 }
 
+/**
+ * Renders a header element.
+ */
 const Header = ({viewId, setViewId}: HeaderProps) => {
-	const onResetClick = () => {
+	const onResetClick = ( ) => {
 		setViewId(0)
 	}
 
@@ -31,4 +30,4 @@ const Header = ({viewId, setViewId}: HeaderProps) => {
 	)
 }
 
-export default Header
+export {Header}

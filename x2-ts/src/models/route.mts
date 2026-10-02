@@ -1,5 +1,6 @@
-import {Location, LocationType} from './location.mts'
 import {BUS_PACE} from '../simulation/constants.mts'
+import type {Location} from './location.mts'
+import {LocationType} from './location.mts'
 
 /**
  * Represents a bus route.
@@ -10,7 +11,7 @@ class BusRoute {
 		public name: string,
 
 		// Stops on the route
-		public stops: Location[],
+		public stops: Location[ ],
 	) {
 		// Ensure that all locations are bus stops
 		for (const stop of this.stops) {
@@ -22,22 +23,22 @@ class BusRoute {
 		}
 	}
 
-	toString() {
+	toString( ) {
 		return this.name
 	}
 
 	/**
 	 * Returns the average popularity of the stops on the route.
 	 */
-	averageStopPopularity(): number {
-		const sum = this.stops.reduce((sum, stop) => sum + stop.popularity, 0)
+	averageStopPopularity( ): number {
+		const sum = this.stops.reduce((sum, stop) => (sum + stop.popularity), 0)
 		return sum / this.stops.length
 	}
 
 	/**
 	 * Returns the total distance of the route.
 	 */
-	roundTripDistance(): number {
+	roundTripDistance( ): number {
 		let totalDistance = 0
 		for (let i = 0; i < this.stops.length - 1; i++) {
 			const stop = this.stops[i]!
@@ -47,8 +48,8 @@ class BusRoute {
 		return totalDistance * 2
 	}
 
-	roundTripTime(): number {
-		return this.roundTripDistance() * BUS_PACE
+	roundTripTime( ): number {
+		return this.roundTripDistance( ) * BUS_PACE
 	}
 
 	/**
@@ -59,7 +60,7 @@ class BusRoute {
 	 */
 	getSimulatedBusCount(minCount = 5, maxCount = 13): number {
 		return Math.floor(
-			minCount + (maxCount - minCount) * (this.averageStopPopularity() / 100),
+			minCount + (maxCount - minCount) * (this.averageStopPopularity( ) / 100),
 		)
 	}
 }

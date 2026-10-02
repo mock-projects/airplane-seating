@@ -1,4 +1,4 @@
-import {Location} from './location.mts'
+import type {Location} from './location.mts'
 
 /**
  * Simulated person.
@@ -9,24 +9,24 @@ class Person {
 		public residence: Location | null = null,
 
 		// List of next destinations for the person
-		public currentJourney: Location[] = [],
-	) {}
+		public currentJourney: Location[ ] = [ ],
+	) { }
 
-	toString() {
+	toString( ) {
 		return this.name
 	}
 
 	/**
 	 * Check if the person has completed their journey.
 	 */
-	journeyComplete(): boolean {
+	journeyComplete( ): boolean {
 		return this.currentJourney.length === 0
 	}
 
 	/**
 	 * Get the next destination for the person.
 	 */
-	nextDestination(): Location {
+	nextDestination( ): Location {
 		const destination = this.currentJourney[0]
 		if (destination == null) {
 			throw new Error(`${this} does not have a next destination`)
@@ -40,8 +40,8 @@ class Person {
 	 *
 	 * Returns the location that the person arrived at.
 	 */
-	arriveAtNextDestination(): Location {
-		const destination = this.currentJourney.shift()
+	arriveAtNextDestination( ): Location {
+		const destination = this.currentJourney.shift( )
 		if (destination == null) {
 			throw new Error(`${this} does not have a next destination`)
 		}

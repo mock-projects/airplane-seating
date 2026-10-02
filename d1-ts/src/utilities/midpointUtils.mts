@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import * as readline from 'readline'
-import {MetroGraph, Station} from '../classes/metroGraph.mts'
 import {Activity} from '../classes/activity.mts'
+import {MetroGraph, Station} from '../classes/metroGraph.mts'
 import {UserRequest} from '../classes/userRequest.mts'
 
 type MetroStationCsvRow = [station: string, latitude: string, longitude: string]
@@ -34,22 +34,25 @@ type ActivityCsvRow = [
 	timeNeeded: string,
 ]
 
-const isMetroStationCsvRow = (fields: string[]): fields is MetroStationCsvRow =>
+const isMetroStationCsvRow = (fields: string[ ]): fields is MetroStationCsvRow => (
 	fields.length === 3
+)
 
-const isMetroTimetableCsvRow = (
-	fields: string[],
-): fields is MetroTimetableCsvRow => fields.length === 3
+const isMetroTimetableCsvRow = (fields: string[ ]): fields is MetroTimetableCsvRow => (
+	fields.length === 3
+)
 
-const isUserRequestCsvRow = (fields: string[]): fields is UserRequestCsvRow =>
+const isUserRequestCsvRow = (fields: string[ ]): fields is UserRequestCsvRow => (
 	fields.length === 9
+)
 
-const isActivityCsvRow = (fields: string[]): fields is ActivityCsvRow =>
+const isActivityCsvRow = (fields: string[ ]): fields is ActivityCsvRow => (
 	fields.length === 7
+)
 
 // Loads metro stations and connections from disk to create metro map.
-export async function loadMetroGraph(): Promise<MetroGraph> {
-	const graph = new MetroGraph()
+const loadMetroGraph = async ( ): Promise<MetroGraph> => {
+	const graph = new MetroGraph( )
 
 	// Load stations into metro graph
 	let reader = readline.createInterface({
@@ -113,11 +116,11 @@ export async function loadMetroGraph(): Promise<MetroGraph> {
 	return graph
 }
 
-export async function loadUserRequests(): Promise<UserRequest[]> {
+const loadUserRequests = async ( ): Promise<UserRequest[ ]> => {
 	const reader = readline.createInterface({
 		input: fs.createReadStream('src/data/user-requests.csv'),
 	})
-	const userRequests: UserRequest[] = []
+	const userRequests: UserRequest[ ] = [ ]
 	for await (const line of reader) {
 		// CSV type guard
 		const parsedLine = line.split(',')
@@ -160,11 +163,11 @@ export async function loadUserRequests(): Promise<UserRequest[]> {
 	return userRequests
 }
 
-export async function loadActivities(): Promise<Activity[]> {
+const loadActivities = async ( ): Promise<Activity[ ]> => {
 	const reader = readline.createInterface({
 		input: fs.createReadStream('src/data/activities.csv'),
 	})
-	const activities: Activity[] = []
+	const activities: Activity[ ] = [ ]
 	for await (const line of reader) {
 		// CSV type guard
 		const parsedLine = line.split(',')
@@ -201,3 +204,5 @@ export async function loadActivities(): Promise<Activity[]> {
 	}
 	return activities
 }
+
+export {loadActivities, loadMetroGraph, loadUserRequests}

@@ -1,22 +1,23 @@
-import * as readline from 'readline'
 import * as fs from 'fs'
-import {Location} from '../models/location.mts'
+import * as readline from 'readline'
+
+import type {Location} from '../models/location.mts'
 import {BusRoute} from '../models/route.mts'
 
 /**
  * Parse a CSV file of bus routes and return a list of `BusRoute` objects.
  */
 const readRoutesFromFile = async (
-	stops: Location[],
+	stops: Location[ ],
 	filename: string,
-): Promise<BusRoute[]> => {
+): Promise<BusRoute[ ]> => {
 	const reader = readline.createInterface({
 		input: fs.createReadStream(filename),
 	})
-	const routes: BusRoute[] = []
+	const routes: BusRoute[ ] = [ ]
 
 	// Convert stops to a map from name to location
-	const stopMap: Record<string, Location> = {}
+	const stopMap: Record<string, Location> = { }
 	for (const stop of stops) {
 		stopMap[stop.name] = stop
 	}
@@ -37,8 +38,8 @@ const readRoutesFromFile = async (
 		const name = data[0]
 		const stops = data[1]
 			.split(' -> ')
-			.map((stopName) => stopMap[stopName])
-			.filter((stop) => stop != null)
+			.map((stopName) => (stopMap[stopName]))
+			.filter((stop) => (stop != null))
 
 		const route = new BusRoute(name, stops)
 		routes.push(route)

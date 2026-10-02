@@ -1,27 +1,27 @@
-import {useEffect, useState} from 'react'
-import Header from './Header'
+import {Fragment, useEffect, useState} from 'react'
 import type {Flight} from '../types/flight.d.mts'
+import {fetchFlightResults} from '../utilities/fetchResults.mts'
 import {getTimeString} from '../utilities/flightUtils.mts'
-import fetchFlightResults from '../utilities/fetchResults.mts'
+import {Header} from './Header.tsx'
 
 interface FlightDashboardProps {
 	setSelectedFlight: (flight: Flight) => void
 }
 
 const FlightDashboard = ({setSelectedFlight}: FlightDashboardProps) => {
-	const [flights, setFlights] = useState<Flight[]>([])
+	const [flights, setFlights] = useState<Flight[ ]>([ ])
 	const [viewId, setViewId] = useState(0)
 
-	useEffect(() => {
-		const loadFlights = async () => {
-			const flights = await fetchFlightResults()
+	useEffect(( ) => {
+		const loadFlights = async ( ) => {
+			const flights = await fetchFlightResults( )
 			setFlights(flights)
 		}
-		loadFlights()
-	}, [])
+		void loadFlights( )
+	}, [ ])
 
 	return (
-		<>
+		<Fragment>
 			<Header
 				viewId={viewId}
 				setViewId={setViewId}
@@ -44,7 +44,7 @@ const FlightDashboard = ({setSelectedFlight}: FlightDashboardProps) => {
 							{flights.map((flight) => (
 								<tr
 									key={flight.flight_id}
-									onClick={() => setSelectedFlight(flight)}
+									onClick={( ) => (setSelectedFlight(flight))}
 								>
 									<td>{flight.flight_number}</td>
 									<td>{flight.airline}</td>
@@ -59,8 +59,8 @@ const FlightDashboard = ({setSelectedFlight}: FlightDashboardProps) => {
 					</table>
 				)}
 			</section>
-		</>
+		</Fragment>
 	)
 }
 
-export default FlightDashboard
+export {FlightDashboard}

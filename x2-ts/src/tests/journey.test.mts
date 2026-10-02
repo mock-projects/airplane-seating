@@ -1,6 +1,6 @@
-import {BusNetwork} from '../network/network.mts'
-import {BusRoute} from '../models/route.mts'
 import {Location, LocationType} from '../models/location.mts'
+import {BusRoute} from '../models/route.mts'
+import {BusNetwork} from '../network/network.mts'
 import {planJourney} from '../simulation/journey.mts'
 
 class TestJourney {
@@ -10,7 +10,7 @@ class TestJourney {
 	route: BusRoute
 	network: BusNetwork
 
-	constructor() {
+	constructor( ) {
 		// Create test stops
 		this.stop1 = new Location('Stop 1', LocationType.BUS_STOP, 0, 0, 50)
 		this.stop2 = new Location('Stop 2', LocationType.BUS_STOP, 5, 5, 50)
@@ -30,7 +30,7 @@ class TestJourney {
 			throw new Error(`${item01} and ${item02} aren't equal.`)
 	}
 
-	testSimpleJourney() {
+	testSimpleJourney( ) {
 		/** Test journey planning between two points */
 		const journey = planJourney(this.network, [1, 1], [11, 11])
 
@@ -41,7 +41,7 @@ class TestJourney {
 		this.assertEqual(journey[2], this.stop3)
 	}
 
-	testSameLocationJourney() {
+	testSameLocationJourney( ) {
 		/** Test journey when start and end are near same stop */
 		const journey = planJourney(this.network, [0, 0], [0.1, 0.1])
 

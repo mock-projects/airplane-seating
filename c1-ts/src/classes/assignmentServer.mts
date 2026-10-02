@@ -1,5 +1,5 @@
-import {Task} from './task.mts'
-import {Volunteer} from './volunteer.mts'
+import type {Task} from './task.mts'
+import type {Volunteer} from './volunteer.mts'
 
 class AssignmentServer {
 	tasks: Record<number, Task>
@@ -12,13 +12,13 @@ class AssignmentServer {
 	) {
 		this.tasks = tasks
 		this.volunteers = volunteers
-		this.assignments = new Map()
+		this.assignments = new Map( )
 	}
 
 	/**
 	 * Returns a list of volunteers who are interested in the given task.
 	 */
-	getInterestedVolunteers(task: Task): Volunteer[] {
+	getInterestedVolunteers(task: Task): Volunteer[ ] {
 		return Object.values(this.volunteers).filter((volunteer) => {
 			return volunteer.isInterested(task)
 		})
@@ -27,7 +27,7 @@ class AssignmentServer {
 	/**
 	 * Assigns a volunteer to each task based on their interests.
 	 */
-	assignTasks() {
+	assignTasks( ) {
 		for (const task of Object.values(this.tasks)) {
 			const interestedVolunteers = this.getInterestedVolunteers(task)
 			const allVolunteers = Object.values(this.volunteers)
@@ -47,7 +47,7 @@ class AssignmentServer {
 	/**
 	 * Prints assignments of volunteers to tasks.
 	 */
-	printAssignments() {
+	printAssignments( ) {
 		for (const task of Object.values(this.tasks)) {
 			const assignee = this.assignments.get(task)
 			console.log(`${task}`)
@@ -56,7 +56,7 @@ class AssignmentServer {
 			} else {
 				console.log('\tUnassigned')
 			}
-			console.log()
+			console.log( )
 		}
 	}
 }

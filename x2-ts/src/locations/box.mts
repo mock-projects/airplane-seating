@@ -17,7 +17,7 @@ class BoundingBox {
 		this.maxY = maxY
 	}
 
-	toString() {
+	toString( ) {
 		// Helper to round a number to two decimal places.
 		const round = (n: number) => {
 			return Math.round(n * 100) / 100
@@ -29,7 +29,7 @@ class BoundingBox {
 	/**
 	 * Return the area of this bounding box.
 	 */
-	area(): number {
+	area( ): number {
 		return (this.maxX - this.minX) * (this.maxY - this.minY)
 	}
 

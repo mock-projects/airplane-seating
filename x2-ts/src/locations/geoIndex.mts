@@ -1,7 +1,7 @@
-import {LocationIndexNode} from './geoNode.mts'
 import {Location, LocationType} from '../models/location.mts'
-import {PriorityQueue} from '../utilities/prioQueue.mts'
 import {pickRandom} from '../utilities/pickRandom.mts'
+import {PriorityQueue} from '../utilities/prioQueue.mts'
+import {LocationIndexNode} from './geoNode.mts'
 
 /**
  * An in-memory store for efficiently querying locations by geographic region.
@@ -15,9 +15,9 @@ class LocationIndex {
 	/**
 	 * Create a new location index with the given locations.
 	 */
-	constructor(locations: Location[]) {
-		this.root = LocationIndexNode.createRoot()
-		this.locations = {}
+	constructor(locations: Location[ ]) {
+		this.root = LocationIndexNode.createRoot( )
+		this.locations = { }
 
 		for (const location of locations) {
 			this.locations[location.name] = location
@@ -25,7 +25,7 @@ class LocationIndex {
 
 			// If the root overflows, split the root and make a new root.
 			if (roots.length === 2) {
-				this.root = LocationIndexNode.createRoot()
+				this.root = LocationIndexNode.createRoot( )
 				this.root.isLeaf = false
 				for (const root of roots) {
 					this.root.addChild(root)
@@ -42,19 +42,19 @@ class LocationIndex {
 		n: number,
 		x: number,
 		y: number,
-	): Location[] {
+	): Location[ ] {
 		// Maintain a priority queue of locations sorted by distance from target
-		const queue = new PriorityQueue<Location | LocationIndexNode>()
+		const queue = new PriorityQueue<Location | LocationIndexNode>( )
 
 		// Add the root node to the queue
 		const distance = this.root.boundingBox.distanceToPoint(x, y)
 		queue.push(distance, this.root)
 
-		const results: Location[] = []
+		const results: Location[ ] = [ ]
 
-		while (!queue.isEmpty()) {
+		while (!queue.isEmpty( )) {
 			// Pop the closest node from the queue
-			const node = queue.pop()
+			const node = queue.pop( )
 
 			// Resolve undefined nodes
 			if (node === undefined) {
@@ -107,8 +107,8 @@ class LocationIndex {
 	 */
 	findRandom(locationType: LocationType): Location {
 		// Generate random numbers between -1000 and +1000, inclusive
-		const x = Math.floor(Math.random() * 2001) - 1000
-		const y = Math.floor(Math.random() * 2001) - 1000
+		const x = Math.floor(Math.random( ) * 2001) - 1000
+		const y = Math.floor(Math.random( ) * 2001) - 1000
 		const locations = this.findNearestN(locationType, 10, x, y)
 
 		// Randomly sample from locations based using popularity as a weight

@@ -1,9 +1,9 @@
-export type SeatType = (typeof SEAT_TYPES)[number]
-export type SeatSection = (typeof SEAT_SECTIONS)[number]
+type SeatType = (typeof SEAT_TYPES)[number]
+type SeatSection = (typeof SEAT_SECTIONS)[number]
 
-export const SEAT_TYPES = ['aisle', 'middle', 'window'] as const
+const SEAT_TYPES = ['aisle', 'middle', 'window'] as const
 
-export const SEAT_SECTIONS = [
+const SEAT_SECTIONS = [
 	'premium_economy_class',
 	'economy_class',
 	'basic_economy_class',
@@ -12,14 +12,14 @@ export const SEAT_SECTIONS = [
 /**
  * Checks whether a value is a valid seat type.
  */
-export const isSeatType = (value: string): value is SeatType => {
+const isSeatType = (value: string): value is SeatType => {
 	return value === 'aisle' || value === 'middle' || value === 'window'
 }
 
 /**
  * Checks whether a value is a valid seat section.
  */
-export const isSeatSection = (value: string): value is SeatSection => {
+const isSeatSection = (value: string): value is SeatSection => {
 	return (
 		value === 'premium_economy_class' ||
 		value === 'economy_class' ||
@@ -30,7 +30,7 @@ export const isSeatSection = (value: string): value is SeatSection => {
 /**
  * Returns the seat type or throws if it is invalid.
  */
-export const confirmSeatType = (seatType: string): SeatType => {
+const confirmSeatType = (seatType: string): SeatType => {
 	if (isSeatType(seatType)) return seatType
 	else throw new Error('Invalid seat type.')
 }
@@ -38,12 +38,12 @@ export const confirmSeatType = (seatType: string): SeatType => {
 /**
  * Returns the seat section or throws if it is invalid.
  */
-export const confirmSeatSection = (seatSection: string): SeatSection => {
+const confirmSeatSection = (seatSection: string): SeatSection => {
 	if (isSeatSection(seatSection)) return seatSection
 	else throw new Error('Invalid seat section.')
 }
 
-export class Seat {
+class Seat {
 	rowNumber: number
 	position: string
 	section: SeatSection
@@ -69,7 +69,18 @@ export class Seat {
 	 *
 	 * @returns The seat identifier
 	 */
-	identifier(): string {
+	identifier( ): string {
 		return `${this.rowNumber}${this.position}`
 	}
+}
+
+export type {SeatSection, SeatType}
+export {
+	SEAT_SECTIONS,
+	SEAT_TYPES,
+	Seat,
+	confirmSeatSection,
+	confirmSeatType,
+	isSeatSection,
+	isSeatType,
 }

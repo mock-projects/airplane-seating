@@ -13,13 +13,13 @@ const timeToString = (time: number) => {
  * Convert 24hr time string to number of minutes since midnight.
  */
 const stringToTime = (time: Time) => {
-	const [hours, minutes] = time.split(':').map((n) => parseInt(n)) as [
+	const [hours, minutes] = time.split(':').map((n) => (parseInt(n))) as [
 		number,
 		number,
 	]
 	return hours * 60 + minutes
 }
 
-export {timeToString, stringToTime}
+export {stringToTime, timeToString}
 
 export type {Time}

@@ -1,5 +1,5 @@
-import {Location} from '../models/location.mts'
-import {BusRoute} from '../models/route.mts'
+import type {Location} from '../models/location.mts'
+import type {BusRoute} from '../models/route.mts'
 
 /**
  * An in-memory representation of the city's bus routes.
@@ -12,12 +12,12 @@ class BusNetwork {
 	routes: Record<string, BusRoute>
 
 	// Mapping from stop name to all possible (route name, nextStop name) pairs
-	connections: Record<string, [string, string][]>
+	connections: Record<string, [string, string][ ]>
 
-	constructor(routes: BusRoute[]) {
-		this.stops = {}
-		this.routes = {}
-		this.connections = {}
+	constructor(routes: BusRoute[ ]) {
+		this.stops = { }
+		this.routes = { }
+		this.connections = { }
 
 		for (const route of routes) {
 			for (let i = 0; i < route.stops.length - 1; i++) {
@@ -37,11 +37,11 @@ class BusNetwork {
 				}
 
 				// Add forward connection
-				this.connections[stop.name] ??= []
+				this.connections[stop.name] ??= [ ]
 				this.connections[stop.name]!.push([route.name, nextStop.name])
 
 				// Add reverse connection
-				this.connections[nextStop.name] ??= []
+				this.connections[nextStop.name] ??= [ ]
 				this.connections[nextStop.name]!.push([route.name, stop.name])
 			}
 		}

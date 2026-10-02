@@ -1,22 +1,22 @@
-import {Ping} from './ping.mts'
+import type {Ping} from './ping.mts'
 
 /**
  * A named vehicle with a sequence of pings.
  */
-export class Vehicle {
+class Vehicle {
 	name: string
-	pings: Ping[]
+	pings: Ping[ ]
 
 	constructor(name: string) {
 		this.name = name
-		this.pings = []
+		this.pings = [ ]
 	}
 
 	/**
 	 * Gets the name of the vehicle.
 	 * @return Name
 	 */
-	getName(): string {
+	getName( ): string {
 		return this.name
 	}
 
@@ -24,7 +24,7 @@ export class Vehicle {
 	 * Gets the pings for the vehicle, in chronological order (earliest first).
 	 * @return Pings
 	 */
-	getPings(): Ping[] {
+	getPings( ): Ping[ ] {
 		return this.pings
 	}
 
@@ -33,7 +33,7 @@ export class Vehicle {
 	 * @param pings - Array of pings
 	 * @return Distance covered
 	 */
-	static getTotalDistance(pings: Ping[]): number {
+	static getTotalDistance(pings: Ping[ ]): number {
 		// TODO: implement
 		return 0
 	}
@@ -42,7 +42,7 @@ export class Vehicle {
 	 * Determines the total distance traveled by the vehicle.
 	 * @return Total distance traveled
 	 */
-	getTotalDistance(): number {
+	getTotalDistance( ): number {
 		return Vehicle.getTotalDistance(this.pings)
 	}
 
@@ -50,8 +50,10 @@ export class Vehicle {
 	 * Determines the average speed of the vehicle.
 	 * @return Average speed
 	 */
-	getAverageSpeed(): number {
+	getAverageSpeed( ): number {
 		// TODO: implement
 		return 0
 	}
 }
+
+export {Vehicle}

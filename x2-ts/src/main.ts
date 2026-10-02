@@ -1,14 +1,12 @@
-import * as path from "path"
-
 import {LocationIndex} from "./locations/geoindex"
 import {readLocationsFromFile} from "./locations/util"
 import {BusNetwork} from "./network/network"
 import {readRoutesFromFile} from "./network/util"
 import {Simulation} from "./simulation/simulation"
 
-const LOCATIONS_FILENAME = path.join(__dirname, "data", "locations.csv")
-const BUS_STOPS_FILENAME = path.join(__dirname, "data", "bus_stops.csv")
-const BUS_ROUTES_FILENAME = path.join(__dirname, "data", "bus_routes.csv")
+const LOCATIONS_FILENAME = "src/data/locations.csv"
+const BUS_STOPS_FILENAME = "src/data/bus_stops.csv"
+const BUS_ROUTES_FILENAME = "src/data/bus_routes.csv"
 
 const main = async () => {
   const locations = await readLocationsFromFile(LOCATIONS_FILENAME)

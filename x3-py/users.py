@@ -15,6 +15,9 @@ def manage_user(catalog: CatalogData):
         User.is_query_match,
     )
 
+    if user is None:
+        raise Exception("User not found.")
+
     # User manageemnt loop
     while True:
         print_subheadline(f"Manage User: {user}")
@@ -85,6 +88,10 @@ def checkout_book(user: User, catalog: CatalogData):
         catalog.books.read_all(),
         Book.is_query_match,
     )
+
+    if book is None:
+        raise Exception("Book not found.")
+
     print(f"Book selected: {book}")
 
     if not prompt_for_confirmation("Confirm checkout?"):
@@ -132,12 +139,18 @@ def return_book(user: User, catalog: CatalogData):
         ],
     )
 
+    if checkout is None:
+        raise Exception("Checkout not found.")
+
+
     book = catalog.get_book_by_isbn(checkout.isbn)
     print(f"Book selected: {book}")
     if not prompt_for_confirmation("Confirm return?"):
         return
 
     catalog.return_book(checkout)
+    if checkout.returned_date is None:
+        raise Exception("Book wasn't returned.")
 
     # TODO
     # This conditional block needs to be audited.

@@ -4,7 +4,7 @@ Utility functions used by the application.
 
 import datetime
 
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from typing import Optional, TypeVar
 
 
@@ -31,9 +31,7 @@ def print_subheadline(content: str):
     print()
 
 
-def string_to_date(date_string: str) -> Optional[datetime.date]:
-    if not date_string:
-        return None
+def string_to_date(date_string: str) -> datetime.date:
     year, month, day = date_string.split("-")
     return datetime.date(int(year), int(month), int(day))
 
@@ -43,7 +41,7 @@ def prompt_for_confirmation(prompt: str) -> bool:
     return response == "y"
 
 
-def prompt_for_choice(prompt: str, options: list[tuple[T, str]]) -> Optional[T]:
+def prompt_for_choice(prompt: str, options: Sequence[tuple[T, str]]) -> Optional[T]:
     print(prompt)
     for i, (_, title) in enumerate(options):
         print(f"({i + 1}) {title}")

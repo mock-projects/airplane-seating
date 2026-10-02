@@ -82,16 +82,17 @@ class Data(Generic[T]):
         Update an object in the data file.
         """
         objects = self.read_all()
+        object_id = getattr(object, self.id)
         index = next(
             (
                 i
                 for i, obj in enumerate(objects)
-                if getattr(obj, self.id) == getattr(object, self.id)
+                if getattr(obj, self.id) == object_id
             ),
             None,
         )
         if index is not None:
             objects[index] = object
         else:
-            raise ValueError(f"Object with ID {object.id} not found in {self.filename}")
+            raise ValueError(f"Object with ID {object_id} not found in {self.filename}")
         self.write_all(objects)

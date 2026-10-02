@@ -10,6 +10,10 @@ def search_catalog(catalog: CatalogData):
         catalog.books.read_all(),
         Book.is_query_match,
     )
+
+    if book is None:
+        raise Exception("Book not found.")
+
     print()
     print(f"Title: {book.title}")
     print(f"Author: {book.author}")

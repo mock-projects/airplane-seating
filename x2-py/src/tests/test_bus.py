@@ -1,8 +1,8 @@
 import unittest
-from models.bus import Bus
-from models.route import BusRoute
-from models.location import Location, LocationType
 
+from models.bus import Bus
+from models.location import Location, LocationType
+from models.route import BusRoute
 
 class TestBus(unittest.TestCase):
 	def setUp(self):
@@ -18,7 +18,7 @@ class TestBus(unittest.TestCase):
 		self.bus = Bus('Test Bus', self.route, start_delay=0)
 
 	def test_bus_movement(self):
-		"""Test bus moving forward and changing directions"""
+		'''Test bus moving forward and changing directions'''
 		# Test initial position
 		self.assertEqual(self.bus.current_stop(), self.stop1)
 		self.assertEqual(self.bus.next_stop(), self.stop2)

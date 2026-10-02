@@ -1,5 +1,5 @@
 class Activity:
-	"""Represents a possible activity that might be suggested to users."""
+	'''Represents a possible activity that might be suggested to users.'''
 
 	def __init__(
 		self,

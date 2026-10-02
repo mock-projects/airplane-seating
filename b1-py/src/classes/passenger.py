@@ -1,16 +1,13 @@
-from typing import Optional
-
 from classes.seat import Seat, SeatSection
 
-
-class Passenger(object):
+class Passenger:
 	def __init__(
 		self,
 		id: int,
 		name: str,
 		section: SeatSection,
 		party_id: int,
-		seat: Optional[Seat] = None,
+		seat: Seat | None = None,
 	):
 		self.id = id
 		self.name = name

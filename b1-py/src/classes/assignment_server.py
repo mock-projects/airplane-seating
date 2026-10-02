@@ -1,26 +1,23 @@
-from utilities.evaluate_assignment import evaluate_flight_seat_assignments
 from classes.flight import Flight
+from utilities.evaluate_assignment import evaluate_flight_seat_assignments
 
-
-class AssignmentServer(object):
+class AssignmentServer:
 	def __init__(self, flight: Flight):
-		"""
+		'''
 		Initializes a new flight assignment server with a flight that it is
 		responsible for.
-		"""
+		'''
 		self.flight = flight
 
 	def print_flight_info(self):
-		"""
-		Prints visualization of seating chart for the flight.
-		"""
+		'''Prints visualization of seating chart for the flight.'''
 		self.flight.print_visualization()
 
 	def assign_seats(self):
-		"""
+		'''
 		Assigns a seat to all passengers on the flight who do not yet have a
 		seat assignment.
-		"""
+		'''
 
 		available_seats = self.flight.get_available_seats()
 

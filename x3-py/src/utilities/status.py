@@ -1,7 +1,6 @@
 from classes.catalog import CatalogData
 from utilities.util import print_subheadline, prompt_for_choice
 
-
 def show_status_page(catalog: CatalogData):
 	print_subheadline('Status Pages')
 	options = [
@@ -20,9 +19,8 @@ def show_status_page(catalog: CatalogData):
 	elif choice == 'analytics':
 		print_book_analytics(catalog)
 
-
 def print_checkouts(catalog: CatalogData):
-	"""Prints current status of all guests with currently checked out books."""
+	'''Prints current status of all guests with currently checked out books.'''
 	print_subheadline('Current Checkouts')
 
 	# Get all users
@@ -40,25 +38,22 @@ def print_checkouts(catalog: CatalogData):
 				)
 			print()
 
-
 def print_available_books(catalog: CatalogData):
-	"""Prints all books that are currently available to be checked out."""
+	'''Prints all books that are currently available to be checked out.'''
 	print_subheadline('Available Books')
 
 	for book in catalog.books.read_all():
 		if catalog.is_book_available(book):
 			print(book)
 
-
 def print_all_users(catalog: CatalogData):
-	"""Prints all users in the database."""
+	'''Prints all users in the database.'''
 	print_subheadline('All Users')
 	for user in catalog.users.read_all():
 		print(user)
 
-
 def print_book_analytics(catalog):
-	"""Get analytics for each book on checkout count and how long people hold onto the book for"""
+	'''Get analytics for each book on checkout count and how long people hold onto the book for'''
 	# TODO
 	# This function needs to be audited.
 	# Provide feedback in comments, and determine if there are any bugs.

@@ -1,6 +1,3 @@
-from typing import Optional
-
-
 class Station:
 	def __init__(self, name: str, coordinates: tuple[float, float]):
 		self.name = name
@@ -14,7 +11,6 @@ class Station:
 	def __repr__(self):
 		return f'Station({self.name})'
 
-
 class MetroGraph:
 	# Mapping from station name -> station name -> travel time
 	graph: dict[str, dict[str, float]]
@@ -27,13 +23,13 @@ class MetroGraph:
 		self.stations = {}
 
 	def add_station(self, station: Station):
-		"""Add station to the graph."""
+		'''Add station to the graph.'''
 		if station.name not in self.stations:
 			self.stations[station.name] = station
 			self.graph[station.name] = {}
 
 	def add_connection(self, start_station: str, end_station: str, time: float):
-		"""Add connection time between two station names."""
+		'''Add connection time between two station names.'''
 		if start_station in self.graph and end_station in self.graph:
 			# Assume bidirectional connections
 			self.graph[start_station][end_station] = time
@@ -43,14 +39,14 @@ class MetroGraph:
 
 	def shortest_path(
 		self, start_station: str, end_station: str
-	) -> tuple[float, Optional[list[str]]]:
-		"""Returns the distance and shortest path between stations."""
+	) -> tuple[float, list[str] | None]:
+		'''Returns the distance and shortest path between stations.'''
 		# Initialize distances dictionary with infinity for all stations except start_station
 		distances: dict[str, float] = {station: float('inf') for station in self.graph}
 		distances[start_station] = 0
 
 		# Initialize dictionary to store previous station in shortest path
-		previous: dict[str, Optional[str]] = {station: None for station in self.graph}
+		previous: dict[str, str | None] = {station: None for station in self.graph}
 
 		# Priority queue implemented as a list to store tuples of (distance, station)
 		priority_queue: list[tuple[float, str]] = [(0, start_station)]

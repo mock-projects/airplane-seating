@@ -4,7 +4,6 @@ from classes.flight import Flight
 from classes.passenger import Passenger
 from classes.seat import SeatSection, SeatType
 
-
 ROW_FOUR_SEATS = [
 	('A', SeatType.WINDOW),
 	('B', SeatType.AISLE),
@@ -20,7 +19,6 @@ ROW_SIX_SEATS = [
 	('E', SeatType.MIDDLE),
 	('F', SeatType.WINDOW),
 ]
-
 
 def load_flight() -> Flight:
 	passenger_assignments = load_passengers('src/data/passengers.csv')
@@ -49,12 +47,11 @@ def load_flight() -> Flight:
 		flight.assign_seat(passenger, seat)
 	return flight
 
-
 def load_passengers(filename: str) -> list[tuple[str | None, Passenger]]:
-	"""
+	'''
 	Loads passengers from a CSV file and returns a list of tuples, where each
 	tuple contains the assigned seat and the Passenger instance.
-	"""
+	'''
 	passenger_assignments: list[tuple[str | None, Passenger]] = []
 	with open(filename) as passengers_file:
 		reader = csv.DictReader(passengers_file)

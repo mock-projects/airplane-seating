@@ -1,15 +1,14 @@
 from models.location import Location
 from network.network import BusNetwork
 
-
 def plan_journey(
 	network: BusNetwork, start: tuple[float, float], end: tuple[float, float]
 ) -> list[Location]:
-	"""
+	'''
 	Plans a person's journey between a start and end location.
 
 	Returns a list of stations the person will pass through.
-	"""
+	'''
 	start_stop = network.get_nearest_stop(*start)
 	end_stop = network.get_nearest_stop(*end)
 

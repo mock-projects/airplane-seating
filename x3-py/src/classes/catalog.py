@@ -24,11 +24,8 @@ CHECKOUTS_FIELDNAMES = [
 	'returned_date',
 ]
 
-
 class CatalogData:
-	"""
-	Stores all data for the library catalog.
-	"""
+	'''Stores all data for the library catalog.'''
 
 	books: Data[Book]
 	users: Data[User]
@@ -113,7 +110,6 @@ class CatalogData:
 
 		user.fines_due = fine
 		self.users.update_one(user)
-
 
 class BookUnavailableException(Exception):
 	pass

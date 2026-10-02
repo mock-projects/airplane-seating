@@ -4,11 +4,8 @@ from dataclasses import dataclass
 from locations.box import BoundingBox
 from models.location import Location
 
-
 class LocationIndexNode:
-	"""
-	A node in a spatial index for locations.
-	"""
+	'''A node in a spatial index for locations.'''
 
 	MAX_CHILDREN = 10
 
@@ -44,9 +41,7 @@ class LocationIndexNode:
 		return f'Node[{len(self.children)} children, {self.bounding_box}]'
 
 	def create_child(self) -> 'LocationIndexNode':
-		"""
-		Create a new leaf node that holds a list of locations.
-		"""
+		'''Create a new leaf node that holds a list of locations.'''
 		return LocationIndexNode(
 			is_leaf=True,
 			parent=self,
@@ -57,9 +52,7 @@ class LocationIndexNode:
 
 	@classmethod
 	def create_root(cls) -> 'LocationIndexNode':
-		"""
-		Create a new root node.
-		"""
+		'''Create a new root node.'''
 		return LocationIndexNode(
 			is_leaf=True,
 			parent=None,
@@ -69,9 +62,7 @@ class LocationIndexNode:
 		)
 
 	def bounding_box_of_child(self, child_index: int) -> BoundingBox:
-		"""
-		Return the bounding box of the specified child.
-		"""
+		'''Return the bounding box of the specified child.'''
 
 		# For a leaf, the bounding box of the child is just a box containing a
 		# single location.
@@ -83,19 +74,17 @@ class LocationIndexNode:
 		return self.children[child_index].bounding_box
 
 	def get_child(self, child_index: int) -> 'LocationIndexNode | Location':
-		"""
-		Return the child at the specified index.
-		"""
+		'''Return the child at the specified index.'''
 		if self.is_leaf:
 			return self.locations[child_index]
 		return self.children[child_index]
 
 	def add_child(self, child: 'LocationIndexNode | Location'):
-		"""
+		'''
 		Add a child to the node.
 		Since leaf nodes have no child nodes, the "children" of a leaf node are just
 		location objects. The children of internal nodes are other nodes.
-		"""
+		'''
 		if self.is_leaf and isinstance(child, Location):
 			self.locations.append(child)
 			self.bounding_box = self.bounding_box.extended_with_point(child.x, child.y)
@@ -106,12 +95,12 @@ class LocationIndexNode:
 			raise ValueError('Invalid child type')
 
 	def insert_location(self, location: Location) -> list['LocationIndexNode']:
-		"""
+		'''
 		Inserts a location into a tree rooted at the current node,
 		returning the new root(s) if changed.
 
 		We might return multiple nodes if the initial node is split.
-		"""
+		'''
 
 		# If this is a leaf node, add the location to the leaf's list of locations.
 		if self.is_leaf:
@@ -166,9 +155,7 @@ class LocationIndexNode:
 		return [self]
 
 	def split(self) -> list['LocationIndexNode']:
-		"""
-		Split a node into two nodes.
-		"""
+		'''Split a node into two nodes.'''
 		# Find two children to start the split.
 		# We choose the two children that would require the most enlargement
 		# to keep together.

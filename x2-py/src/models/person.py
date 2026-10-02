@@ -2,12 +2,9 @@ from dataclasses import dataclass, field
 
 from models.location import Location
 
-
 @dataclass
 class Person:
-	"""
-	Simulated person.
-	"""
+	'''Simulated person.'''
 
 	name: str
 
@@ -20,25 +17,21 @@ class Person:
 		return self.name
 
 	def journey_complete(self) -> bool:
-		"""
-		Check if the person has completed their journey.
-		"""
+		'''Check if the person has completed their journey.'''
 		return not self.current_journey
 
 	def next_destination(self) -> Location:
-		"""
-		Get the next destination for the person.
-		"""
+		'''Get the next destination for the person.'''
 		try:
 			return self.current_journey[0]
 		except IndexError:
 			raise Exception(f'{self} does not have a next destination')
 
 	def arrive_at_next_destination(self) -> Location:
-		"""
+		'''
 		Arrive at the next destination in the person's journey.
 		Update the journey to be the remaining destinations.
 
 		Returns the location that the person arrived at.
-		"""
+		'''
 		return self.current_journey.pop(0)

@@ -1,6 +1,5 @@
 from classes.task import Task
 
-
 class Volunteer:
 	id: int
 	name: str

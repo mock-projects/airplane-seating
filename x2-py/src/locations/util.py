@@ -3,11 +3,8 @@ import random
 
 from models.location import Location, LocationType
 
-
 def read_locations_from_file(filename: str) -> list[Location]:
-	"""
-	Parse a CSV file of locations and return a list of `Location` objects.
-	"""
+	'''Parse a CSV file of locations and return a list of `Location` objects.'''
 	location_file = open(filename)
 	reader = csv.DictReader(location_file)
 	locations = []
@@ -28,11 +25,8 @@ def read_locations_from_file(filename: str) -> list[Location]:
 	location_file.close()
 	return locations
 
-
 def pick_random_destination_type() -> LocationType:
-	"""
-	Picks a random non-residence location type.
-	"""
+	'''Picks a random non-residence location type.'''
 	distribution = {
 		LocationType.COMMERCIAL: 0.3,
 		LocationType.EDUCATION: 0.3,

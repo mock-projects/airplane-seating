@@ -25,7 +25,6 @@ from simulation.journey import plan_journey
 from simulation.state import SimulationState
 from simulation.time import string_to_time, time_to_string
 
-
 class Simulation:
 	# Mapping from times to actions that need to happen at a particular time
 	schedule: dict[int, list[Action]]
@@ -42,9 +41,7 @@ class Simulation:
 		bus_network: BusNetwork,
 		person_count: int = 2000,
 	):
-		"""
-		Initialize a new simulation with a given number of people.
-		"""
+		'''Initialize a new simulation with a given number of people.'''
 		# Initialize simulation state
 		self.schedule = dict()
 		self.state = SimulationState(
@@ -64,9 +61,7 @@ class Simulation:
 		]
 
 	def schedule_action(self, time: int, action: Action):
-		"""
-		Schedule an action to occur at a particular time.
-		"""
+		'''Schedule an action to occur at a particular time.'''
 		self.schedule.setdefault(time, []).append(action)
 
 	def simulate_day(self, start_time: str = '04:00', end_time: str = '23:00'):

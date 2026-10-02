@@ -1,11 +1,10 @@
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import ForwardRef, TYPE_CHECKING
+from typing import TYPE_CHECKING, ForwardRef
 
 if TYPE_CHECKING:
 	from models.bus import Bus
 	from models.person import Person
-
 
 class LocationType(Enum):
 	RESIDENCE = 'RESIDENCE'
@@ -17,12 +16,9 @@ class LocationType(Enum):
 	OTHER = 'OTHER'
 	BUS_STOP = 'BUS_STOP'
 
-
 @dataclass
 class Location:
-	"""
-	A location of interest.
-	"""
+	'''A location of interest.'''
 
 	# Name and type of the location
 	name: str

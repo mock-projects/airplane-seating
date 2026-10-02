@@ -7,7 +7,6 @@ from utilities.util import (
 	search_for_choice,
 )
 
-
 def manage_user(catalog: CatalogData):
 	user = search_for_choice(
 		'Search for user by name, email, or ID',
@@ -43,7 +42,6 @@ def manage_user(catalog: CatalogData):
 		elif choice == 'exit':
 			return
 
-
 def view_user_details(user: User, catalog: CatalogData):
 	print(f'User details for {user.first_name} {user.last_name}:')
 	print(f'ID: {user.id}')
@@ -51,7 +49,6 @@ def view_user_details(user: User, catalog: CatalogData):
 	checkouts = catalog.get_checkouts_for_user(user)
 	print(f'Total checkouts (all time): {len(checkouts)}')
 	print(f'Total fines due: ${user.fines_due:.2f}')
-
 
 def print_checkout_history(user: User, catalog: CatalogData):
 	checkouts = catalog.get_checkouts_for_user(user)
@@ -80,7 +77,6 @@ def print_checkout_history(user: User, catalog: CatalogData):
 			else f'due by {checkout.due_date}'
 		)
 		print(f'Checked out {book} on {checkout.checkout_date}, {return_string}')
-
 
 def checkout_book(user: User, catalog: CatalogData):
 	book = search_for_choice(
@@ -115,7 +111,6 @@ def checkout_book(user: User, catalog: CatalogData):
 		return
 
 	print('Checkout complete.')
-
 
 def return_book(user: User, catalog: CatalogData):
 	checkouts = catalog.get_checkouts_for_user(user)
@@ -167,7 +162,6 @@ def return_book(user: User, catalog: CatalogData):
 		print(f'Book returned successfully. Fine of ${fine:.2f} applied.')
 
 	print('Book returned successfully.')
-
 
 def pay_fines(user: User, catalog: CatalogData):
 	# TODO

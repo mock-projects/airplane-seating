@@ -1,11 +1,10 @@
 from classes.eta_calculator import ETACalculator
 from classes.suggestion import suggest_midpoint_activity
 from utilities.midpoint_utils import (
+	load_activities,
 	load_metro_graph,
 	load_user_requests,
-	load_activities,
 )
-
 
 class Runner:
 	def run(self):
@@ -28,7 +27,6 @@ class Runner:
 				print(f'Suggested activity for user: {request.user_id}')
 				suggestion.print_details()
 			print()
-
 
 if __name__ == '__main__':
 	Runner().run()

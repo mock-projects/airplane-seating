@@ -1,10 +1,9 @@
-from math import radians, sin, cos, sqrt, atan2
+from math import atan2, cos, radians, sin, sqrt
 
 from classes.metro_graph import MetroGraph
 
-
 class ETACalculator:
-	"""
+	'''
 	Simple estimator for ETA between two locations based on travel by metro.
 
 	Eventually, the goal for this project is to switch to using an external API
@@ -13,7 +12,7 @@ class ETACalculator:
 
 	Therefore, where possible, we'd like to aim to minimize calls to `calculate_eta`
 	to minimize future API costs.
-	"""
+	'''
 
 	def __init__(self, metro_graph: MetroGraph):
 		self.metro_graph = metro_graph
@@ -22,7 +21,7 @@ class ETACalculator:
 	def haversine(
 		location1: tuple[float, float], location2: tuple[float, float]
 	) -> float:
-		"""Computes distance between two latitude/logitude coordinates in kilometers."""
+		'''Computes distance between two latitude/logitude coordinates in kilometers.'''
 		lat1, lon1, lat2, lon2 = map(
 			radians, [location1[0], location1[1], location2[0], location2[1]]
 		)
@@ -30,14 +29,14 @@ class ETACalculator:
 		dlat = lat2 - lat1
 		a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
 		c = 2 * atan2(sqrt(a), sqrt(1 - a))
-		R = 6371.0
-		distance = R * c
+		earth_radius_km = 6371.0
+		distance = earth_radius_km * c
 		return distance
 
 	def nearest_station(
 		self, coordinates: tuple[float, float]
 	) -> tuple[str | None, float]:
-		"""Returns the station name and distance to the nearest metro station."""
+		'''Returns the station name and distance to the nearest metro station.'''
 		station_name = None
 		min_distance = float('inf')
 
@@ -53,7 +52,10 @@ class ETACalculator:
 	def calculate_eta(
 		self, location1: tuple[float, float], location2: tuple[float, float]
 	) -> float:
-		"""Computes travel time between two locations, either by walking or via metro if it's faster."""
+		'''
+		Computes travel time between two locations, either by walking or via metro
+		if it's faster.
+		'''
 		nearest_station1, additional_distance1 = self.nearest_station(location1)
 		nearest_station2, additional_distance2 = self.nearest_station(location2)
 
@@ -75,6 +77,5 @@ class ETACalculator:
 				if total_time_metro < total_time_walking
 				else total_time_walking
 			)
-		else:
-			# No metro route found, just return the walking time
-			return total_time_walking
+		# No metro route found, just return the walking time
+		return total_time_walking

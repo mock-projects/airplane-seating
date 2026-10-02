@@ -3,7 +3,6 @@ from typing import Optional
 
 from utilities.util import string_to_date
 
-
 class Book:
 	isbn: str
 	title: str
@@ -41,7 +40,6 @@ class Book:
 		author = self.author.replace(' ', '').lower()
 		query = query.replace(' ', '').lower()
 		return query in title or query in author or query in self.isbn
-
 
 class User:
 	id: int
@@ -86,7 +84,6 @@ class User:
 		email = self.email.replace(' ', '').lower()
 		query = query.replace(' ', '').lower()
 		return query in name or query in email or query == str(self.id)
-
 
 class Checkout:
 	id: int

@@ -5,9 +5,8 @@ from classes.activity import Activity
 from classes.metro_graph import MetroGraph, Station
 from classes.user_request import UserRequest
 
-
 def load_metro_graph() -> MetroGraph:
-	"""Loads metro stations and connections from disk to create metro map."""
+	'''Loads metro stations and connections from disk to create metro map.'''
 	graph = MetroGraph()
 
 	# Load stations into metro graph
@@ -35,7 +34,6 @@ def load_metro_graph() -> MetroGraph:
 
 	return graph
 
-
 def load_user_requests() -> list[UserRequest]:
 	user_requests = []
 	with open(os.path.join('src', 'data', 'user-requests.csv')) as csvfile:
@@ -59,7 +57,6 @@ def load_user_requests() -> list[UserRequest]:
 				)
 			)
 	return user_requests
-
 
 def load_activities() -> list[Activity]:
 	activities = []

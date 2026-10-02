@@ -3,7 +3,6 @@ import csv
 from classes.task import Task
 from classes.volunteer import Volunteer
 
-
 def load_tasks(filename: str) -> dict[int, Task]:
 	tasks = {}
 	with open(filename) as tasks_file:
@@ -16,7 +15,6 @@ def load_tasks(filename: str) -> dict[int, Task]:
 				description=row['description'],
 			)
 	return tasks
-
 
 def load_volunteers(filename: str, tasks: dict[int, Task]) -> dict[int, Volunteer]:
 	volunteers = {}

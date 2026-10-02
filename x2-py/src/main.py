@@ -13,7 +13,6 @@ LOCATIONS_FILENAME = os.path.join(os.path.dirname(__file__), 'data', 'locations.
 BUS_STOPS_FILENAME = os.path.join(os.path.dirname(__file__), 'data', 'bus-stops.csv')
 BUS_ROUTES_FILENAME = os.path.join(os.path.dirname(__file__), 'data', 'bus-routes.csv')
 
-
 def main():
 	locations = read_locations_from_file(LOCATIONS_FILENAME)
 	print(f'Loaded {len(locations)} locations.')
@@ -33,7 +32,6 @@ def main():
 	simulation = Simulation(index, network)
 	simulation.simulate_day()
 	simulation.print_results()
-
 
 if __name__ == '__main__':
 	main()

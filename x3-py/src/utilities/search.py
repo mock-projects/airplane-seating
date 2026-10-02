@@ -2,7 +2,6 @@ from classes.catalog import CatalogData
 from classes.models import Book
 from utilities.util import print_subheadline, search_for_choice
 
-
 def search_catalog(catalog: CatalogData):
 	print_subheadline('Search library catalog')
 	book = search_for_choice(

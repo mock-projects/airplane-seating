@@ -3,11 +3,8 @@ import csv
 from models.location import Location
 from models.route import BusRoute
 
-
 def read_routes_from_file(stops: list[Location], filename: str) -> list[BusRoute]:
-	"""
-	Parse a CSV file of bus routes and return a list of `BusRoute` objects.
-	"""
+	'''Parse a CSV file of bus routes and return a list of `BusRoute` objects.'''
 	# Convert stops to a map from name to location
 	stop_map = {stop.name: stop for stop in stops}
 

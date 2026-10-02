@@ -1,6 +1,6 @@
 import unittest
-from models.location import Location, LocationType
 
+from models.location import Location, LocationType
 
 class TestLocation(unittest.TestCase):
 	def setUp(self):
@@ -13,12 +13,12 @@ class TestLocation(unittest.TestCase):
 		)
 
 	def test_distance_to_point(self):
-		"""Test distance calculation to a point"""
+		'''Test distance calculation to a point'''
 		distance = self.location.distance_to_point(3.0, 4.0)
 		self.assertAlmostEqual(distance, 5.0)
 
 	def test_distance_to_location(self):
-		"""Test distance calculation to another location"""
+		'''Test distance calculation to another location'''
 		other_location = Location(
 			name='Other Location',
 			location_type=LocationType.BUS_STOP,

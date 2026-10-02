@@ -4,7 +4,6 @@ from utilities.status import show_status_page
 from utilities.users import manage_user
 from utilities.util import print_headline, prompt_for_choice
 
-
 def main():
 	# Load all data about books and users
 	catalog = CatalogData()
@@ -35,7 +34,6 @@ def main():
 
 		elif choice == 'status':
 			show_status_page(catalog)
-
 
 if __name__ == '__main__':
 	main()

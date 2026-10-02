@@ -3,11 +3,8 @@ import math
 from models.location import Location
 from models.route import BusRoute
 
-
 class BusNetwork:
-	"""
-	An in-memory representation of the city's bus routes.
-	"""
+	'''An in-memory representation of the city's bus routes.'''
 
 	# Mapping from stop name to stop
 	stops: dict[str, Location]
@@ -48,9 +45,7 @@ class BusNetwork:
 				)
 
 	def get_nearest_stop(self, x: float, y: float) -> Location:
-		"""
-		Returns the nearest stop to the given coordinates.
-		"""
+		'''Returns the nearest stop to the given coordinates.'''
 		nearest_stop = None
 		nearest_distance = math.inf
 		for stop in self.stops.values():

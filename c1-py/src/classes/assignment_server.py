@@ -1,7 +1,6 @@
 from classes.task import Task
 from classes.volunteer import Volunteer
 
-
 class AssignmentServer:
 	tasks: dict[int, Task]
 	volunteers: dict[int, Volunteer]

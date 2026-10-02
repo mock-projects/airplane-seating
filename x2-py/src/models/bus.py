@@ -6,7 +6,6 @@ from models.person import Person
 from models.route import BusRoute
 from simulation.constants import BUS_PACE
 
-
 @dataclass
 class Bus:
 	name: str

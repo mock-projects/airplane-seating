@@ -1,6 +1,5 @@
 from simulation.state import SimulationState
 
-
 class SimulationMetric:
 	name: str
 
@@ -9,7 +8,6 @@ class SimulationMetric:
 
 	def print_metric(self):
 		pass
-
 
 class BusOccupancyMetric(SimulationMetric):
 	# Map from bus names to max occupancy
@@ -40,11 +38,8 @@ class BusOccupancyMetric(SimulationMetric):
 		for bus, occupancy in most_popular_buses:
 			print(f'  {bus}: {occupancy} max occupancy')
 
-
 class RouteUtilizationMetric(SimulationMetric):
-	"""
-	Tracks how frequently each route is used by passengers.
-	"""
+	'''Tracks how frequently each route is used by passengers.'''
 
 	# Map from route name to set of passenger names
 	route_usage: dict[str, set[str]]

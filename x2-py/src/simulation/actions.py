@@ -11,12 +11,9 @@ from simulation.constants import BUS_PACE, WALKING_PACE
 from simulation.journey import plan_journey
 from simulation.state import SimulationState
 
-
 @dataclass
 class Action:
-	"""
-	Base class representing an action to be performed in a simulation.
-	"""
+	'''Base class representing an action to be performed in a simulation.'''
 
 	def perform(
 		self,
@@ -24,7 +21,7 @@ class Action:
 		state: SimulationState,
 		schedule: Callable[[int, 'Action'], None],
 	):
-		"""
+		'''
 		Perform the action at the given time.
 
 		Arguments:
@@ -33,15 +30,12 @@ class Action:
 		- `state`: The current state of the simulation.
 		- `schedule`: A function that can be used to schedule new actions, given a time
 		   and a next action.
-		"""
+		'''
 		pass
-
 
 @dataclass
 class StartBusRouteAction(Action):
-	"""
-	Represents a bus starting its route.
-	"""
+	'''Represents a bus starting its route.'''
 
 	bus: Bus
 
@@ -51,9 +45,7 @@ class StartBusRouteAction(Action):
 		state: SimulationState,
 		schedule: Callable[[int, 'Action'], None],
 	):
-		"""
-		Moves the bus to its starting stop and schedules a pickup event.
-		"""
+		'''Moves the bus to its starting stop and schedules a pickup event.'''
 		# Update state to put bus at the start stop
 		start_stop = self.bus.current_stop()
 		state.set_bus_location(self.bus, start_stop)
@@ -62,12 +54,9 @@ class StartBusRouteAction(Action):
 		next_action = BusPickupDropoffAction(bus=self.bus)
 		schedule(time + 1, next_action)
 
-
 @dataclass
 class BusPickupDropoffAction(Action):
-	"""
-	Represents a bus picking up passengers and dropping off passengers.
-	"""
+	'''Represents a bus picking up passengers and dropping off passengers.'''
 
 	bus: Bus
 
@@ -77,9 +66,7 @@ class BusPickupDropoffAction(Action):
 		state: SimulationState,
 		schedule: Callable[[int, 'Action'], None],
 	):
-		"""
-		Simulate the bus picking up and dropping off passengers at a given stop.
-		"""
+		'''Simulate the bus picking up and dropping off passengers at a given stop.'''
 		bus = self.bus
 		stop = bus.current_stop()
 		next_stop = bus.next_stop()
@@ -125,12 +112,9 @@ class BusPickupDropoffAction(Action):
 		next_action = BusMovementAction(bus=bus)
 		schedule(time + 1 + duration, next_action)
 
-
 @dataclass
 class BusMovementAction(Action):
-	"""
-	Represents bus arriving at its next stop.
-	"""
+	'''Represents bus arriving at its next stop.'''
 
 	bus: Bus
 
@@ -140,9 +124,7 @@ class BusMovementAction(Action):
 		state: SimulationState,
 		schedule: Callable[[int, 'Action'], None],
 	):
-		"""
-		Simulate the bus arriving at its next stop and schedule a pickup event.
-		"""
+		'''Simulate the bus arriving at its next stop and schedule a pickup event.'''
 		bus = self.bus
 		bus.arrive_at_next_stop()
 
@@ -153,12 +135,9 @@ class BusMovementAction(Action):
 		next_action = BusPickupDropoffAction(bus=bus)
 		schedule(time + 1, next_action)
 
-
 @dataclass
 class PersonStartJourneyAction(Action):
-	"""
-	Represents a person starting their day.
-	"""
+	'''Represents a person starting their day.'''
 
 	person: Person
 	start_location: Location
@@ -169,10 +148,10 @@ class PersonStartJourneyAction(Action):
 		state: SimulationState,
 		schedule: Callable[[int, 'Action'], None],
 	):
-		"""
+		'''
 		Simulate a person choosing a new destination and starting their journey
 		towards that destination.
-		"""
+		'''
 		person = self.person
 
 		# Pick a new destination for the person
@@ -198,12 +177,9 @@ class PersonStartJourneyAction(Action):
 		next_action = PersonMovementAction(person=person, location=next_location)
 		schedule(time + 1 + walking_time, next_action)
 
-
 @dataclass
 class PersonMovementAction(Action):
-	"""
-	Represents a person arriving at a new location.
-	"""
+	'''Represents a person arriving at a new location.'''
 
 	person: Person
 	location: Location | Bus

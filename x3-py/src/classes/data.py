@@ -1,15 +1,11 @@
 import csv
-
 from collections.abc import Callable
 from typing import Any, Generic, TypeVar
 
 T = TypeVar('T')
 
-
 class Data(Generic[T]):
-	"""
-	Represents a model that is persisted across runs of the program.
-	"""
+	'''Represents a model that is persisted across runs of the program.'''
 
 	# Where to persist data
 	filename: str
@@ -41,17 +37,13 @@ class Data(Generic[T]):
 		self.deserialize = deserialize
 
 	def read_all(self) -> list[T]:
-		"""
-		Read all persisted objects from the data file.
-		"""
+		'''Read all persisted objects from the data file.'''
 		with open(self.filename, 'r') as file:
 			reader = csv.DictReader(file)
 			return [self.deserialize(row) for row in reader]
 
 	def read_one(self, id: Any) -> T:
-		"""
-		Read a single persisted object from the data file by ID.
-		"""
+		'''Read a single persisted object from the data file by ID.'''
 		with open(self.filename, 'r') as file:
 			reader = csv.DictReader(file)
 			for row in reader:
@@ -61,26 +53,20 @@ class Data(Generic[T]):
 		raise ValueError(f'Object with ID {id} not found in {self.filename}')
 
 	def write_all(self, objects: list[T]):
-		"""
-		Write a list of objects to the data file.
-		"""
+		'''Write a list of objects to the data file.'''
 		with open(self.filename, 'w') as file:
 			writer = csv.DictWriter(file, fieldnames=self.properties)
 			writer.writeheader()
 			writer.writerows([self.serialize(obj) for obj in objects])
 
 	def write_one(self, object: T):
-		"""
-		Write a single object to end of the data file.
-		"""
+		'''Write a single object to end of the data file.'''
 		with open(self.filename, 'a') as file:
 			writer = csv.DictWriter(file, fieldnames=self.properties)
 			writer.writerow(self.serialize(object))
 
 	def update_one(self, object: T):
-		"""
-		Update an object in the data file.
-		"""
+		'''Update an object in the data file.'''
 		objects = self.read_all()
 		object_id = getattr(object, self.id)
 		index = next(

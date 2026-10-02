@@ -1,5 +1,5 @@
-class Order(object):
-	"""
+class Order:
+	'''
 	An Order is a single user-purchased item to be delivered.
 
 	We always try to bundle multiple orders together into a single delivery trip,
@@ -8,7 +8,7 @@ class Order(object):
 	Note: An order's timestamp represents the time that the order was placed, not
 	the time that it was first packaged and added to the DispatchServer, which
 	could happen much later.
-	"""
+	'''
 
 	def __init__(
 		self,

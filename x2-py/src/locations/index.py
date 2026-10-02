@@ -4,11 +4,8 @@ from locations.node import LocationIndexNode
 from models.location import Location, LocationType
 from utilities.prio_queue import PriorityQueue
 
-
 class LocationIndex:
-	"""
-	An in-memory store for efficiently querying locations by geographic region.
-	"""
+	'''An in-memory store for efficiently querying locations by geographic region.'''
 
 	root: LocationIndexNode
 
@@ -16,9 +13,7 @@ class LocationIndex:
 	locations: dict[str, Location]
 
 	def __init__(self, locations: list[Location]):
-		"""
-		Create a new location index with the given locations.
-		"""
+		'''Create a new location index with the given locations.'''
 		self.root = LocationIndexNode.create_root()
 		self.locations = dict()
 
@@ -36,9 +31,7 @@ class LocationIndex:
 	def find_n_nearest(
 		self, location_type: LocationType, n: int, x: float, y: float
 	) -> list[Location]:
-		"""
-		Finds the `n` nearest locations of the given type to the given coordinates.
-		"""
+		'''Finds the `n` nearest locations of the given type to the given coordinates.'''
 
 		# Maintain a priority queue of locations sorted by distance from target
 		queue = PriorityQueue()
@@ -75,15 +68,11 @@ class LocationIndex:
 		return results
 
 	def find_nearest(self, location_type: LocationType, x: float, y: float) -> Location:
-		"""
-		Finds the nearest location of the given type to the given coordinates.
-		"""
+		'''Finds the nearest location of the given type to the given coordinates.'''
 		return self.find_n_nearest(location_type, 1, x, y)[0]
 
 	def find_random(self, location_type: LocationType) -> Location:
-		"""
-		Finds a random location of the given type, weighted by popularity.
-		"""
+		'''Finds a random location of the given type, weighted by popularity.'''
 		x = random.uniform(-1000, 1000)
 		y = random.uniform(-1000, 1000)
 		locations = self.find_n_nearest(location_type, 10, x, y)

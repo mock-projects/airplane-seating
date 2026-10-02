@@ -1,9 +1,9 @@
 import unittest
-from network.network import BusNetwork
-from models.route import BusRoute
-from models.location import Location, LocationType
-from simulation.journey import plan_journey
 
+from models.location import Location, LocationType
+from models.route import BusRoute
+from network.network import BusNetwork
+from simulation.journey import plan_journey
 
 class TestJourney(unittest.TestCase):
 	def setUp(self):
@@ -17,7 +17,7 @@ class TestJourney(unittest.TestCase):
 		self.network = BusNetwork([self.route])
 
 	def test_simple_journey(self):
-		"""Test journey planning between two points"""
+		'''Test journey planning between two points'''
 		journey = plan_journey(self.network, (1, 1), (11, 11))
 
 		# Should return path through all stops
@@ -27,7 +27,7 @@ class TestJourney(unittest.TestCase):
 		self.assertEqual(journey[2], self.stop3)
 
 	def test_same_location_journey(self):
-		"""Test journey when start and end are near same stop"""
+		'''Test journey when start and end are near same stop'''
 		journey = plan_journey(self.network, (0, 0), (0.1, 0.1))
 
 		# Should return empty journey

@@ -1,4 +1,4 @@
-import { MetroGraph } from './metroGraph.mts';
+import {MetroGraph} from './metroGraph.mts'
 
 /*
   Simple estimator for ETA between two locations based on travel by metro.
@@ -11,66 +11,83 @@ import { MetroGraph } from './metroGraph.mts';
   to minimize future API costs.
   */
 class ETACalculator {
-  metroGraph: MetroGraph;
+	metroGraph: MetroGraph
 
-  constructor(metroGraph: MetroGraph) {
-    this.metroGraph = metroGraph;
-  }
+	constructor(metroGraph: MetroGraph) {
+		this.metroGraph = metroGraph
+	}
 
-  // Computes distance between two latitude/logitude coordinates in kilometers.
-  static haversine(location1: [number, number], location2: [number, number]): number {
-    const [lat1, lon1] = location1;
-    const [lat2, lon2] = location2;
-    ;[lat1, lon1, lat2, lon2].map((degree) => {
-      // Convert to radians
-      return degree * (Math.PI / 180);
-    });
-    const dlon = lon2 - lon1;
-    const dlat = lat2 - lat1;
-    const a = Math.sin(dlat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dlon / 2) ** 2;
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const R = 6371.0;
-    const distance = R * c;
-    return distance;
-  }
+	// Computes distance between two latitude/logitude coordinates in kilometers.
+	static haversine(
+		location1: [number, number],
+		location2: [number, number],
+	): number {
+		const [lat1, lon1] = location1
+		const [lat2, lon2] = location2
+		;[lat1, lon1, lat2, lon2].map((degree) => {
+			// Convert to radians
+			return degree * (Math.PI / 180)
+		})
+		const dlon = lon2 - lon1
+		const dlat = lat2 - lat1
+		const a =
+			Math.sin(dlat / 2) ** 2 +
+			Math.cos(lat1) * Math.cos(lat2) * Math.sin(dlon / 2) ** 2
+		const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+		const R = 6371.0
+		const distance = R * c
+		return distance
+	}
 
-  // Returns the station name and distance to the nearest metro station.
-  nearestStation(coordinates: [number, number]): [string, number] {
-    let stationName = '';
-    let minDistance = Number.POSITIVE_INFINITY;
+	// Returns the station name and distance to the nearest metro station.
+	nearestStation(coordinates: [number, number]): [string, number] {
+		let stationName = ''
+		let minDistance = Number.POSITIVE_INFINITY
 
-    Object.values(this.metroGraph.stations).forEach((station) => {
-      const distance = ETACalculator.haversine(coordinates, station.coordinates);
-      if (distance < minDistance) {
-        minDistance = distance;
-        stationName = station.name;
-      }
-    });
+		Object.values(this.metroGraph.stations).forEach((station) => {
+			const distance = ETACalculator.haversine(coordinates, station.coordinates)
+			if (distance < minDistance) {
+				minDistance = distance
+				stationName = station.name
+			}
+		})
 
-    return [stationName, minDistance];
-  }
+		return [stationName, minDistance]
+	}
 
-  // Computes travel time between two locations, either by walking or via metro if it's faster.
-  calculateEta(location1: [number, number], location2: [number, number]): number {
-    const [nearestStation1, additionalDistance1] = this.nearestStation(location1);
-    const [nearestStation2, additionalDistance2] = this.nearestStation(location2);
+	// Computes travel time between two locations, either by walking or via metro if it's faster.
+	calculateEta(
+		location1: [number, number],
+		location2: [number, number],
+	): number {
+		const [nearestStation1, additionalDistance1] =
+			this.nearestStation(location1)
+		const [nearestStation2, additionalDistance2] =
+			this.nearestStation(location2)
 
-    if (!nearestStation1 || !nearestStation2) {
-      throw new Error('Could not find nearest metro station.');
-    }
+		if (!nearestStation1 || !nearestStation2) {
+			throw new Error('Could not find nearest metro station.')
+		}
 
-    // Assume an average walking pace
-    let totalTimeWalking = (ETACalculator.haversine(location1, location2) / 5) * 60;
+		// Assume an average walking pace
+		let totalTimeWalking =
+			(ETACalculator.haversine(location1, location2) / 5) * 60
 
-    let [totalTimeMetro, shortestPathMetro] = this.metroGraph.shortestPath(nearestStation1, nearestStation2);
-    if (shortestPathMetro) {
-      const walkingTime = (additionalDistance1 / 5) * 60 + (additionalDistance2 / 5) * 60;
-      return totalTimeMetro < totalTimeWalking ? totalTimeMetro + walkingTime : totalTimeWalking;
-    } else {
-      // No metro route found, just return the walking time
-      return totalTimeWalking;
-    }
-  }
+		let [totalTimeMetro, shortestPathMetro] = this.metroGraph.shortestPath(
+			nearestStation1,
+			nearestStation2,
+		)
+		if (shortestPathMetro) {
+			const walkingTime =
+				(additionalDistance1 / 5) * 60 + (additionalDistance2 / 5) * 60
+			return totalTimeMetro < totalTimeWalking
+				? totalTimeMetro + walkingTime
+				: totalTimeWalking
+		} else {
+			// No metro route found, just return the walking time
+			return totalTimeWalking
+		}
+	}
 }
 
-export { ETACalculator };
+export {ETACalculator}

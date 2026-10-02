@@ -3,32 +3,35 @@
  */
 
 interface DropdownProps {
-  options: string[];
-  label: string;
-  value: number;
-  setSelected: (selectedValue: number) => void;
+	options: string[]
+	label: string
+	value: number
+	setSelected: (selectedValue: number) => void
 }
 
-const Dropdown = ({ options, label, value, setSelected }: DropdownProps) => {
-  const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelected(parseInt(e.target.value));
-  };
-  return (
-    <div className="dropdown">
-      <label>{label}</label>
-      <select
-        value={value}
-        onChange={onChange}
-        className="custom-select"
-      >
-        {options.map((option, index) => (
-          <option key={option} value={index}>
-            {option}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
-};
+const Dropdown = ({options, label, value, setSelected}: DropdownProps) => {
+	const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		setSelected(parseInt(e.target.value))
+	}
+	return (
+		<div className='dropdown'>
+			<label>{label}</label>
+			<select
+				value={value}
+				onChange={onChange}
+				className='custom-select'
+			>
+				{options.map((option, index) => (
+					<option
+						key={option}
+						value={index}
+					>
+						{option}
+					</option>
+				))}
+			</select>
+		</div>
+	)
+}
 
-export default Dropdown;
+export default Dropdown

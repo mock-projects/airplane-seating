@@ -1,29 +1,35 @@
-import { loadActivities, loadMetroGraph, loadUserRequests } from './utilities/midpointUtils.mts';
-import { ETACalculator } from './classes/etaCalculator.mts';
-import { suggestMidpointActivity } from './classes/suggestion.mts';
+import {
+	loadActivities,
+	loadMetroGraph,
+	loadUserRequests,
+} from './utilities/midpointUtils.mts'
+import {ETACalculator} from './classes/etaCalculator.mts'
+import {suggestMidpointActivity} from './classes/suggestion.mts'
 
 const main = async () => {
-  const etaCalculator = new ETACalculator(await loadMetroGraph());
-  const userRequests = await loadUserRequests();
-  const activities = await loadActivities();
+	const etaCalculator = new ETACalculator(await loadMetroGraph())
+	const userRequests = await loadUserRequests()
+	const activities = await loadActivities()
 
-  console.log('Finding suggested activities...\n');
+	console.log('Finding suggested activities...\n')
 
-  for (const userRequest of userRequests) {
-    const suggestion = suggestMidpointActivity(
-      userRequest.user1Location,
-      userRequest.user2Location,
-      activities,
-      etaCalculator,
-    );
-    if (suggestion === null) {
-      console.log(`No suggestion generated for request: ${userRequest.toString()}`);
-    } else {
-      console.log(`Suggested activity for request: ${userRequest.toString()}`);
-      suggestion.printDetails();
-    }
-    console.log();
-  }
-};
+	for (const userRequest of userRequests) {
+		const suggestion = suggestMidpointActivity(
+			userRequest.user1Location,
+			userRequest.user2Location,
+			activities,
+			etaCalculator,
+		)
+		if (suggestion === null) {
+			console.log(
+				`No suggestion generated for request: ${userRequest.toString()}`,
+			)
+		} else {
+			console.log(`Suggested activity for request: ${userRequest.toString()}`)
+			suggestion.printDetails()
+		}
+		console.log()
+	}
+}
 
-main();
+main()

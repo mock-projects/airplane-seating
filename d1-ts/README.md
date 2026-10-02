@@ -13,13 +13,13 @@ We have decided to move forward with using user preferences to filter which acti
 - `rating` is a floating-point number representing the **minimum** rating (on a 1-5 star scale) the user is willing to accept
 - `price_category` is a floating-point number representing the **maximum** price category ($-$$$$) the user is willing to accept
 - `time_needed` is a floating-point number representing the **maximum** amount of time in hours a user has allotted for the activity
-Currently, the `suggestMidpointActivity` is called in `runner.ts` with the full activity database, regardless of user preferences. Update the program to filter the activities based on the user request, so that `suggestMidpointActivity` only receives activities that meet the user preferences.
+Currently, the `suggestMidpointActivity` is called in `runner.mts` with the full activity database, regardless of user preferences. Update the program to filter the activities based on the user request, so that `suggestMidpointActivity` only receives activities that meet the user preferences.
 
 If no activities meet the user request, default to only filtering by activity type.
 
 ## Task 2
 
-Complete the implementation of `suggestMidpointActivity` in `suggestion.ts`, which should find a suggested activity between two user coordinates based on commute time.
+Complete the implementation of `suggestMidpointActivity` in `suggestion.mts`, which should find a suggested activity between two user coordinates based on commute time.
 Your method should calculate a recommended midpoint activity by taking into account both the total commute time for both users as well as fairness, meaning one user should not have to commute significantly more than the other. How you choose to balance these two factors is up to you.
 You should make use of the `calculateEta` function defined in `eta_calculator.ts`. However, we eventually plan to replace this function's implementation with a call to an external API that will provide us with more accurate travel time estimates. Since this will incur a cost per API call, we would like to reduce the number of calls we make to `calculateEta`. You are therefore encouraged to implement heuristics or other strategies to minimize the number of calls to `calculateEta`.
 

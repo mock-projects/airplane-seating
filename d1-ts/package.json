@@ -12,9 +12,9 @@
 	"license": "UNLICENSED",
 	"private": true,
 	"type": "module",
-	"main": "runner.ts",
+	"main": "runner.mts",
 	"scripts": {
-		"start": "tsx runner.ts"
+		"start": "tsx runner.mts"
 	},
 	"dependencies": {},
 	"devDependencies": {

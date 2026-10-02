@@ -12,10 +12,10 @@
 	"license": "UNLICENSED",
 	"private": true,
 	"type": "module",
-	"main": "src/main.ts",
+	"main": "src/main.mts",
 	"scripts": {
-		"start": "tsx src/main.ts",
-		"test": "tsx src/test/main.ts"
+		"start": "tsx src/main.mts",
+		"test": "tsx src/test/main.mts"
 	},
 	"dependencies": {
 		"tinyqueue": "^3.0.0"

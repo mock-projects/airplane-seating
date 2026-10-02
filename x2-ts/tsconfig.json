@@ -53,10 +53,7 @@
 	},
 	"include": [
 		"**/*.mts",
-		"**/*.ts",
-		"**/*.tsx",
-		"**/*.d.mts",
-		"**/*.d.ts"
+		"**/*.d.mts"
 	],
 	"exclude": ["node_modules"]
 }

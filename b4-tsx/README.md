@@ -22,7 +22,7 @@ b. Visual Cues: Add visual cues for urgent flight updates. You should add CSS st
   - "Cancelled" should appear as red text with a heavier font weight.
 
 
-c. Flight Data: In order to display the full list of flights in our dashboard, we first need to get the flight data for all arriving and departing flights from a REST API endpoint. In `src/helpers/fetchResults.ts`, implement:
+c. Flight Data: In order to display the full list of flights in our dashboard, we first need to get the flight data for all arriving and departing flights from a REST API endpoint. In `src/helpers/fetchResults.mts`, implement:
 
 **`fetchFlightResults`**
 
@@ -63,4 +63,3 @@ b. Flight Sorting: Allow users to sort the flights dashboard view. Add a second 
 When a user selects a sorting option, the flight list should be sorted accordingly. Clicking "Reset" should revert the sort criteria to the default value (e.g., "Flight Number"). You may edit existing files or create new ones as needed.
 
 You may find it helpful to focus first on `src/components/Header.tsx` and `src/components/FlightDashboard.tsx`.
-

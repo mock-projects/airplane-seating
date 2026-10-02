@@ -13,7 +13,7 @@ We have decided to move forward with using user preferences to filter which acti
 - `rating` is a floating-point number representing the **minimum** rating (on a 1-5 star scale) the user is willing to accept
 - `price_category` is a floating-point number representing the **maximum** price category ($-$$$$) the user is willing to accept
 - `time_needed` is a floating-point number representing the **maximum** amount of time in hours a user has allotted for the activity
-Currently, the `suggest_midpoint_activity` is called in `src/runner.py` with the full activity database, regardless of user preferences. Update the program to filter the activities based on the user request, so that `suggest_midpoint_activity` only receives activities that meet the user preferences.
+Currently, the `suggest_midpoint_activity` is called in `src/main.py` with the full activity database, regardless of user preferences. Update the program to filter the activities based on the user request, so that `suggest_midpoint_activity` only receives activities that meet the user preferences.
 
 If no activities meet the user request, default to only filtering by activity type.
 

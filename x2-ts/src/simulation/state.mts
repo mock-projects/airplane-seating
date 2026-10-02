@@ -1,4 +1,4 @@
-import {LocationIndex} from "../locations/geoindex.mts"
+import {LocationIndex} from "../locations/geoIndex.mts"
 import {Bus} from "../models/bus.mts"
 import {Location, LocationType} from "../models/location.mts"
 import {Person} from "../models/person.mts"

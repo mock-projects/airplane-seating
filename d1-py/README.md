@@ -29,9 +29,8 @@ You should make use of the `calculate_eta` function defined in `eta_calculator.p
 
 Currently, our program only works for finding midpoint activities for pairs of two people at a time. We would like to experiment with finding midpoint activities for larger groups of people, too.
 
-Update the program to use the data in `data/user_group_requests.csv` instead of `data/user_requests.csv`. The new file contains requests from groups of 4 users, each with their own location.
+Update the program to use the data in `data/user-group-requests.csv` instead of `data/user-requests.csv`. The new file contains requests from groups of 4 users, each with their own location.
 
 Then, make any updates necessary to the program to support making activity suggestions for groups of users, taking into account both total commute time and fairness (no user has to travel too much further than any other user) for all users. The program should support any arbitrary group size, not just groups of 4.
 
 You are welcome to add any additional methods or files you'd like, and you can change any of the existing code already provided to you, but you are encouraged to make sure your decisions are well documented and your code is appropriately decomposed.
-

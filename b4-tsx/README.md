@@ -7,11 +7,11 @@ Reminder that you are NOT expected to complete all tasks. You are expected to wr
 
 ## Task 1
 
-a. Gate Data: In `src/components/FlightDashboard.tsx`, add information about the the departure gate to the flights dashboard, so that the flight details in each row match the wireframe in wireframe_dashboard.png.
+a. Gate Data: In `src/components/FlightDashboard.tsx`, add information about the the departure gate to the flights dashboard, so that the flight details in each row match the wireframe in `wireframe-dashboard.png`.
 
-![wireframe](wireframe_dashboard.png)
+![wireframe](wireframe-dashboard.png)
 
-b. Visual Cues: Add visual cues for urgent flight updates. You should add CSS styling in `src/styles/FlightAlerts.css` that does the following:
+b. Visual Cues: Add visual cues for urgent flight updates. You should add CSS styling in `src/styles/flight-alerts.css` that does the following:
 
 - Gate Changes:
   - The text for changed gates should appear as orange text with a heavier font
@@ -33,7 +33,7 @@ The list of flights can be obtained by making a GET request to `https://api.byte
 
 When users click a flight row, they are taken to the flight card view.
 
-a. To match the wireframe provided in wireframe_flight_card.png, the flight card view needs to have the following sections of flight details:
+a. To match the wireframe provided in `wireframe-flight-card.png`, the flight card view needs to have the following sections of flight details:
 
 1. Flight Summary
 2. Departing Airport

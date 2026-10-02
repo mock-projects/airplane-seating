@@ -2,7 +2,7 @@ import random
 
 from locations.node import LocationIndexNode
 from models.location import Location, LocationType
-from util.prioqueue import PriorityQueue
+from util.prio_queue import PriorityQueue
 
 
 class LocationIndex:

@@ -60,7 +60,7 @@ export async function loadMetroGraph(): Promise<MetroGraph> {
 
   // Load stations into metro graph
   let reader = readline.createInterface({
-    input: fs.createReadStream('data/metro_stations.csv'),
+    input: fs.createReadStream('data/metro-stations.csv'),
   });
 
   for await (const line of reader) {
@@ -85,7 +85,7 @@ export async function loadMetroGraph(): Promise<MetroGraph> {
 
   // Load station connections into graph
   reader = readline.createInterface({
-    input: fs.createReadStream('data/metro_timetable.csv'),
+    input: fs.createReadStream('data/metro-timetable.csv'),
   });
 
   for await (const line of reader) {
@@ -117,7 +117,7 @@ export async function loadMetroGraph(): Promise<MetroGraph> {
 
 export async function loadUserRequests(): Promise<UserRequest[]> {
   const reader = readline.createInterface({
-    input: fs.createReadStream('data/user_requests.csv'),
+    input: fs.createReadStream('data/user-requests.csv'),
   });
   const userRequests: UserRequest[] = [];
   for await (const line of reader) {

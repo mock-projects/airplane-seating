@@ -1,12 +1,12 @@
-import {LocationIndex} from "./locations/geoindex.mts"
+import {LocationIndex} from "./locations/geoIndex.mts"
 import {readLocationsFromFile} from "./locations/util.mts"
 import {BusNetwork} from "./network/network.mts"
 import {readRoutesFromFile} from "./network/util.mts"
 import {Simulation} from "./simulation/simulation.mts"
 
 const LOCATIONS_FILENAME = "src/data/locations.csv"
-const BUS_STOPS_FILENAME = "src/data/bus_stops.csv"
-const BUS_ROUTES_FILENAME = "src/data/bus_routes.csv"
+const BUS_STOPS_FILENAME = "src/data/bus-stops.csv"
+const BUS_ROUTES_FILENAME = "src/data/bus-routes.csv"
 
 const main = async () => {
   const locations = await readLocationsFromFile(LOCATIONS_FILENAME)

@@ -11,7 +11,7 @@ def load_metro_graph() -> MetroGraph:
     graph = MetroGraph()
 
     # Load stations into metro graph
-    with open(os.path.join("data", "metro_stations.csv")) as csvfile:
+    with open(os.path.join("data", "metro-stations.csv")) as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             name = row["Station"]
@@ -20,7 +20,7 @@ def load_metro_graph() -> MetroGraph:
             graph.add_station(station)
 
     # Load station connections into graph
-    with open(os.path.join("data", "metro_timetable.csv")) as csvfile:
+    with open(os.path.join("data", "metro-timetable.csv")) as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             start_station = row["Start"]
@@ -36,7 +36,7 @@ def load_metro_graph() -> MetroGraph:
 
 def load_user_requests() -> list[UserRequest]:
     user_requests = []
-    with open(os.path.join("data", "user_requests.csv")) as csvfile:
+    with open(os.path.join("data", "user-requests.csv")) as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             user_requests.append(UserRequest(

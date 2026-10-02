@@ -1,4 +1,4 @@
-import {LocationIndex} from "../locations/geoindex.mts"
+import {LocationIndex} from "../locations/geoIndex.mts"
 import {
   BusOccupancyMetric,
   RouteUtilizationMetric,

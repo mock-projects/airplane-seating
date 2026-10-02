@@ -10,8 +10,8 @@ from simulation.journey import plan_journey
 from simulation.simulation import Simulation
 
 LOCATIONS_FILENAME = os.path.join(os.path.dirname(__file__), "data", "locations.csv")
-BUS_STOPS_FILENAME = os.path.join(os.path.dirname(__file__), "data", "bus_stops.csv")
-BUS_ROUTES_FILENAME = os.path.join(os.path.dirname(__file__), "data", "bus_routes.csv")
+BUS_STOPS_FILENAME = os.path.join(os.path.dirname(__file__), "data", "bus-stops.csv")
+BUS_ROUTES_FILENAME = os.path.join(os.path.dirname(__file__), "data", "bus-routes.csv")
 
 
 def main():

@@ -1,9 +1,9 @@
-import { WarehouseServer } from "./warehouse_server.mts";
+import { WarehouseServer } from "./warehouseServer.mts";
 
 async function main() {
   // Initialize WarehouseServer instance.
   const warehouseServer = new WarehouseServer();
-  await warehouseServer.initializeServer('warehouse_pings.csv');
+  await warehouseServer.initializeServer('warehouse-pings.csv');
 
   console.log('\n');
   console.log('~~~WarehouseServer is initialized.');

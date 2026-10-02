@@ -2,7 +2,7 @@ import * as readline from 'readline'
 import * as fs from 'fs'
 
 import {Location, LocationType} from "../models/location.mts"
-import {pickRandom} from '../util/pickrandom.mts'
+import {pickRandom} from '../util/pickRandom.mts'
 
 /**
  * Parse a CSV file of locations and return a list of `Location` objects.

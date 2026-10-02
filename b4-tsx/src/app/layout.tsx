@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { Roboto } from "next/font/google";
-import "../styles/App.css";
+import "../styles/app.css";
 
 const roboto = Roboto({
   weight: ["400", "500", "700"],

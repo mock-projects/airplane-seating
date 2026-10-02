@@ -1,8 +1,8 @@
-@import url("./Dropdown.css");
-@import url("./Header.css");
-@import url("./FlightAlerts.css");
-@import url("./FlightCard.css");
-@import url("./FlightDashboard.css");
+@import url("./dropdown.css");
+@import url("./header.css");
+@import url("./flight-alerts.css");
+@import url("./flight-card.css");
+@import url("./flight-dashboard.css");
 
 body {
   margin: 0;

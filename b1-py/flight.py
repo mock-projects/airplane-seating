@@ -29,7 +29,7 @@ class Flight(object):
         seat.occupied = True
         passenger.seat = seat
 
-    def get_seat_by_row_and_position(self, row_number: int, position: str) -> Seat:
+    def get_seat_by_row_and_position(self, row_number: int, position: str) -> Seat | None:
         """
         Returns a Seat instance based on its row number and position on plane,
         or None if no seat matches those parameters.
@@ -80,7 +80,7 @@ class Flight(object):
         return [passenger for passenger in self.passengers if predicate(passenger)]
 
     def __str__(self):
-        return f"Flight {self.id}, {self.origin}-{self.destination}"
+        return f"Flight {self.id}"
 
     def __repr__(self):
         return f"Flight({self.__dict__})"

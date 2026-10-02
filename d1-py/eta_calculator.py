@@ -30,7 +30,7 @@ class ETACalculator:
         distance = R * c
         return distance
 
-    def nearest_station(self, coordinates: tuple[float, float]) -> tuple[str, float]:
+    def nearest_station(self, coordinates: tuple[float, float]) -> tuple[str | None, float]:
         """Returns the station name and distance to the nearest metro station."""
         station_name = None
         min_distance = float("inf")

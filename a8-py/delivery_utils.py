@@ -55,4 +55,4 @@ def distance_between(origin_zone, destination_zone):
   if (0 <= origin_zone < matrix_size) and (0 <= destination_zone < matrix_size):
     return DISTANCE_MATRIX[origin_zone][destination_zone]
   else:
-    float("inf")
+    return float("inf")

@@ -43,26 +43,27 @@ def load_flight() -> Flight:
         if seat is None:
             continue
         row_number, position = seat.split("-")
-        flight.assign_seat(
-            passenger, flight.get_seat_by_row_and_position(int(row_number), position)
-        )
+        seat = flight.get_seat_by_row_and_position(int(row_number), position)
+        if seat is None:
+            raise Exception("Passenger seat was improperly formatted.")
+        flight.assign_seat(passenger, seat)
     return flight
 
 
-def load_passengers(filename: str) -> list[tuple[str, Passenger]]:
+def load_passengers(filename: str) -> list[tuple[str | None, Passenger]]:
     """
     Loads passengers from a CSV file and returns a list of tuples, where each
     tuple contains the assigned seat and the Passenger instance.
     """
-    passenger_assignments = []
+    passenger_assignments: list[tuple[str | None, Passenger]] = []
     with open(filename) as passengers_file:
         reader = csv.DictReader(passengers_file)
         for row in reader:
             passenger = Passenger(
-                id=int(row.get("id")),
-                name=row.get("name"),
-                section=SeatSection(row.get("seat_section")),
-                party_id=int(row.get("party_id")),
+                id=int(row["id"]),
+                name=row["name"],
+                section=SeatSection(row["seat_section"]),
+                party_id=int(row["party_id"]),
             )
             assigned_seat = row.get("assigned_seat") or None
             passenger_assignments.append((assigned_seat, passenger))

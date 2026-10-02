@@ -20,7 +20,7 @@ def suggest_midpoint_activity(
     user2_location: tuple[float, float],
     activities: list[Activity],
     eta_calculator: ETACalculator
-) -> Suggestion:
+) -> Suggestion | None:
     """
     Returns a suggested activity that's somewhere between the users' locations.
     """

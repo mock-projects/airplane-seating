@@ -31,15 +31,14 @@ const ROW_SIX_SEATS: [string, SeatType][ ] = [
 	['F', 'window'],
 ] as const
 
-const isPassengerCsvRow = (fields: string[ ]): fields is PassengerCsvRow =>
+const isPassengerCsvRow = (fields: string[ ]): fields is PassengerCsvRow => (
 	fields.length === 8
+)
 
 const loadFlight = async ( ): Promise<Flight> => {
-	let passengerAssignments = await loadPassengers('src/data/passengers.csv')
-	let flight = new Flight(
-		1,
-		passengerAssignments.map(([_, passenger]) => (passenger)),
-	)
+	const passengerAssignments = await loadPassengers('src/data/passengers.csv')
+	const seatedPassengers = passengerAssignments.map(([_, passenger]) => (passenger))
+	const flight = new Flight(1, seatedPassengers)
 
 	// Add seats to the flight
 	for (let rowIndex = 0; rowIndex < 3; rowIndex++) {
@@ -53,18 +52,18 @@ const loadFlight = async ( ): Promise<Flight> => {
 	}
 
 	// Allocate pre-assigned seats to passengers
-	for (let [assignedSeat, passenger] of passengerAssignments) {
+	for (const [assignedSeat, passenger] of passengerAssignments) {
 		if (assignedSeat) {
-			let [rowNumber, position] = assignedSeat.split('-')
+			const [rowNumber, position] = assignedSeat.split('-')
 
 			// Ensure the assigned seat was valid
 			if (rowNumber == null || position == null) {
 				throw new Error('Passenger has an invalid seat.')
 			}
 
-			let seat = flight.getSeatByRowAndPosition(parseInt(rowNumber), position)
+			const seat = flight.getSeatByRowAndPosition(parseInt(rowNumber), position)
 			if (seat) {
-				flight.assignSeat(passenger, seat)
+				flight.assign(passenger, seat)
 			}
 		}
 	}
@@ -83,7 +82,7 @@ const loadFlight = async ( ): Promise<Flight> => {
 const loadPassengers = async (
 	filename: string,
 ): Promise<[string | null, Passenger][ ]> => {
-	let passengerAssignments: [string | null, Passenger][ ] = [ ]
+	const passengerAssignments: [string | null, Passenger][ ] = [ ]
 
 	await new Promise((resolve) => {
 		const reader = readline.createInterface({
@@ -102,15 +101,17 @@ const loadPassengers = async (
 			const parsedLine = line.split(',')
 			if (parsedLine.length <= 1) {
 				return // This was an empty row, we can throw it out.
-			} else if (!isPassengerCsvRow(parsedLine)) {
+			}
+			else if (!isPassengerCsvRow(parsedLine)) {
 				throw new Error('Expected exactly 8 passenger data fields.')
 			}
 
-			let id = parseInt(parsedLine[0])
-			let name = parsedLine[1]
-			let section = parsedLine[4].toLowerCase( )
-			let partyId = parseInt(parsedLine[3])
-			let assignedSeat = parsedLine[6]
+			const id = parseInt(parsedLine[0])
+			const name = parsedLine[1]
+			const section = parsedLine[4].toLowerCase( )
+			const partyId = parseInt(parsedLine[3])
+			const assignedSeat = parsedLine[6]
+
 			const passenger = new Passenger(id, name, section, partyId)
 			passengerAssignments.push([assignedSeat, passenger])
 		})

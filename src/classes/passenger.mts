@@ -19,7 +19,7 @@ class Passenger {
 		this.name = name
 		this.section = confirmSeatSection(section)
 		this.partyId = partyId
-		this.seat = seat || null
+		this.seat = seat ?? null
 	}
 }
 

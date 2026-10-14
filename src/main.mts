@@ -1,14 +1,16 @@
-import {AssignmentServer} from './classes/assignmentServer.mts'
+import {makeNaiveAssignments} from './utilities/assignmentAlgorithms.mts'
+import {evaluateFlightSeatAssignments} from './utilities/evaluateAssignment.mts'
 import {loadFlight} from './utilities/flightUtils.mts'
 
 const run = async ( ) => {
-	const assignmentServer = new AssignmentServer(await loadFlight( ))
-	assignmentServer.printFlightInfo( )
+	const flight = await loadFlight( )
+	flight.printVisualization( )
 
 	console.log('Assigning seats to all unassigned passengers...')
-	assignmentServer.assignSeats( )
-	assignmentServer.printFlightInfo( )
-	assignmentServer.evaluateFlightSeatAssignments( )
+	makeNaiveAssignments(flight)
+
+	flight.printVisualization( )
+	evaluateFlightSeatAssignments(flight)
 }
 
 void run( )

@@ -1,65 +1,115 @@
 import type {Passenger} from './passenger.mts'
 import {Seat} from './seat.mts'
-import type {SeatSection, SeatType} from './seat.mts'
+import type {
+	SeatCoordinates,
+	SeatSection,
+	SeatType,
+} from './seat.mts'
 
 class Flight {
 	id: number
 	rows: Array<Array<Seat>>
-	passengers: Array<Passenger>
+	#assignments: Map<Passenger, Seat | null>
+	#parties: Map<number, Set<Passenger>>
 
-	constructor(id: number, passengers: Array<Passenger>) {
+	constructor(id: number, passengers: Iterable<Passenger>) {
 		this.id = id
 		this.rows = [ ]
-		this.passengers = passengers
+		this.#assignments = new Map( )
+		this.#parties = new Map( )
+
+		Object.values(passengers).forEach((passenger) => {
+			/* Add this passenger to the flight. */
+			this.#assignments.set(passenger, null)
+
+			/* Compile party data. */
+			const partyId = passenger.partyId
+			// Find the party, or create a new one.
+			const party = this.#parties.get(partyId) ?? new Set( )
+			party.add(passenger) // Add a member to the party.
+			this.#parties.set(partyId, party)
+		})
+	}
+
+	/** Returns a readonly list of all seats in this flight. */
+	get seats( ): Readonly<Array<Seat>> {
+		return this.rows.flat( )
+	}
+
+	/** Returns a readonly list of all passengers in this flight. */
+	get passengers( ): Readonly<Array<Passenger>> {
+		return [...this.#assignments.keys( )]
+	}
+
+	/** Returns a readonly reference of all passenger parties. */
+	get parties( ): Readonly<Map<number, Set<Passenger>>> {
+		return this.#parties
+	}
+
+	/** Returns a readonly reference of all seating assignments. */
+	get assignments( ): Readonly<Map<Passenger, Seat | null>> {
+		return new Map(this.#assignments.entries( ))
 	}
 
 	/**
-	 * Adds a new row of seats to the plane in a given section, where each row is a list of
-	 * adjacent Seat instances.
+	 * Adds a new row of seats to the plane in a given section,
+	 * where each row is a list of adjacent Seat instances.
 	 *
 	 * @param section The section in which to add the row
 	 * @param seats The list of seats to add to the row
 	 */
-	addRow(section: SeatSection, seats: [string, SeatType][ ]) {
-		let rowNumber: number = this.rows.length + 1
-		let row: Seat[ ] = [ ]
-		for (const [position, seatType] of seats) {
-			row.push(new Seat(rowNumber, position, section, seatType, false))
+	addRow(section: SeatSection, seats: Iterable<[Uppercase<string>, SeatType]>) {
+		const flightRow: Array<Seat> = [ ]
+		const seatRow: bigint = BigInt(this.rows.length) + 1n
+		for (const [seatColumn, seatType] of seats) {
+			const seat = new Seat(seatRow, seatColumn, section, seatType)
+			flightRow.push(seat)
 		}
-		this.rows.push(row)
+		this.rows.push(flightRow)
 	}
 
 	/**
-	 * Assigns a given Passenger instance to a particular Seat instance.
+	 * Assigns a given Passenger instance
+	 * to a particular Seat instance.
 	 *
 	 * @param passenger The passenger to assign
-	 * @param seat The seat to assign to the passenger
+	 * @param seat The seat to assign to the passenger;
+	 * you can instead feed in `null` as the seat to unassign.
 	 */
-	assignSeat(passenger: Passenger, seat: Seat) {
-		if (passenger.seat) {
-			passenger.seat.occupied = false
-		}
-		seat.occupied = true
-		passenger.seat = seat
+	assign(passenger: Passenger, seat: Seat | null) {
+		const oldSeat = this.getAssignedSeat(passenger)
+		if (oldSeat != null) oldSeat.occupied = false
+		if (seat != null) seat.occupied = true
+		this.#assignments.set(passenger, seat)
 	}
 
 	/**
-	 * Returns a Seat instance based on its row number and position on plane, or null if no
-	 * seat matches those parameters.
+	 * Retruns a specified passenger's assigned seat;
+	 * avoid using this.assignments.get() directly.
+	 */
+	getAssignedSeat(passenger: Passenger) {
+		const seat = this.#assignments.get(passenger)
+		if (seat === undefined) {
+			throw new Error('The given passenger isn\'t a part of this flight.')
+		}
+		else {
+			return seat
+		}
+	}
+
+	/**
+	 * Returns a Seat instance based on its row number and column
+	 * letter on plane, or null if no seat matches those parameters.
 	 *
-	 * @param rowNumber The row number
-	 * @param position The position
+	 * @param row The seat row number
+	 * @param column The seat column letter
 	 * @returns The seat instance, or null if no such seat exists
 	 * }
 	 */
-	getSeatByRowAndPosition(rowNumber: number, position: string): Seat | null {
-		let row = this.rows[rowNumber - 1] ?? [ ]
-		for (const seat of row) {
-			if (seat.rowNumber == rowNumber && seat.position == position) {
-				return seat
-			}
-		}
-		return null
+	getSeatByCoordinates([row, column]: SeatCoordinates): Seat | null {
+		return this.seats.find((seat) => (
+			seat.row === row && seat.column === column
+		)) ?? null
 	}
 
 	/**
@@ -68,20 +118,25 @@ class Flight {
 	 * @returns The list of unoccupied seats
 	 */
 	getAvailableSeats( ): Array<Seat> {
-		let availableSeats: Array<Seat> = [ ]
-		for (const row of this.rows) {
-			for (const seat of row) {
-				if (!seat.occupied) {
-					availableSeats.push(seat)
-				}
-			}
-		}
-		return availableSeats
+		return this.seats.filter((seat) => (
+			!seat.occupied
+		))
 	}
 
 	/**
-	 * Prints a visualization of the plane's seat map, color-coded with available seats in
-	 * green and occupied seats in gray.
+	 * Returns a list of all unseated passengers on the plane.
+	 *
+	 * @returns The list of unseated passengers
+	 */
+	getUnseatedPassengers( ): Array<Passenger> {
+		return this.passengers.filter((passenger) => (
+			this.getAssignedSeat(passenger) == null
+		))
+	}
+
+	/**
+	 * Prints a visualization of the plane's seat map,
+	 * color-coded with available seats in green and occupied seats in gray.
 	 */
 	printVisualization( ) {
 		const gray = '\x1b[0;37m'
@@ -95,23 +150,13 @@ class Flight {
 		for (const row of this.rows) {
 			for (const seat of row) {
 				const color = seat.occupied ? gray : green
-				process.stdout.write(`${color}${seat.identifier( ).padStart(5)}${end}`)
+				process.stdout.write(`${color}${seat.toString( ).padStart(5)}${end}`)
 			}
 			console.log( )
 		}
 
 		console.log('=== End of Seating Chart ===')
 		console.log( )
-	}
-
-	/**
-	 * Return a list of passengers who satisfy the predicate function.
-	 *
-	 * @param predicate The predicate function
-	 * @returns The list of passengers who satisfy the predicate
-	 */
-	getPassengersSatisfying(predicate: (passenger: Passenger) => boolean): Passenger[ ] {
-		return this.passengers.filter(predicate)
 	}
 }
 

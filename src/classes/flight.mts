@@ -5,12 +5,24 @@ import type {SeatSection, SeatType} from './seat.mts'
 class Flight {
 	id: number
 	rows: Array<Array<Seat>>
-	passengers: Array<Passenger>
+	assignments: Map<Passenger, Seat | null>
 
 	constructor(id: number, passengers: Iterable<Passenger>) {
 		this.id = id
 		this.rows = [ ]
-		this.passengers = [...passengers]
+		this.assignments = new Map( )
+
+		Object.values(passengers).forEach((passenger) => {
+			this.assignments.set(passenger, null)
+		})
+	}
+
+	get seats( ): Readonly<Array<Seat>> {
+		return this.rows.flat( )
+	}
+
+	get passengers( ): Readonly<Array<Passenger>> {
+		return [...this.assignments.keys( )]
 	}
 
 	/**
@@ -37,9 +49,24 @@ class Flight {
 	 * @param seat The seat to assign to the passenger
 	 */
 	assign(passenger: Passenger, seat: Seat) {
-		if (passenger.seat) passenger.seat.occupied = false
+		const oldSeat = this.getAssignedSeat(passenger)
+		if (oldSeat != null) oldSeat.occupied = false
 		seat.occupied = true
-		passenger.seat = seat
+		this.assignments.set(passenger, seat)
+	}
+
+	/**
+	 * Retruns a specified passenger's assigned seat;
+	 * avoid using this.assignments.get() directly.
+	 */
+	getAssignedSeat(passenger: Passenger) {
+		const seat = this.assignments.get(passenger)
+		if (seat === undefined) {
+			throw new Error('The given passenger isn\'t a part of this flight.')
+		}
+		else {
+			return seat
+		}
 	}
 
 	/**
@@ -55,7 +82,7 @@ class Flight {
 		rowNumber: number,
 		position: string,
 	): Seat | null {
-		return this.rows.flat( ).find((seat) => (
+		return this.seats.find((seat) => (
 			seat.rowNumber === rowNumber && seat.position === position
 		)) ?? null
 	}
@@ -66,7 +93,7 @@ class Flight {
 	 * @returns The list of unoccupied seats
 	 */
 	getAvailableSeats( ): Array<Seat> {
-		return this.rows.flat( ).filter((seat) => (
+		return this.seats.filter((seat) => (
 			!seat.occupied
 		))
 	}
@@ -78,7 +105,7 @@ class Flight {
 	 */
 	getUnseatedPassengers( ): Array<Passenger> {
 		return this.passengers.filter((passenger) => (
-			passenger.seat == null
+			this.getAssignedSeat(passenger) == null
 		))
 	}
 

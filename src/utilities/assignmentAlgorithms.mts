@@ -9,7 +9,9 @@ const makeNaiveAssignments = (flight: Flight) => {
 	const unseatedPassengers = flight.getUnseatedPassengers( )
 	for (const passenger of unseatedPassengers) {
 		// Skip seated passengers, though none should be seated here.
-		if (passenger.seat != null) continue
+		if (flight.getAssignedSeat(passenger) != null) {
+			continue
+		}
 
 		const sectionSeats = availableSeats.filter(
 			(seat) => (seat.section === passenger.section)

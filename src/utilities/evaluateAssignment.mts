@@ -34,7 +34,7 @@ const evaluatePassengersWithSeats = (flight: Flight): number => {
 
 	// Find and count passengers who are assigned a seat.
 	const count = flight.passengers.filter((passenger) => (
-		passenger.seat != null
+		flight.getAssignedSeat(passenger) != null
 	)).length
 
 	return total === 0 ? 1 : count / total
@@ -54,13 +54,13 @@ const evaluatePassengersWithSeats = (flight: Flight): number => {
 const evaluatePassengersInCorrectSections = (flight: Flight): number => {
 	// Find and count passengers who are assigned a seat.
 	const total = flight.passengers.filter((passenger) => (
-		passenger.seat != null
+		flight.getAssignedSeat(passenger) != null
 	)).length
 
 	// Find and count passengers who are assigned a seat
 	// in the correct section.
 	const count = flight.passengers.filter((passenger) => (
-		passenger.seat?.section === passenger.section
+		flight.getAssignedSeat(passenger)?.section === passenger.section
 	)).length
 
 	return total === 0 ? 1 : count / total

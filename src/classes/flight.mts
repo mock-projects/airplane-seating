@@ -9,24 +9,46 @@ import type {
 class Flight {
 	id: number
 	rows: Array<Array<Seat>>
-	assignments: Map<Passenger, Seat | null>
+	#assignments: Map<Passenger, Seat | null>
+	#parties: Map<number, Set<Passenger>>
 
 	constructor(id: number, passengers: Iterable<Passenger>) {
 		this.id = id
 		this.rows = [ ]
-		this.assignments = new Map( )
+		this.#assignments = new Map( )
+		this.#parties = new Map( )
 
 		Object.values(passengers).forEach((passenger) => {
-			this.assignments.set(passenger, null)
+			/* Add this passenger to the flight. */
+			this.#assignments.set(passenger, null)
+
+			/* Compile party data. */
+			const partyId = passenger.partyId
+			// Find the party, or create a new one.
+			const party = this.#parties.get(partyId) ?? new Set( )
+			party.add(passenger) // Add a member to the party.
+			this.#parties.set(partyId, party)
 		})
 	}
 
+	/** Returns a readonly list of all seats in this flight. */
 	get seats( ): Readonly<Array<Seat>> {
 		return this.rows.flat( )
 	}
 
+	/** Returns a readonly list of all passengers in this flight. */
 	get passengers( ): Readonly<Array<Passenger>> {
-		return [...this.assignments.keys( )]
+		return [...this.#assignments.keys( )]
+	}
+
+	/** Returns a readonly reference of all passenger parties. */
+	get parties( ): Readonly<Map<number, Set<Passenger>>> {
+		return this.#parties
+	}
+
+	/** Returns a readonly reference of all seating assignments. */
+	get assignments( ): Readonly<Map<Passenger, Seat | null>> {
+		return new Map(this.#assignments.entries( ))
 	}
 
 	/**
@@ -51,13 +73,14 @@ class Flight {
 	 * to a particular Seat instance.
 	 *
 	 * @param passenger The passenger to assign
-	 * @param seat The seat to assign to the passenger
+	 * @param seat The seat to assign to the passenger;
+	 * you can instead feed in `null` as the seat to unassign.
 	 */
-	assign(passenger: Passenger, seat: Seat) {
+	assign(passenger: Passenger, seat: Seat | null) {
 		const oldSeat = this.getAssignedSeat(passenger)
 		if (oldSeat != null) oldSeat.occupied = false
-		seat.occupied = true
-		this.assignments.set(passenger, seat)
+		if (seat != null) seat.occupied = true
+		this.#assignments.set(passenger, seat)
 	}
 
 	/**
@@ -65,7 +88,7 @@ class Flight {
 	 * avoid using this.assignments.get() directly.
 	 */
 	getAssignedSeat(passenger: Passenger) {
-		const seat = this.assignments.get(passenger)
+		const seat = this.#assignments.get(passenger)
 		if (seat === undefined) {
 			throw new Error('The given passenger isn\'t a part of this flight.')
 		}

@@ -1,6 +1,10 @@
 import type {Passenger} from './passenger.mts'
 import {Seat} from './seat.mts'
-import type {SeatSection, SeatType} from './seat.mts'
+import type {
+	SeatCoordinates,
+	SeatSection,
+	SeatType,
+} from './seat.mts'
 
 class Flight {
 	id: number
@@ -32,13 +36,14 @@ class Flight {
 	 * @param section The section in which to add the row
 	 * @param seats The list of seats to add to the row
 	 */
-	addRow(section: SeatSection, seats: Iterable<[string, SeatType]>) {
-		const rowNumber: number = this.rows.length + 1
-		const row: Array<Seat> = [ ]
-		for (const [position, seatType] of seats) {
-			row.push(new Seat(rowNumber, position, section, seatType, false))
+	addRow(section: SeatSection, seats: Iterable<[Uppercase<string>, SeatType]>) {
+		const flightRow: Array<Seat> = [ ]
+		const seatRow: bigint = BigInt(this.rows.length) + 1n
+		for (const [seatColumn, seatType] of seats) {
+			const seat = new Seat(seatRow, seatColumn, section, seatType)
+			flightRow.push(seat)
 		}
-		this.rows.push(row)
+		this.rows.push(flightRow)
 	}
 
 	/**
@@ -70,20 +75,17 @@ class Flight {
 	}
 
 	/**
-	 * Returns a Seat instance based on its row number and position
-	 * on plane, or null if no seat matches those parameters.
+	 * Returns a Seat instance based on its row number and column
+	 * letter on plane, or null if no seat matches those parameters.
 	 *
-	 * @param rowNumber The row number
-	 * @param position The position
+	 * @param row The seat row number
+	 * @param column The seat column letter
 	 * @returns The seat instance, or null if no such seat exists
 	 * }
 	 */
-	getSeatByRowAndPosition(
-		rowNumber: number,
-		position: string,
-	): Seat | null {
+	getSeatByCoordinates([row, column]: SeatCoordinates): Seat | null {
 		return this.seats.find((seat) => (
-			seat.rowNumber === rowNumber && seat.position === position
+			seat.row === row && seat.column === column
 		)) ?? null
 	}
 
@@ -125,7 +127,7 @@ class Flight {
 		for (const row of this.rows) {
 			for (const seat of row) {
 				const color = seat.occupied ? gray : green
-				process.stdout.write(`${color}${seat.identifier( ).padStart(5)}${end}`)
+				process.stdout.write(`${color}${seat.toString( ).padStart(5)}${end}`)
 			}
 			console.log( )
 		}

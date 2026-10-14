@@ -2,7 +2,8 @@ import * as fs from 'fs'
 import * as readline from 'readline'
 import {Flight} from '../classes/flight.mts'
 import {Passenger} from '../classes/passenger.mts'
-import type {SeatType} from '../classes/seat.mts'
+import {confirmSeatSection, isSeatId, Seat} from '../classes/seat.mts'
+import type {SeatId, SeatType} from '../classes/seat.mts'
 
 type PassengerCsvRow = [
 	id: string,
@@ -15,14 +16,14 @@ type PassengerCsvRow = [
 	bookingDatetime: string,
 ]
 
-const ROW_FOUR_SEATS: [string, SeatType][ ] = [
+const ROW_FOUR_SEATS: [Uppercase<string>, SeatType][ ] = [
 	['A', 'window'],
 	['B', 'aisle'],
 	['C', 'aisle'],
 	['D', 'window'],
 ] as const
 
-const ROW_SIX_SEATS: [string, SeatType][ ] = [
+const ROW_SIX_SEATS: [Uppercase<string>, SeatType][ ] = [
 	['A', 'window'],
 	['B', 'middle'],
 	['C', 'aisle'],
@@ -54,14 +55,14 @@ const loadFlight = async ( ): Promise<Flight> => {
 	// Allocate pre-assigned seats to passengers
 	for (const [assignedSeat, passenger] of passengerAssignments) {
 		if (assignedSeat) {
-			const [rowNumber, position] = assignedSeat.split('-')
+			const [seatRow, seatColumn] = Seat.seatIdToCoordinates(assignedSeat)
 
 			// Ensure the assigned seat was valid
-			if (rowNumber == null || position == null) {
+			if (seatRow == null || seatColumn == null) {
 				throw new Error('Passenger has an invalid seat.')
 			}
 
-			const seat = flight.getSeatByRowAndPosition(parseInt(rowNumber), position)
+			const seat = flight.getSeatByCoordinates([seatRow, seatColumn])
 			if (seat) {
 				flight.assign(passenger, seat)
 			}
@@ -81,42 +82,47 @@ const loadFlight = async ( ): Promise<Flight> => {
  */
 const loadPassengers = async (
 	filename: string,
-): Promise<[string | null, Passenger][ ]> => {
-	const passengerAssignments: [string | null, Passenger][ ] = [ ]
+): Promise<[SeatId | null, Passenger][ ]> => {
+	const passengerAssignments: [SeatId | null, Passenger][ ] = [ ]
 
-	await new Promise((resolve) => {
-		const reader = readline.createInterface({
-			input: fs.createReadStream(filename),
-		})
-
-		let isHeader = true
-		reader.on('line', (line) => {
-			// Skip the header line
-			if (isHeader) {
-				isHeader = false
-				return
-			}
-
-			// CSV type guard
-			const parsedLine = line.split(',')
-			if (parsedLine.length <= 1) {
-				return // This was an empty row, we can throw it out.
-			}
-			else if (!isPassengerCsvRow(parsedLine)) {
-				throw new Error('Expected exactly 8 passenger data fields.')
-			}
-
-			const id = parseInt(parsedLine[0])
-			const name = parsedLine[1]
-			const section = parsedLine[4].toLowerCase( )
-			const partyId = parseInt(parsedLine[3])
-			const assignedSeat = parsedLine[6]
-
-			const passenger = new Passenger(id, name, section, partyId)
-			passengerAssignments.push([assignedSeat, passenger])
-		})
-		reader.on('close', resolve)
+	const reader = readline.createInterface({
+		input: fs.createReadStream(filename),
 	})
+
+	let isHeader = true
+	for await (const line of reader) {
+		// Skip the header line
+		if (isHeader) {
+			isHeader = false
+			continue
+		}
+		// CSV type guard
+		const parsedLine = line.split(',')
+		if (parsedLine.length <= 1) {
+			continue // This was an empty row, we can throw it out.
+		}
+		else if (!isPassengerCsvRow(parsedLine)) {
+			throw new Error('Expected exactly 8 passenger data fields.')
+		}
+
+		// In case the csv data isn't entirely clean, let's sanitize a few entries.
+		parsedLine[4] = parsedLine[4].toLowerCase( )
+		parsedLine[6] = parsedLine[6].toUpperCase( )
+
+		// Extrapolate new passenger instance arguments, using type-guards where needed.
+		const id = parseInt(parsedLine[0])
+		const name = parsedLine[1]
+		const section = confirmSeatSection(parsedLine[4])
+		const partyId = parseInt(parsedLine[3])
+
+		// Although we don't "use" the assigned seat ID with the passenger class,
+		// its still useful to return that data cleaned at the end of this function.
+		const assignedSeatId = isSeatId(parsedLine[6]) ? parsedLine[6] : null
+
+		const passenger = new Passenger(id, name, section, partyId)
+		passengerAssignments.push([assignedSeatId, passenger])
+	}
+
 	return passengerAssignments
 }
 

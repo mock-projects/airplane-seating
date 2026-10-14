@@ -1,4 +1,4 @@
-id,name,loyalty_status,party_id,seat_section,seat_type_preference,assigned_seat,booking_datetime
+id,name,loyalty_tier,party_id,seat_section,preferred_seat_type,assigned_seat,booking_datetime
 1,Amina,gold,1,premium_economy_class,window,1-A,2023-01-03 10:23:45
 2,Donna,silver,2,premium_economy_class,,1-C,2023-01-15 14:56:12
 3,Rajani,bronze,2,premium_economy_class,,1-D,2023-01-27 09:34:21

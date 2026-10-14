@@ -100,13 +100,13 @@ export type {
 	SeatCoordinates,
 	SeatId,
 	SeatSection,
-	SeatType
+	SeatType,
 }
 
 export {
+	Seat,
 	SEAT_SECTIONS,
 	SEAT_TYPES,
-	Seat,
 	confirmSeatId,
 	confirmSeatSection,
 	confirmSeatType,

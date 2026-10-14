@@ -1,17 +1,17 @@
 import * as fs from 'fs'
 import * as readline from 'readline'
 import {Flight} from '../classes/flight.mts'
-import {Passenger} from '../classes/passenger.mts'
-import {confirmSeatSection, isSeatId, Seat} from '../classes/seat.mts'
+import {isLoyaltyTier, Passenger} from '../classes/passenger.mts'
+import {confirmSeatSection, isSeatId, isSeatType, Seat} from '../classes/seat.mts'
 import type {SeatId, SeatType} from '../classes/seat.mts'
 
 type PassengerCsvRow = [
 	id: string,
 	name: string,
-	loyaltyStatus: string,
+	loyaltyTier: string,
 	partyId: string,
 	seatSection: string,
-	seatTypePreference: string,
+	preferredSeatType: string,
 	assignedSeat: string,
 	bookingDatetime: string,
 ]
@@ -106,24 +106,42 @@ const loadPassengers = async (
 		}
 
 		// In case the csv data isn't entirely clean, let's sanitize a few entries.
-		parsedLine[4] = parsedLine[4].toLowerCase( )
-		parsedLine[6] = parsedLine[6].toUpperCase( )
+		parsedLine[2] = parsedLine[2].toLowerCase( ) // loyalty tier
+		parsedLine[4] = parsedLine[4].toLowerCase( ) // seat section
+		parsedLine[5] = parsedLine[5].toLowerCase( ) // preferred seat type
+		parsedLine[6] = parsedLine[6].toUpperCase( ) // assigned seat ID
 
 		// Extrapolate new passenger instance arguments, using type-guards where needed.
 		const id = parseInt(parsedLine[0])
 		const name = parsedLine[1]
 		const section = confirmSeatSection(parsedLine[4])
 		const partyId = parseInt(parsedLine[3])
+		const bookingTimestamp = new Date(parsedLine[7])
 
+		// A couple of arguments are optional, and could be undefined.
+		const loyaltyTier = isLoyaltyTier(parsedLine[2]) ? parsedLine[2] : null
+		const preferredSeatType = isSeatType(parsedLine[5]) ? parsedLine[5] : null
 		// Although we don't "use" the assigned seat ID with the passenger class,
 		// its still useful to return that data cleaned at the end of this function.
 		const assignedSeatId = isSeatId(parsedLine[6]) ? parsedLine[6] : null
 
-		const passenger = new Passenger(id, name, section, partyId)
+		const passenger = new Passenger(
+			id,
+			name,
+			section,
+			partyId,
+			bookingTimestamp,
+			loyaltyTier,
+			preferredSeatType,
+		)
+
 		passengerAssignments.push([assignedSeatId, passenger])
 	}
 
 	return passengerAssignments
 }
 
-export {loadFlight, loadPassengers}
+export {
+	loadFlight,
+	loadPassengers,
+}

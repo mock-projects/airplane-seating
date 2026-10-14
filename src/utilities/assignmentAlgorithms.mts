@@ -16,11 +16,24 @@ const makeNaiveAssignments = (flight: Flight) => {
 		const sectionSeats = availableSeats.filter(
 			(seat) => (seat.section === passenger.section)
 		)
+		const preferredSeats = availableSeats.filter(
+			(seat) => (seat.seatType === passenger.preferredSeatType)
+		)
+		const bestSeats = [
+			...(new Set(sectionSeats))
+			.intersection(new Set(preferredSeats))
+		]
 
 		// Find an appropriate seat for the customer.
 		let seat
-		if (sectionSeats.length > 0) {
+		if (bestSeats.length > 0) {
+			seat = bestSeats[0]
+		}
+		else if (sectionSeats.length > 0) {
 			seat = sectionSeats[0]
+		}
+		else if (preferredSeats.length > 0) {
+			seat = preferredSeats[0]
 		}
 		else if (availableSeats.length > 0) {
 			seat = availableSeats[0]

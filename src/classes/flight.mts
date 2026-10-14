@@ -162,7 +162,7 @@ class Flight {
 		for (const row of this.rows) {
 			for (const seat of row) {
 				const color = seat.occupied ? gray : green
-				process.stdout.write(`${color}${seat.toString( ).padStart(5)}${end}`)
+				process.stdout.write(`${color}${seat.seatId.padStart(6)}${end}`)
 			}
 			console.log( )
 		}

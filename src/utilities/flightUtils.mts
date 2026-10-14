@@ -8,10 +8,10 @@ import type {SeatId, SeatType} from '../classes/seat.mts'
 type PassengerCsvRow = [
 	id: string,
 	name: string,
-	loyaltyStatus: string,
+	loyaltyTier: string,
 	partyId: string,
 	seatSection: string,
-	seatTypePreference: string,
+	preferredSeatType: string,
 	assignedSeat: string,
 	bookingDatetime: string,
 ]

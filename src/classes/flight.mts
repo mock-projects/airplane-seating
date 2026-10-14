@@ -87,7 +87,7 @@ class Flight {
 	 * Retruns a specified passenger's assigned seat;
 	 * avoid using this.assignments.get() directly.
 	 */
-	getAssignedSeat(passenger: Passenger) {
+	getAssignedSeat(passenger: Passenger): Seat | null {
 		const seat = this.#assignments.get(passenger)
 		if (seat === undefined) {
 			throw new Error('The given passenger isn\'t a part of this flight.')
@@ -121,6 +121,18 @@ class Flight {
 		return this.seats.filter((seat) => (
 			!seat.occupied
 		))
+	}
+
+	/**
+	 * Given two seats, this function decides
+	 * whether or not they are near to one another.
+	 *
+	 * @returns Whether or not the seats are close to eachtoher.
+	 */
+	areSeatsNear(seat01: Seat, seat02: Seat): boolean {
+		// Are these seats within one row of eachother?
+		const distance = seat01.row - seat02.row
+		return distance >= -1n && distance <= 1n
 	}
 
 	/**

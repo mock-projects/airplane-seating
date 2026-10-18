@@ -83,7 +83,11 @@ class Seat {
 
 	static seatIdToCoordinates(seatId: SeatId): SeatCoordinates {
 		const row = BigInt(seatId.slice(0, seatId.indexOf('-')))
-		const column = seatId.slice(seatId.indexOf('-') + 1).toUpperCase( )
+		const column = (
+			seatId
+			.slice(seatId.indexOf('-') + 1)
+			.toUpperCase( )
+		 ) as Uppercase<string> // WARN: We used an assertion here!
 		return [row, column] as const
 	}
 

@@ -1,6 +1,6 @@
 {
-	"name": "now-boarding",
-	"description": "Now Boarding",
+	"name": "airplane-seating",
+	"description": "A system designed to seat passengers to seats on an airplane, based on their various preferences.",
 	"version": "1.0.0",
 	"contributors": [
 		"Byteboard, Inc.",

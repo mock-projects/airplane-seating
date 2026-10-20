@@ -14,7 +14,7 @@ Implement a function that does the following:
 - Counts the number of passengers sitting near at least one other member of their party
 - Returns the proportion of passengers sitting near their party out of all the passengers on the flight.
 
-Two passengers are considered “near” each other if they are seated in the same row or one row apart.
+Two passengers are considered "near" each other if they are seated in the same row or one row apart.
 Please exclude single-person parties from the calculation, since they cannot be seated next to someone in their party.
 After you have implemented the function, the program should call and print the result of your function.
 
